@@ -1,0 +1,10 @@
+ssh
+system
+backupConfig
+save
+ip tftp
+nome della configurazione
+
+
+oppure dal menu option comando tutto insieme
+system backupConfig save 172.16.100.202 test.conf

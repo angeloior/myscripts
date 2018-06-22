@@ -1,0 +1,19 @@
+#how to determine the value of -Xmx value (java heap size memory ?)
+
+First of all enable the java garbage collector log
+(consult the manual at how to enable garbage collector)
+
+Then look at these lines in gc.log ands read the last value. in this case is 13.5 GB
+[Eden: 3680.0M(3680.0M)->0.0B(3968.0M) Survivors: 2368.0M->2944.0M Heap: 6343.9M(11.8G)->3223.9M(13.5G)]
+
+il valore di memoria è quello che rimane una volta che java ha fatto garbage dei processi teminati
+si puo vedere con visulavm
+oppure caricando il log del garbage collectotr direttamente nel sido gceasy.io
+
+si consiglia il valore max di heapsize (Xmx) circa 1/2 della ram fisica totale
+si consiglia il valore di start heapsize (Xms) come 1/6 della ram fisica totale
+http://javarevisited.blogspot.it/2011/05/java-heap-space-memory-size-jvm.html#axzz5DDKAKk00
+
+http://javarevisited.blogspot.it/2011/04/garbage-collection-in-java.html#axzz5DDKAKk00
+
+

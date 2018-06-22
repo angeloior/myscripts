@@ -1,0 +1,15 @@
+#doc
+http://www.oracle.com/technetwork/articles/java/vmoptions-jsp-140102.html
+https://docs.oracle.com/middleware/11119/wls/PERFM/jvm_tuning.htm
+
+#after the following line insert the command to enable garbage collector
+JAVA_OPTS="$JAVA_OPTS -XX:+UseCompressedOops -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseBiasedLocking -XX:+EliminateLocks"
+
+rem #enable java garbage collector log to determine how much ram is necessary in this configuration
+#Windows
+set "JAVA_OPTS=%JAVA_OPTS% -verbose:gc -Xloggc:"%JBOSS_HOME%/standalone/log/gc.log" -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=50 -XX:GCLogFileSize=30M -XX:-TraceClassUnloading"
+
+rem #enable java garbage collector log to determine how much ram is necessary in this configuration
+#Linux
+rem #enable java garbage collector log to determine how much ram is necessary in this configuration
+JAVA_OPTS="$JAVA_OPTS -verbose:gc -Xloggc:"$JBOSS_HOME/standalone/log/gc.log" -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=50 -XX:GCLogFileSize=30M -XX:-TraceClassUnloading"

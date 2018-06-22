@@ -1,0 +1,1 @@
+copy running-config tftp 172.16.100.202 config.txt
