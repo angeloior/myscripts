@@ -1,0 +1,189 @@
+#######################################################################################
+#sysprep in windows
+
+    Connect to the virtual machine.
+    Open the Command Prompt window as an administrator. Change the directory to %windir%\system32\sysprep, and then run sysprep.exe.
+    In the System Preparation Tool dialog box, select Enter System Out-of-Box Experience (OOBE), and make sure that the Generalize check box is selected.
+    In Shutdown Options, select Shutdown and then click OK.
+    When Sysprep completes, it shuts down the virtual machine. Do not restart the VM.
+
+
+#non è possibile cancellare l'immagine fino a quando c'e' almeno un macchina deployata con quella immagine
+#si deve cancellare prima l'interfacci a di rete e poi a cascata il resto degli oggetti che si agganciano e dipendono dalla NIC
+
+#######################################################################################
+#LINUX
+
+#deprovision
+waagent -deprovision+user -force
+exit
+
+#deallocate
+Stop-AzureRmVM -ResourceGroupName Optima-Training-Template -Name ptv-optima-dotT -Force
+az vm deallocate --resource-group Optima-Training-Template --name ptv-optima-linux
+
+#generalizza
+Set-AzureRmVM -ResourceGroupName Optima-Training-Template -Name ptv-optima-dotT -Generalized
+az vm generalize --resource-group Optima-Training-Template --name ptv-optima-linux
+
+#create image
+$vm = Get-AzureRmVM -Name ptv-optima-dotT -ResourceGroupName Optima-Training-Template
+(per forza perchè non ce nè altre)
+
+$image = New-AzureRmImageConfig -Location 'westeurope' -SourceVirtualMachineId $vm.ID
+(nel nome della immagine ho messo T)
+
+New-AzureRmImage -Image $image -ImageName ptv-optima-dotI -ResourceGroupName Optima-Training-Template
+(adesso ho creato la vera e propria image I)
+
+
+#creazione immagine LINUX
+az image create --resource-group Optima-Training-Template --name ptv-optima-linuxI --source ptv-optima-linux
+
+
+#creazione resource group
+#az group create --name Optima-Training1 --location "westeurope"
+New-AzureRmResourceGroup -ResourceGroupName Optima-Training1 -Location westeurope
+
+
+#adesso a partire dalla sola immagine si può dal pannello di Azure sul web creare un VM in un altro resource group completamente differente e nuovo di pacca!!
+
+#######################################################################################
+#creazione VM da image da inserire in stesso resource group, MA...
+# le vm con managed disk non si possono muovere
+New-AzureRmVm `
+    -ResourceGroupName "Optima-Training-Template" `
+    -Name "ptv-optima-dot1" `
+    -ImageName "ptv-optima-dotI" `
+    -Location "westeurope" `
+    -VirtualNetworkName "Optima-Training-vnet1" `
+    -SubnetName "Optima-Training-sn1" `
+    -SecurityGroupName "Optima-Training-nsg1" `
+	-PublicIpAddressName "Optima-Training-pia1" `
+    -OpenPorts 3389
+
+
+	ti chiede le credenziali
+
+#come creare il networking
+# non necessario perchè li crea lui !!!
+
+#network security group	
+
+#creazione subnetwork
+$frontendSubnet = New-AzureRmVirtualNetworkSubnetConfig `
+  -Name Optima-Training-sn1 `
+  -AddressPrefix 10.0.1.0/24
+
+										$backendSubnet = New-AzureRmVirtualNetworkSubnetConfig `
+										  -Name Optima-Training-besn1 `
+										  -AddressPrefix 10.1.1.0/24
+
+$vnet = New-AzureRmVirtualNetwork `
+  -ResourceGroupName Optima-Training1 `
+  -Location westeurope `
+  -Name Optima-Training-vnet1 `
+  -AddressPrefix 10.0.1.0/24 `
+  -Subnet $frontendSubnet
+
+  -Subnet $frontendSubnet, $backendSubnet
+  
+#ip address public
+$pip = New-AzureRmPublicIpAddress `
+  -ResourceGroupName Optima-Training1 `
+  -Location westeurope `
+  -AllocationMethod Dynamic `
+  -Name Optima-Training-pia1
+
+#front-end nic
+$frontendNic = New-AzureRmNetworkInterface `
+  -ResourceGroupName Optima-Training1 `
+  -Location westeurope `
+  -Name Optima-Training-n1 `
+  -SubnetId $vnet.Subnets[0].Id `
+  -PublicIpAddressId $pip.Id
+
+								$cred = Get-Credential
+
+								New-AzureRmVM `
+								   -Credential $cred `
+								   -Name Optima-Training-fe1 `
+								   -PublicIpAddressName Optima-Training-pip1 `
+								   -ResourceGroupName Optima-Training1 `
+								   -Location "westeurope" `
+								   -Size Standard_A4 `
+								   -SubnetName Optima-Training-fesn1 `
+								   -VirtualNetworkName Optima-Training-vnet1
+
+	
+
+$nsgFrontendRule = New-AzureRmNetworkSecurityRuleConfig `
+  -Name Optima-Training-nsgr1 `
+  -Protocol Tcp `
+  -Direction Inbound `
+  -Priority 200 `
+  -SourceAddressPrefix * `
+  -SourcePortRange * `
+  -DestinationAddressPrefix * `
+  -DestinationPortRange 3389 `
+  -Access Allow
+
+													$nsgBackendRule = New-AzureRmNetworkSecurityRuleConfig `
+													  -Name Optima-Training-nsgber1 `
+													  -Protocol Tcp `
+													  -Direction Inbound `
+													  -Priority 100 `
+													  -SourceAddressPrefix 10.1.0.0/24 `
+													  -SourcePortRange * `
+													  -DestinationAddressPrefix * `
+													  -DestinationPortRange 3389 `
+													  -Access Allow
+  
+$nsgFrontend = New-AzureRmNetworkSecurityGroup `
+  -ResourceGroupName Optima-Training1 `
+  -Location westeurope `
+  -Name Optima-Training-nsg1 `
+  -SecurityRules $nsgFrontendRule
+
+														$nsgBackend = New-AzureRmNetworkSecurityGroup `
+														  -ResourceGroupName Optima-Training1 `
+														  -Location westeurope `
+														  -Name Optima-Training-nsgbe1 `
+														  -SecurityRules $nsgBackendRule
+
+$vnet = Get-AzureRmVirtualNetwork `
+  -ResourceGroupName Optima-Training1 `
+  -Name Optima-Training-vnet1
+$frontendSubnet = $vnet.Subnets[0]
+$frontendSubnetConfig = Set-AzureRmVirtualNetworkSubnetConfig `
+  -VirtualNetwork $vnet `
+  -Name Optima-Training-sn1 `
+  -AddressPrefix $frontendSubnet.AddressPrefix `
+  -NetworkSecurityGroup $nsgFrontend
+Set-AzureRmVirtualNetwork -VirtualNetwork $vnet
+
+															#originale
+															$vnet = Get-AzureRmVirtualNetwork `
+															  -ResourceGroupName Optima-Training1 `
+															  -Name Optima-Training-vnet1
+															$frontendSubnet = $vnet.Subnets[0]
+															$backendSubnet = $vnet.Subnets[1]
+															$frontendSubnetConfig = Set-AzureRmVirtualNetworkSubnetConfig `
+															  -VirtualNetwork $vnet `
+															  -Name Optima-Training-fesn1 `
+															  -AddressPrefix $frontendSubnet.AddressPrefix `
+															  -NetworkSecurityGroup $nsgFrontend
+															$backendSubnetConfig = Set-AzureRmVirtualNetworkSubnetConfig `
+															  -VirtualNetwork $vnet `
+															  -Name Optima-Training-besn1 `
+															  -AddressPrefix $backendSubnet.AddressPrefix `
+															  -NetworkSecurityGroup $nsgBackend
+															Set-AzureRmVirtualNetwork -VirtualNetwork $vnet
+
+														$backendNic = New-AzureRmNetworkInterface `
+														  -ResourceGroupName Optima-Training1 `
+														  -Location westeurope `
+														  -Name Optima-Training-ben1 `
+														  -SubnetId $vnet.Subnets[1].Id
+
+#######################################################################

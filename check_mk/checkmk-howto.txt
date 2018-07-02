@@ -1,0 +1,71 @@
+https://www.linuxtechi.com/install-configure-check-mk-centos-7-rhel-7/
+http://mathias-kettner.com/cms_introduction_packages.html
+
+(old http://mathias-kettner.com/checkmk_install_with_omd.html)
+
+yum install xinetd openssl -y
+yum install python -y
+yum install epel-release -y
+#firewall-cmd --permanent --zone=public --add-port=80/tcp
+#firewall-cmd --reload
+setsebool -P httpd_can_network_connect 1
+wget https://mathias-kettner.de/support/1.4.0p12/check-mk-raw-1.4.0p12-el7-59.x86_64.rpm
+yum install --nogpgcheck check-mk-raw-1.4.0p12-el7-59.x86_64.rpm
+yum install --nogpgcheck check-mk-raw-1.4.0p24-el7-71.x86_64.rpm
+
+[root@OptEC3-new-CheckMK opt]# omd version
+OMD - Open Monitoring Distribution Version 1.4.0p24.cre
+
+
+[root@OptEC3-new-CheckMK opt]# omd create optima
+Adding /opt/omd/sites/optima/tmp to /etc/fstab.
+Creating temporary filesystem /omd/sites/optima/tmp...OK
+Created new site optima with version 1.4.0p24.cre.
+
+  The site can be started with omd start optima.
+  The default web UI is available at http://OptEC3-new-CheckMK/optima/
+
+  The admin user for the web applications is cmkadmin with password: xZd5kSsp
+  (It can be changed with 'htpasswd -m ~/etc/htpasswd cmkadmin' as site user.
+)
+  Please do a su - optima for administration of this site.
+
+[root@OptEC3-new-CheckMK opt]# omd start ec3
+Starting mkeventd...OK
+Starting rrdcached...OK
+Starting npcd...OK
+Starting nagios...2018-02-05 13:22:28 [6] updating log file index
+2018-02-05 13:22:28 [6] updating log file index
+OK
+Starting dedicated Apache for site ec3...OK
+Initializing Crontab...OK
+
+
+new interface
+http://10.0.23.7:5000/ec3/check_mk/login.py?_origtarget=index.py
+
+http://10.0.23.7/ec3opti
+rpm -ivh http://10.0.23.7/ec3/check_mk/agents/check-mk-agent-1.4.0p24-1.noarch.rpm
+
+http://10.0.23.7/ec3/check_mk/agents/windows/
+install agent 64
+
+firewall 6556
+firewall file and prineter sharing echo request ipv4 enable
+
+con omd non parte all'avvio systemctl va in errore
+
+special permission in /opt/omd/versions/default/lib/nagios/plugins, altrimenti i check non vanno
+-rwsr-x---. 1 root omd   202584 Jan 27 12:13 check_dhcp
+rwsr-x---. 1 root omd   225640 Jan 27 12:13 check_icmp
+
+[root@OptEC3-new-CheckMK omd]# find . ! -group root -ls | more
+1835202   24 -rw-r--r--   1 optima   optima      23896 Feb  6 09:11 ./versions/1.4.0p24.cre/lib/python/livestatus.pyc
+1835589  224 -rwsr-x---   1 root     omd        225640 Jan 27 12:13 ./versions/1.4.0p24.cre/lib/nagios/plugins/check_icmp
+1835575  200 -rwsr-x---   1 root     omd        202584 Jan 27 12:13 ./versions/1.4.0p24.cre/lib/nagios/plugins/check_dhcp
+1835041   28 -rwsr-x---   1 root     omd         25824 Jan 27 12:13 ./versions/1.4.0p24.cre/bin/mkeventd_open514
+1842091  160 -rwxrwxr-x   1 root     omd        159845 Jan 27 12:13 ./versions/1.4.0p24.cre/bin/omd.bck
+
+
+
+

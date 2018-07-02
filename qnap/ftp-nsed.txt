@@ -1,0 +1,46 @@
+#!/bin/sh
+
+#mail condizionale
+mailto=
+mailonerror=$mailto
+FILELOG=/share/CACHEDEV1_DATA/homes/admin/log/log-ftp-nsed.txt
+Testo="Subject:  $HOSTNAME Ftp NSED"
+sendmailsubject=/share/CACHEDEV1_DATA/homes/admin/log/sendmail-ftp-nsed.txt
+dt=$(date)
+/bin/echo "Inizio $dt" > $FILELOG
+HOST=172.16.1.140
+USER=''
+PASSWD=''
+
+ftp -n $HOST <<END_SCRIPT
+quote USER $USER
+quote PASS $PASSWD
+lcd /share/BACKUP/nsed
+cd /acm/bckacm
+prompt
+binary
+mget *.tar.Z 
+cd /acm/bckacm/ums_backup
+get *.tar
+cd /acm/nsed_data/bin
+mget *.sh
+quit
+END_SCRIPT
+aux=$?
+
+dt=$(date)
+echo "Fine $x $dt" >> $FILELOG
+
+#mail condizionale
+    if [ $aux -eq 0 ];
+	then
+		echo "$Testo OK($aux)" > $sendmailsubject
+		cat $FILELOG >> $sendmailsubject
+                echo "ciao" >> $sendmailsubject
+		sendmail $mailto < $sendmailsubject
+	else
+		echo "$Testo KO($aux)" > $sendmailsubject
+        	cat $FILELOG >> $sendmailsubject
+                echo "ciao" >> $sendmailsubject
+        	sendmail $mailonerror < $sendmailsubject
+    fi

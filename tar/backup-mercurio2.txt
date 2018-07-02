@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+#Script per il backup dei file
+#specifiche
+#scrive localmente (poi pozzo prende i file)
+#di alcuni percorsi solo la struttura delle cartelle
+#mail on error
+#verifiche preventive su dimensione dei backup indipendentemente se c'e' spazio o meno sul disco: mi aspetto backup di pochi mega.
+#verifica preventiva su spazio disponibile in cartella backup
+
+#variabili
+backupdir="/var/Backup"
+backupfiledamantenere=7
+DATA=`date +%Y%m%d_%H%M%S`
+FILE_LOG="/usr/local/log/backupMercurio.log"
+FILE_LISTA="/usr/local/log/lista.txt"
+mailonerror=
+
+#######################################################
+rm -f $FILE_LOG
+
+#solo struttura
+find /home -type d | grep -v /users/lost+found/ > $FILE_LISTA       # struttura dir vuote
+find /users -type d | grep -v /users/lost+found/ | grep -v /users/afd >> $FILE_LISTA       # struttura dir vuote
+find /users/afd -type d -maxdepth 2 >>$FILE_LISTA
+
+#indicazione di cartelle e file
+echo "/usr/local/bin/" >> $FILE_LISTA
+echo "/users/afd/monafd.sh" >> $FILE_LISTA
+echo "/users/afd/afd_work/etc/" >> $FILE_LISTA
+echo "/etc/passwd" >> $FILE_LISTA
+echo "/etc/shadow" >> $FILE_LISTA
+echo "/etc/group" >> $FILE_LISTA
+echo "/etc/gshadow" >> $FILE_LISTA
+echo "/etc/postfix/" >> $FILE_LISTA
+echo "/var/spool/cron/" >> $FILE_LISTA
+
+#backup dei file di una cartella di cui altrimenti si prenderebbe solo la struttura (tar --no-recursion)
+find /usr/local/bin/ -type f >> $FILE_LISTA
+find /users/afd/afd_work/etc/ -type f >> $FILE_LISTA
+find /etc/postfix/ -type f >> $FILE_LISTA
+find /var/spool/cron/ -type f >> $FILE_LISTA
+find /users/interno/procedure/*.sh* -type f >> $FILE_LISTA
+
+#tar: (c)reate (j)bzip2 (v)erbose (f)ile (p)preserve (-T)legge file come standard input
+tar cvfjp $backupdir/mercurio2-$DATA.tar.bz2 -T $FILE_LISTA --no-recursion 2>&1 | tee -a $FILE_LOG
+
+echo $? >>$FILE_LOG
+
+#verifica log
+egrep -w 'Cannot|error|such|Error' $FILE_LOG
+
+if [ $? -eq 0 ]; then
+    echo "Backup $HOSTNAME KO($?)" >> $FILE_LOG
+    egrep -w 'Cannot|error|such|Error' $FILE_LOG | mail -s "Backup $HOSTNAME KO($?)" $mailonerror
+
+else
+    echo "Backup $HOSTNAME OK" >> $FILE_LOG
+    egrep -x 'Backup mercurio2 OK' $FILE_LOG| mail -s "Backup $HOSTNAME OK($?)" @
+fi
+
+#rimozione file di appoggio
+rm -vf $FILE_LISTA
+
+#eliminazione vecchi backup file
+find $backupdir -type f -mtime $backupfiledamantenere -name "*.tar.bz2" -exec rm -f {} \;

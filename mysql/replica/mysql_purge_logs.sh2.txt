@@ -1,0 +1,90 @@
+#!/bin/sh
+#
+# Purge dei log file mysql gia' utilizzati dal server slave incrociato
+#
+
+#verifica con mail
+FILEDILOG=/usr/local/log/test.log
+mailto=
+mailonerror=
+TESTO=" $HOSTNAME Mysql "
+#valorizzo aux
+aux=1
+aux2=0
+
+/sbin/service mysql status
+if [ $? -ne 0 ]; then
+        echo "Servizio mysql non operativo"
+        exit 1
+fi
+
+NODO=`/bin/hostname -s`
+if [ "$NODO" = "wego1" ]; then
+        ALTRONODO="wego2-ic"
+elif [ "$NODO" = "wego2" ]; then
+        ALTRONODO="wego1-ic"
+else
+        exit 1
+fi
+
+#verifica ulteriore stato replica
+STATOREPLICA=`echo -e 'show slave status\G;' | mysql -ustato -p | awk '$1 == "Slave_IO_Running:" {print $2}'`
+if [ "$STATOREPLICA" != "Yes" ]; then
+		#valorizzo aux
+		aux2=2
+fi
+
+#cerco numero bin-log
+LOGx=`mysql -h$ALTRONODO -ustato -p -e 'show slave status\G'| awk '$1 == "Master_Log_File:" {print $2}'`
+LOGNx=`echo $LOGx | awk  -F. '{print $2}'`
+
+if [ "X$LOGx" != "X" ]; then
+        echo "Pulizia binary log $NODO fino a $LOGx escluso"
+        mysql -upurge -p -e "PURGE BINARY LOGS TO '$LOGx';"
+		#valorizzo aux
+		aux=$?
+fi
+
+#mail condizionale
+if [ $aux2 -eq 0 ]
+
+        #replica OK
+		then
+		    
+			if [ $aux -eq 0 ]
+			    
+				#Purge Logs OK
+				then
+				ESITO="Purge Logs OK($aux) - Replica OK($aux2)"
+                echo $ESITO >${FILEDILOG}
+				subject="$TESTO $ESITO"
+                cat ${FILEDILOG}| mail -s "$subject" $mailto
+                
+				#Purge logs KO
+				else
+				ESITO="Purge Logs KO($aux) - Replica OK($aux2)"
+				echo $ESITO >${FILEDILOG}
+                subject="$TESTO $ESITO"
+                cat ${FILEDILOG} | mail -s "$subject" $mailonerror
+			fi
+		        
+		#replica KO
+		else
+			if [ $aux -eq 0 ]
+			    
+				#Purge Logs OK
+				then
+				ESITO="Purge Logs OK($aux) - Replica KO($aux2)"
+                echo $ESITO >${FILEDILOG}
+				subject="$TESTO $ESITO"
+                cat ${FILEDILOG}| mail -s "$subject" $mailonerror
+                
+				#Purge logs KO
+				else
+				ESITO="Purge Logs KO($aux) - Replica KO($aux2)"
+				echo $ESITO >${FILEDILOG}
+                subject="$TESTO $ESITO"
+                cat ${FILEDILOG} | mail -s "$subject" $mailonerror
+			fi
+			
+fi

@@ -1,0 +1,7 @@
+#600 no va
+execute backup config ftp fortigate-600D-conf 192.4.21.10 x x fortigate
+execute backup config tftp fortigate-600D-conf 172.16.101.76
+
+#300 va
+execute backup config ftp fortigate-300C-conf 192.4.21.10 x x fortigate
+execute backup config tftp fortigate-300C-conf 172.16.101.76

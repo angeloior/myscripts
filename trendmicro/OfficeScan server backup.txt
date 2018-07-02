@@ -1,0 +1,50 @@
+http://esupport.trendmicro.com/solution/en-US/1039284.aspx
+
+Files to back up before upgrading, migrating, or uninstalling the OfficeScan server
+
+OfficeScan server backup procedure:
+
+Create a backup of the OfficeScan server database to a location other than the OfficeScan program directory. The OfficeScan server can be set to automatically back up client/agent database information.
+
+This is configurable via the web-based management console under Administration > Database Backup section.  This process copies all database files under ..\TrendMicro\OfficeScan\PCCSRV\HTTPDB to either a local or remote location.
+
+It is recommended to do a daily backup especially during client/agent deployment.  The schedule can be changed to weekly after the deployment is complete.
+
+It is also recommended to configure the backup to start at 2:00 AM when client/agent interaction is minimal and the process does not coincide with other OfficeScan scheduled tasks.
+
+ 
+Do not use any other type of back up tool or application. Using third party application to back up the database may cause system instability or database corruption.
+Stop the OfficeScan Master Service.
+Manually back up the OfficeScan Server and Firewall configuration files:
+..\PCCSRV\Ofcscan.ini – Server configuration information
+..\PCCSRV\ Private\Ofcserver.ini – Server and Update Source configuration
+..\PCCSRV\ Ous.ini – client/agent update source configuration
+..\PCCSRV\ Private\PFW folder – Firewall profiles / policies
+..\PCCSRV\ Private\SortingRuleStore\ SortingRule.xml
+..\PCCSRV\ Private\AuthorStore folder – RBA User Profile
+..\PCCSRV\ Private\vdi.ini – vdi settings
+Start the OfficeScan Master Service.
+Perform the uninstallation/upgrade or migration.
+For details, see Uninstalling the OfficeScan server or Installing or Upgrading the OfficeScan Server in the Installation Guide.
+Restoring the OfficeScan Server
+
+In the event of server corruption, the OfficeScan server can be restored using the following steps:
+
+ 
+You can only restore the OfficeScan server by using the same host name, FQDN, IP address, and installation path of the old or corrupted server.
+Rebuild the server using the same host name, FQDN, and IP address.
+Install OfficeScan 10.6 Server with the same Service Pack and Patch level as the original server.
+You can verify this information by checking the version details of the Ofcservice.exe from the old server.
+Stop the OfficeScan Master Service and WWW Publishing Service.
+Restore the backup database files under ..\Trend Micro\OfficeScan\PCCSRV\HTTPDB directory.
+Restore the OfficeScan server and Firewall policy configurations:
+..\PCCSRV\Ofcscan.ini
+..\PCCSRV\ Private\Ofcserver.ini
+..\PCCSRV\ Ous.ini
+..\PCCSRV\ Private\PFW folder
+..\PCCSRV\ Private\SortingRuleStore\SortingRule.xml
+..\PCCSRV\ Private\AuthorStore folder
+..\PCCSRV\ Private\vdi.ini
+From the command prompt, go to ..\Trend Micro\ OfficeScan folder and run the command "svrsvcsetup.exe –setprivilege".
+Start the OfficeScan Master Service and WWW Publishing Service.
+Although registered in the OfficeScan console, client may initially appear as Offline. To re-establish connection, perform a Manual Verification using the OfficeScan management console.

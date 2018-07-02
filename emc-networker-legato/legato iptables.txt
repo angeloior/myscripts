@@ -1,0 +1,30 @@
+mettere la source
+#iptables -I INPUT 10 -p tcp --dport 7937:9936 -s 192.168.0.2 -j ACCEPT
+
+1. Enable RPC service monitoring on NetWorker portmapper:
+Define NetWorker base communication 
+/etc/modprobe.conf 
+options ip_conntrack_rsh range=16383 ports=7937 
+options ip_conntrack_rpc_tcp nsrexec=7937 ports=7938 
+options ip_conntrack_rpc_udp ports=7938 
+options ipt_rpc ports=7938 
+ 
+And load modules 
+# modprobe ip_conntrack_rsh 
+# modprobe ip_conntrack_rpc_tcp 
+# modprobe ip_conntrack_rpc_udp 
+# modprobe ipt_rpc 
+ 
+2. Add initial NetWorker portmapper and client connectivity:
+# iptables -A INPUT -j ACCEPT -p tcp -m state --state NEW -m tcp --dport 7937 
+# iptables -A INPUT -j ACCEPT -p tcp -m state --state NEW -m tcp --dport 7938 
+# iptables -A INPUT -j ACCEPT -p udp -m state --state NEW -m udp --dport 7938 
+ 
+3. Allow all communication on valid sessions only: 
+# iptables -A INPUT -m state --state ESTABLISHED -j ACCEPT 
+# iptables -A INPUT -m state --state RELATED -j ACCEPT
+ 
+4. Allow NetWorker daemons: 
+The following rule is sufficient for the standard backup server: 
+# iptables -A INPUT -m rpc --rpcs 390103, 390104, 390105, 390107, 390109, 390110, 390113 -j ACCEPT 
+# iptables -A INPUT -m rpc --rpcs 390115, 390120, 390402, 390433, 390435, 390436, 390109 -j ACCEPT 

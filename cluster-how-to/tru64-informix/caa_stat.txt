@@ -1,0 +1,5 @@
+#caa_stat -t
+ids_acm        application    ONLINE    ONLINE    bdmserv
+ids_aom        application    ONLINE    ONLINE    aomserv
+ids_bdm        application    ONLINE    ONLINE    bdmserv
+ids_clown      application    ONLINE    ONLINE    aenserv

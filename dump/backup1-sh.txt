@@ -1,0 +1,40 @@
+#!/bin/bash
+#
+# Script per il backup di sistema in single user
+#
+PERCORSO_OUT1="/mnt"
+FILE_LOG="/usr/local/log/backup1.log"
+
+LIVELLO=`runlevel`
+
+if [ "$LIVELLO" != "1 S" ]; then
+        echo "Attenzione, sistema non in single-user mode, backup non consistente!"
+        echo "Vuoi procedere ugualmente?"
+        select sn in "Si" "No"; do
+                case $sn in
+                        Si ) break;;
+                        No ) exit;;
+                esac
+done
+fi
+
+mount /dev/sda2 /mnt
+
+mkdir /usr/local/log
+rm -f $FILE_LOG
+touch $FILE_LOG
+tailf $FILE_LOG &
+
+dump -0uf - /bin 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/bin.dmp.bz2
+dump -0uf - /boot 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/boot.dmp.bz2
+dump -0uf - /etc 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/etc.dmp.bz2
+dump -0uf - /lib 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/lib.dmp.bz2
+dump -0uf - /lib64 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/lib64.dmp.bz2
+dump -0uf - /root 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/root.dmp.bz2
+dump -0uf - /sbin 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/sbin.dmp.bz2
+dump -0uf - /sys 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/sys.dmp.bz2
+dump -0uf - /usr 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/usr.dmp.bz2
+dump -0uf - /var 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/var.dmp.bz2
+
+kill %1
+umount /mnt

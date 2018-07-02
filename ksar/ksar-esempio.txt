@@ -1,0 +1,17 @@
+https://www.cyberciti.biz/tips/identifying-linux-bottlenecks-sar-graphs-with-ksar.html
+
+sar -cosa <frequenza secondi aggiornamento> <numero di iterazioni>
+sar -b 5 100000000 #I/O
+sar -n DEV 10 #network ogni 10 secondi 
+sar -d 10 #dischi ogni 10 secondi
+sar -dp mostra i nome delle devices
+sar -dp 10 
+
+http://linuxcommand.org/man_pages/sar1.html
+
+sar -A -f /var/log/sa/sa<numero giorno>
+
+https://community.hpe.com/t5/System-Administration/quot-sar-d-quot-devices-how-to-map-to-dev-sdNNN-devices/td-p/4649777
+#per vedere il nome della device
+dmsetup ls --tree | more
+oppure più complicato ls -l /dev/sd*

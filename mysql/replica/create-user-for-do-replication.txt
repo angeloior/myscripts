@@ -1,0 +1,2 @@
+mysql> CREATE USER 'repl'@'%' IDENTIFIED BY '';
+mysql> GRANT REPLICATION SLAVE ON *.* TO ''@'%';

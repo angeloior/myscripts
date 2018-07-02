@@ -1,0 +1,56 @@
+#############################################################
+procedura
+
+lanciare sssu
+nel prompt che chiede il manager scrivere localhost
+nel prompt scrivere: administrator
+nel prompt scrivere: "la password"
+
+NoSystemSelected>
+se non si conosce il nome del systema da selazionare dare il comando: ls system
+nel prompt NoSystemSelected scrivere: select system eva4400-portale
+
+step 3:
+CAPTURE CONFIGURATION file name
+eg: CAPTURE CONFIGURATION c:\myconfig.txt
+#######################################################
+
+
+#originale
+locate the SSSU.exe file on your SMA or SMS
+
+step 1:
+SELECT MANAGER manager name USERNAME=username PASSWORD= 
+
+eg: SELECT MANAGER 192.168.1.55 USERNAME=administrator
+PASSWORD:
+
+The SELECT MANAGER command configures the utility for use on the specified
+HP Command View EVA instance. The manager name can be a management server
+name or an IP address. The user name and password are the account
+credentials that were created for you during HP Command View EVA
+installation. The user name and password are validated in the background on
+every command.
+
+step 2:
+
+SELECT SYSTEM system name
+eg: SELECT SYSTEM myEVA
+
+you can always do a LS SYSTEM before this step if you don't know your array
+name.
+
+The SELECT SYSTEM command directs the command prompt to the selected array.
+All configuration commands affect the selected array. If the system name
+includes spaces, enclose it in quotes
+
+step 3:
+CAPTURE CONFIGURATION file name
+eg: CAPTURE CONFIGURATION c:\myconfig.txt
+
+The CAPTURE CONFIGURATION command enables you to capture, save, and
+re-create an array configuration by querying the selected array and
+generating up to five scripts. 
+
+it will generate your config file wich can be restore if you suffer a
+catastrophic failure.

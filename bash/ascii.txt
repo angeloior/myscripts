@@ -1,0 +1,5 @@
+linux ascii caracter
+ctr+shif+u+<hex valore>
+esempio
+per il carattere ` si fa con la combinazione di tasti ctr+shift+u+60
+in windows è alt+<dec valore> cioè 96

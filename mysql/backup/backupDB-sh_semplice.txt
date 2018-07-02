@@ -1,0 +1,45 @@
+#!/bin/bash
+
+DIR=/home
+PERCORSO="/home/BackupPrometeo2"
+LOGFILE=/usr/local/bin/backup/log-backupDB.txt
+DATA=`date +%Y%m%d_%H%M%S`
+DBSERVER=172.17.1.24
+USERDB=root
+USERDBPASSWORD=
+
+#check if /home is empty
+if [ "$(ls -A $DIR)" ]; then
+     echo "Take action $DIR is not Empty" >${LOGFILE}
+
+     # system-db
+     echo backupping... DB mysql >>${LOGFILE}
+     #mysqldump -h 172.17.1.24 -u root --password= mysql | bzip2 > ${PERCORSO}/mysql/mysql_${DATA}.sql.bz2
+     mysqldump -h ${DBSERVER} -u ${USERDB} --password=${USERDBPASSWORD} mysql | bzip2 > ${PERCORSO}/mysql/mysql_${DATA}.sql.bz2
+     
+	 if [ $? -eq 0 ]; then
+	    echo backup DB mysql OK >>${LOGFILE}
+	 else
+	    echo backup DB mysql KO >>${LOGFILE}
+     fi
+	 
+	 # user-db
+     echo backupping... DB prometeo >>${LOGFILE}
+     #mysqldump -h 172.17.1.24 -u root --password= prometeo | bzip2 > ${PERCORSO}/prometeo/prometeo_${DATA}.sql.bz2
+     mysqldump -h ${DBSERVER} -u ${USERDB} --password=${USERDBPASSWORD} prometeo | bzip2 > ${PERCORSO}/prometeo/prometeo_${DATA}.sql.bz2
+     
+	 if [ $? -eq 0 ]; then
+	    echo backup DB prometeo OK >>${LOGFILE}
+	 else
+	    echo backup DB prometeo KO >>${LOGFILE}
+     fi
+	 
+	 # svecchiamento di tutti i db su path
+     find ${PERCORSO}/mysql -type f -mtime +30 -name "*.sql.bz2" -exec rm -f {} \;
+     find ${PERCORSO}/prometeo -type f -mtime +30 -name "*.sql.bz2" -exec rm -f {} \;
+
+else
+    echo "$DIR is Empty" >${LOGFILE}
+fi
+
+

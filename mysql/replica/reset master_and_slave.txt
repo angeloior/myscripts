@@ -1,0 +1,3 @@
+RESET MASTER;
+STOP SLAVE;
+reset slave all;

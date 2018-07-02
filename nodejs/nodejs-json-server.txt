@@ -1,0 +1,21 @@
+install npm e quindi json
+https://www.npmjs.com/package/json-server/tutorial
+npm install -g json-server
+mi raccomando -g (global) se non non va
+
+
+configure 
+https://medium.com/codingthesmartway-com-blog/create-a-rest-api-with-json-server-36da8680136d
+
+come c reare un json server
+un json server espone un file json, a differenza di un web server si vuole una applicazione specifica
+iis non è capace, su linux centos7 è da compilare, su debian/ubuntu si puà installare facilmente
+anche su windows c'e' il porting
+- installare nodejs
+- quindi da dentro nodejs installare il packaqe json-server, collegato ad Internet
+- prepare un filetto json di test
+- lanciare il server json con questo filetto di test come il comando json-server --watch db.json
+
+- testare la raggiungibilità del sito web pubblicato sulla porta 3000 via browser e con postman
+mi raccomando usare chrome perchè IE non va!
+- attenzione alla formattazione del file json proprietaria

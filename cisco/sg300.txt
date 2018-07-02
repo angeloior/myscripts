@@ -1,0 +1,7 @@
+accedere via https
+administration
+file management
+download/backup configuration
+
+selezionare:
+https / backup / running / plaintext

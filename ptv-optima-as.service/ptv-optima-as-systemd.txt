@@ -1,0 +1,5 @@
+cp /opt/ptv-optima-as/bin/init.d/Centos-RH/init.d/ptv-optima-as /usr/local/bin/ptv-optima-as.sh
+
+cp /opt/ptv-optima-as/bin/init.d/Centos-RH/default/ptv-optima-as /usr/local/bin/ptv-optima-as
+
+systemctl enable ptv-optima-as.service

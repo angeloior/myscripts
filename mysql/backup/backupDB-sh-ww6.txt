@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# backup DB WEGO
+
+PERCORSO="/var/BackupWEGO"
+DATA=`date +%Y%m%d`
+
+#-d stand for NO DATA
+mysqldump -u root --password= mysql | bzip2 > ${PERCORSO}/mysql/mysql_${DATA}.sql.bz2
+mysqldump -u root --password= wego_servizi | bzip2 > ${PERCORSO}/wego_servizi/wego_servizi_${DATA}.sql.bz2
+mysqldump -u root --password= -d wego_data | bzip2 > ${PERCORSO}/wego_data_structure/wego_data_structure_${DATA}.sql.bz2
+mysqldump -u root --password= wego_data OMM_station binary_data_avail dataSource field grid grid_tiles_ptslist lat_lon point timeStep topography | bzip2 > ${PERCORSO}/wego_data/wego_data_${DATA}.sql.bz2
+
+find ${PERCORSO}/mysql -type f -mtime +1 -name "*.sql.bz2" -exec rm -f {} \;
+find ${PERCORSO}/wego_servizi -type f -mtime +1 -name "*.sql.bz2" -exec rm -f {} \;
+find ${PERCORSO}/wego_data_structure -type f -mtime +1 -name "*.sql.bz2" -exec rm -f {} \;
+find ${PERCORSO}/wego_data -type f -mtime +1 -name "*.sql.bz2" -exec rm -f {} \;
+
+
+#| OMM_station         |
+#| binary_data         |
+#| binary_data_avail   |
+#| dataSource          |
+#| field               |
+#| grid                |
+#| grid_tiles_ptslist  |
+#| lat_lon             |
+#| point               |
+#| timeStep            |
+#| topography 

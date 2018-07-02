@@ -1,0 +1,4 @@
+# tar cvpf - /user /etc /var/spool/cron/crontabs | ssh root@mmsdev.cnmca.meteoam.it "cat > /home/pozzo/11/dump/2016/plutone/plutone.tar"
+
+
+/usr/local/bin/gtar cvp --exclude=*".bz2" --exclude="*.GIF" --exclude="*.JPG" --exclude="*.TXT" --exclude="WEM*" --exclude="*.BIN" --exclude="*.PNG" --exclude="*.gif" -f test.tar /users

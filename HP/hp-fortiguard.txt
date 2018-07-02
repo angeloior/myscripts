@@ -1,0 +1,95 @@
+Starting the Cluster
+Stop/Halt entire cluster
+Check status of cluster
+Adding Previously Configured Nodes to a Running Cluster
+Removing Nodes from Participation in a Running Cluster
+Managing Packages and Services
+Moving a Failover Package:
+Changing Package Switching
+1)Starting the Cluster:
+
+Use the cmruncl command to start the cluster when all cluster nodes are down. Particular command options can be used to start the cluster under specific circumstances.
+
+The following command starts all nodes configured in the cluster and verifies the network information:
+cmruncl
+By default, cmruncl will do network validation, making sure the actual network setup matches the configured network setup. This is the recommended method.
+
+If you have recently checked the network and find the check takes a very long time, you can use the -w none option to bypass the validation.
+
+Use the -v (verbose) option to display the greatest number of messages.
+cmruncl -v
+2)Stop/Halt entire cluster:
+
+Use cmhaltcl to halt the entire cluster. This command causes all nodes in a configured cluster to halt their Serviceguard daemons.
+cmhaltcl  -v
+You can use the -f option to force the cluster to halt even when packages are running. You can use the command on any running node, for example:
+cmhaltcl -f -v
+This halts all the cluster nodes.
+3)Check status of cluster:
+
+cmviewcl displays the current status information of a cluster in line output  format.
+cmviewcl
+4)Adding Previously Configured Nodes to a Running Cluster:
+
+Use the cmrunnode command to join one or more nodes to an already running cluster.
+
+Any node you add must already be a part of the cluster configuration. The following example adds node umhpux9 to the cluster that was just started with only nodes ftsys9 and ftsys10.
+
+The -v (verbose) option prints out all the messages:
+cmrunnode -v umhpux9
+5)Removing Nodes from Participation in a Running Cluster:
+
+You can use Serviceguard Manager, or Serviceguard commands as shown below, to remove nodes from active participation in a cluster.
+
+This operation halts the cluster daemon, but it does not modify the cluster configuration.Halting a node is a convenient way of bringing it down for system maintenance while keeping its packages available on other nodes. After maintenance, the package can be returned to its primary node.
+cmhaltnode -f -v umhpuxsg9
+Get current configuration
+cmgetconf - Get cluster or package configuration information:
+cmgetconf
+ you can use -c cluster_name   for a specific Name  of the cluster.
+6)Managing Packages and Services:
+
+Starting a Package:
+
+Use the cmrunpkg command to run the package on a particular node, then use the cmmodpkg command to enable switching for the package. For example, to start a failover package:
+cmrunpkg -n nodename package_name
+cmrunpkg -n umhpux9 pkg1
+cmmodpkg -e pkg1
+This starts up the package on umhpux9, then enables package switching.
+
+This sequence is necessary when a package has previously been halted on some node, since halting the package disables switching.
+Halting a Package:
+
+Use the cmhaltpkg command to halt a package, as follows:
+cmhaltpkg package_name
+cmhaltpkg pkg1
+This halts pkg1, and, if pkg1 is a failover package, also disables it from switching to another node.
+
+You cannot halt a package unless all packages that depend on it are down.
+7)Moving a Failover Package:
+
+Before you move a failover package to a new node, it is a good idea to run cmviewcl -v -l package and look at dependencies. If the package has dependencies, be sure they can be met on the new node.
+
+To move the package, first halt it where it is running using the cmhaltpkg command. This action not only halts the package, but also disables package switching.
+
+After it halts, run the package on the new node using the cmrunpkg command, then re-enable switching as described under “Start a Package”.
+
+Changing Package Switching behaviour can be  below options
+
+There are two options to consider:
+Whether the package can switch (fail over) or not.
+Whether the package can switch to a particular node or not.
+8)Changing Package Switching:
+
+enable or disable switching attributes for a cluster .
+# cmmodpkg –e  (enable)
+# cmmodpkg –d  (diable)
+After a package has failed on one node, that node is disabled. This means the package will not be able to run on that node.
+
+The following command will enable the package to run on the specified node.
+# cmmodpkg –e -n 
+# cmmodpkg -e -n umhpux9 pkg1
+Disabling a package from running on a particular node
+# cmmodpkg -d -n 
+# cmmodpkg -d -n umhpux9 pkg1
+This will command will disable the package to run on the specified node.

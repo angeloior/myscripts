@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DATA=`date +%Y%m%d`
+FILEDILOG="/usr/local/bin/mysql/log-backupdb.txt"
+
+dbuser=root
+dbpass=
+dbname=$1
+backupdir="/home/BackupMeteoam/$dbname"
+backupfiledamantenere=+30
+mailto=
+
+echo Backup $dbname >>${FILEDILOG}
+mysqldump -u $dbuser --password=$dbpass $dbname | bzip2 > $backupdir/$1_${DATA}.sql.bz2
+
+# valuto l'esito del comando mysqldump >>${FILEDILOG}
+if [ "$?" -eq 0 ]
+
+then
+
+    echo "Mysqldump $dbname OK" >>${FILEDILOG}
+    echo "lista dei file PRIMA dello svecchiamento" >>${FILEDILOG}
+    ls -lh $backupdir >>${FILEDILOG}
+
+    #svecchio il contenuto della cartella contenente i backup file
+    #find $backupdir -type f -mtime $backupfiledamantenere -name "*.sql" -exec rm -f {} \;
+    find $backupdir -type f -mtime $backupfiledamantenere -name "*.sql.bz2" -exec rm -f {} \;
+	
+    echo "lista dei file DOPO lo svecchiamento" >>${FILEDILOG}
+    ls -lh $backupdir >>${FILEDILOG}
+
+    #mando mail con esito
+    #cat ${FILEDILOG}| mail -s "MYSQL Backup $dbname OK" $mailto
+
+else
+
+    echo "Mysqldump $dbname KO $?" >>${FILEDILOG}
+    #mando mail con esito
+    #cat l{FILEDILOG} | mail -s "MYSQL Backup $dbname KO" $mailto
+fi

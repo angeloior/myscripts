@@ -1,0 +1,6 @@
+set id 1
+mysql> CREATE USER 'c'@'%grid2' IDENTIFIED BY 'c';
+mysql> GRANT REPLICATION SLAVE ON *.* TO 'c'@'%.grid2-slave';
+
+#slave
+CHANGE MASTER TO MASTER_HOST='grid2' MASTER_USER='c' MASTER_PASSWORD='c' MASTER_LOG_FILE='mysql-bin.000001' MASTER_LOG_POS=365;

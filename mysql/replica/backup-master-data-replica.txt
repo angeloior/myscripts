@@ -1,0 +1,31 @@
+[root@frodo2 bin]# vi dump-replica.sh
+#!/bin/sh
+#mysqldump -P3306 -h127.0.0.1 -p --master-data meteoam7 > /var/backup/meteoam7.sql
+
+#mysql -P3306 -hfrododb --user=root --password= -e 'SHOW DATABASES;'
+
+# cosmoGM            |
+#| deposito           |
+#| mworldweather      |
+#| mysql              |
+#| oss_ambientali     |
+#| phpbb              |
+#| prometeo           |
+#| sicam_estremi      |
+#| webapp
+
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data cosmoGM  > /home/backup/cosmoGM.sql
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data deposito  > /home/backup/deposito.sql
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data mworldweather  > /home/backup/mworldweather.sql
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data oss_ambientali  > /home/backup/oss_ambientali.sql
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data phpbb  > /home/backup/phpbb.sql
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data prometeo  > /home/backup/prometeo.sql
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data sicam_estremi  > /home/backup/sicam_estremi.sql
+#mysqldump -P3306 -hfrododb -uroot -pxxxxxxx --master-data webapp  > /home/backup/webapp.sql
+
+mysqldump -S /mysql1/mysql/mysql.sock -pxxxxxxx --master-data --all-databases > /mysql1/backup/alldatabases.sql
+
+mysql -S /mysql1/mysql/mysql.sock -pxxxxxxx < alldatabases.sql
+
+#???
+CHANGE MASTER TO MASTER_HOST='grid2', MASTER_USER='repl', MASTER_PASSWORD='Replica', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=106;

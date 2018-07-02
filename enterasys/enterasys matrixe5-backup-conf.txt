@@ -1,0 +1,7 @@
+telnet allo switch -- appare menu interattivo
+management setup menu
+tftp download
+	modificare IP con quello del tftp server di destinazione
+	download filename: indicare il nome del file che deve già esistere a destinazione, coi  permessi full
+	download method:selezionare UPLOAD CONFIG
+enter su [Process TFTP Download]

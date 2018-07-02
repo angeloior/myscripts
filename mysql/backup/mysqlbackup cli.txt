@@ -1,0 +1,8 @@
+#su anio rhel
+mysqlbackup --user=root --host=127.0.0.1 --port=3306 --with-timestamp --backup-dir=/mysqlbackup --log-bin-index=/var/lib/mysql/mysql-bin.index backup-and-apply-log
+
+#image
+mysqlbackup --backup-image=/backups/sales.mbi --backup-dir=/backup-tmp backup-to-image
+
+mysqlbackup --backup-image=/logs/fullimage.mi  validate
+mysqlbackup --backup-image=/var/my.mbi --backup-dir=/var/backup extract

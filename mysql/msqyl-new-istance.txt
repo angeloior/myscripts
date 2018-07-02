@@ -1,0 +1,67 @@
+Running Multiple Instances of MySQL on the Same Machine
+JAN 19TH, 2009 | COMMENTS
+There are various methods to run multiple instances of mysql (on different ports) on the same machine. We can either compile the mysql binary with different defaults and paths, use mysqld_multi or the MySQL Sandbox project. Still the simplest solution I’ve  used in the past for such situations is to use the same binary and use a separate configuration file (with separate port, pid, socket and data directory). This post will explain this method.
+
+1. Create separate data and log directories
+
+We need to create new directories for our datadir and log folder (if used). Also we need to assign proper permissions on those folders:
+
+1
+2
+3
+4
+mkdir /var/lib/mysql2
+chown -R mysql.mysql /var/lib/mysql2/
+mkdir /var/log/mysql2
+chown -R mysql.mysql /var/log/mysql2
+
+2. Create a new mysql configuration file
+
+Next we need a separate configuration file. We can start by copying the existing one and changing the needed values. This example was taken on a debian machine that holds the mysql configurations under /etc/mysql/my.cnf. We just copy this folder and modify it from there:
+
+1
+cp -R /etc/mysql/ /etc/mysql2
+if you use a redhat variant package then your configuration file is under /etc/my.cnf by default and you can just copy it directly:
+
+1
+cp /etc/my.cnf /etc/my2.cnf
+(or change the path appropriately for your configuration file is in a different place).
+
+Next, we need to edit our new configuration file and at least update the mysql port (default to 3306), the pid and socket to be different than the default ones, and also point the data and log folders to the ones created before. On my debian machine this can be done with something like this:
+
+1
+2
+3
+4
+5
+6
+cd /etc/mysql2/
+sed -i 's/3306/3307/g' my.cnf
+sed -i 's/mysqld.sock/mysqld2.sock/g' my.cnf
+sed -i 's/mysqld.pid/mysqld2.pid/g' my.cnf
+sed -i 's/var\/lib\/mysql/var\/lib\/mysql2/g' my.cnf
+sed -i 's/var\/log\/mysql/var\/log\/mysql2/g' my.cnf
+3. Initializing and starting
+
+Finally we need to initialize the default dbs:
+
+1
+mysql_install_db --user=mysql --datadir=/var/lib/mysql2/
+Alternatively we can copy the existing /var/lib/mysql if this is needed (shut down mysql prior to do this).
+
+Finally we can start our new mysql instance with:
+
+1
+mysqld_safe --defaults-file=/etc/mysql2/my.cnf &
+We can connect to our new instance using:
+
+1
+mysql -S /var/run/mysqld/mysqld2.sock
+or
+
+1
+mysql -h 127.0.0.1 -P 3307
+and if we no longer need it, stop it with:
+
+1
+mysqladmin -S /var/run/mysqld/mysqld2.sock shutdown

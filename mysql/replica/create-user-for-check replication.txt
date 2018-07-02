@@ -1,0 +1,2 @@
+mysql> CREATE USER 'stato'@'%' IDENTIFIED BY '';
+mysql> GRANT REPLICATION CLIENT ON *.* TO ''@'%';

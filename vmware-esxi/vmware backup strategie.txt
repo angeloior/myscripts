@@ -1,0 +1,33 @@
+vmware backup strategies
+
+il backup delle macchine virtuali avvalendosi dei soli strumenti di vmware, senza il sw
+"vmware data recovery" che è parte del server od il nuovo "vmware data protection"
+/o altro sw tipo "veeam backup free edition"
+
+alternative
+
+- fisico (best practices vmware)
+  https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2006202
+  se le condizioni del disco lo permettono...praticamente mai
+  perchè il disco già su vmware filesystem esxi deve essere SPARSE.
+  VMware crea per default il disco sul suo filesystem THIN ma FLAT, non sparse e lo mette nel nome!
+  Nel file descriptor si può trovare l'indicazione che il disco è THIN.
+  questo significa che quando copi il file del disco del host virtuale su un altro server e quindi un altro filesystem
+  devi tenerne conto con cp --sparse=always (miglior soluzione)
+  la copia con VeeamFastSCP non tiene conto dei file sparse
+  la copia con winscp non tiene conto dei file sparse
+  Non è possibile trasformare un disco flat in sparse con vmkfstools ???
+  vmkfstools -d 2gbsparse -i *vmdk output.vmdk ----> ne fa N sparse!!!!
+          
+- fisico tramite export del host in ovf template via vsphere client
+  riduzione del disco alle alle reali dimensioni occupate.
+  in questo modo il disco diventa un altro tipo: sparse e thin.
+  rischioso...deve essere proprio uguale l'ambiente di restore.
+
+- os level
+  con linux si può fare dump dei filesystem ext
+  (con filesystem resiserfs di SUSE non c'e' dump).
+  non è proprio ottimo perchè il restore passa per la procedura di recovery del sistema operativo
+  
+- file level
+  il disaster recovery passa per la ricostruzione del sistema operativo e della applicazione, poi per il restore dei dati

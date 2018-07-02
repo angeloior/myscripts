@@ -1,0 +1,9 @@
+How to Open Any Program by Typing its Name in RUN Dialog Box in Windows?
+https://www.askvg.com/how-to-open-any-program-by-typing-its-name-in-run-dialog-box-in-windows/
+
+lanciare custom aplication from command prompt
+https://superuser.com/questions/689333/how-to-add-installed-program-to-command-prompt-in-windows
+
+cioè
+put the path of the exe in the PATH environemnetal variable
+

@@ -1,0 +1,8 @@
+/bin/sh /usr/bin/mysqld_safe --defaults-file=/var/lib/mysql2/my.cnf --datadir=/var/lib/mysql2 --pid-file=/var/lib/mysql2/acm2-1.pid
+
+/usr/sbin/mysqld --defaults-file=/var/lib/mysql2/my.cnf --basedir=/usr --datadir=/var/lib/mysql2 --plugin-dir=/usr/lib64/mysql/plugin --user=mysql \
+--log-error=/var/lib/mysql2/acm2-1.cnmca.meteoam.it.err --open-files-limit=8192 --pid-file=/var/lib/mysql2/acm2-1.pid \
+--socket=/var/lib/mysql2/mysql.sock --port=3307
+
+
+mysqld_safe --defaults-file=/var/lib/mysql55test/my3.cnf --datadir=/var/lib/mysql55test/mysql3 --pid-file=/var/lib/mysql55test/mysql3.pid &

@@ -1,0 +1,23 @@
+problema:
+il client è fermo al service pack2!!!!
+i client aggiornano le firme ma non i componenti.
+
+troubleshooting:
+windows update ?
+firewall ?
+log trendmicro ?
+log di windows applicativo ?
+log di windows sistema ?
+ci sono cose che non ho fatto prima o dopo le patch ?
+quel problema delle signature è risolto ? oppure ha rinominato i file e basta ?
+http://downloadcenter.trendmicro.com/index.php?regs=NABU&clk=latest&clkval=3802&lang_loc=1
+
+si può fare rollback della singola patch
+per esempio della 5900 http://files.trendmicro.com/documentation/readme/officescan/OfficeScan%2010.6%20SP3%20Critical%20Patch%20Server%20Readme.htm
+
+si può fare rollbackup via browser ma non si capisce bene.
+
+
+la prima patch critica potrebbe essere la 5614
+
+

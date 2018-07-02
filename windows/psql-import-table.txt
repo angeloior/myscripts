@@ -1,0 +1,1 @@
+psql -h localhost -p 5432 -d trafficstate-archive -U postgres -t trafficstate_2016_07_22 -1 < d:\test\test.plain

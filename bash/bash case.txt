@@ -1,0 +1,11 @@
+    case $rc in
+    0)
+        cd ..
+        rm -rfv $someID
+        export rc=$?
+    ;;
+    *)
+        echo "some Errormessage"
+        rc=`expr $rc + 1`
+    ;;
+    esac

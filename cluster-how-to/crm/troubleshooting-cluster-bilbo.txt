@@ -1,0 +1,22 @@
+#simula il nodo giù del tutto
+crm_simulate -sLV -d bilbo2
+crm_simulate -sLV -d acm2-2
+=risultato simile, cambia giusto l'aspetto che hanno i movimenti a seconda del tipo di risorsa che si muove
+
+
+#
+crm_simulate --live-check --verbose --simulate --op-inject dataingest_monitor_60001@acm2-2=7 --op-fail dataingest_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+crm_simulate --simulate --verbose --xml-file /tmp/testa.xml | more
+= risultato che su acm2-2 rimane failed
+non c'e' fencing ! 
+
+#
+crm_simulate --live-check --verbose --simulate --op-inject mysql_monitor_60001@bilbo2=7 --op-fail mysql_stop_0@bilbo2=1 --save-output /tmp/testa.xml
+crm_simulate --simulate --verbose --xml-file /tmp/testa.xml | more
+=qui a causa del fencing tutto passa sull'altro nodo; il fencing causa il reboot del nodo col problema alla risorsa...
+
+
+altre prove
+crm_simulate --live-check --verbose --simulate --op-inject p9500_7200RPM_monitor_60001@acm2-2=7 --op-fail p9500_7200RPM_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+crm_simulate --live-check --verbose --simulate --op-inject input_monitor_60001@acm2-2=7 --op-fail input_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+crm_simulate --live-check --verbose --simulate --op-inject archive_2017_fs_monitor_60001@acm2-2=7 --op-fail archive_2017_fs_stop_0@acm2-2=1 --save-output /tmp/testa.xml

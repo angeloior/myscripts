@@ -1,0 +1,23 @@
+tar -c data_dir | wc -c without compression
+
+or
+
+tar -cz data_dir | wc -c with gzip compression
+
+or
+
+tar -cj data_dir | wc -c with bzip2 compression
+
+will print the size of the archive that would be created in bytes,
+without writing to disk. You can then compare that to the amount of free space
+on your target device.
+
+test
+# tar -czf - tecmint-14-09-12.tar | wc -c
+12820480
+
+# tar -czf - MyImages-14-09-12.tar.gz | wc -c
+112640
+
+# tar -czf - Phpfiles-org.tar.bz2 | wc -c
+20480

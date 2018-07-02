@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+DATA=`date +%Y%m%d_%H%M%S`
+FILEDILOG="/usr/local/bin/backup/log-backupdb.txt"
+USER="root"
+PASSWORD="x"
+
+echo Backup START ${DATA} >${FILEDILOG}
+
+databases=`mysql --user=$USER --password=$PASSWORD -e "SHOW DATABASES;" | tr -d "| " | grep -v Database`
+
+for db in $databases; do
+    if [[ "$db" != "information_schema" ]] && [[ "$db" != _* ]] ; then
+        /bin/mkdir /home/BackupMeteoam/$db
+    fi
+done
+echo Backup END ${DATA} >>${FILEDILOG}

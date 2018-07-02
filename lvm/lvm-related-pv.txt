@@ -1,0 +1,3 @@
+pvdisplay -m | more
+
+in questo modo posso vedere la relazione tra logical volume e phisical volume

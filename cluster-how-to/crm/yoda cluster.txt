@@ -1,0 +1,11 @@
+yoda cluster
+non ha pcs
+non ha crm interattivo di SUSE
+non ha hpguard
+
+--> crm_ e tutta la suite di comandi di pacemaker!!
+su yoda i bin ci sono ma non ci sono i man
+
+es:
+crm_resource --force-stop xxxx
+crm_resource --force-start xxxx

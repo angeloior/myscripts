@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Purge dei log file mysql gia' utilizzati dai server slave in replica
+#
+
+#REPLICHE="ww2 ww9 ww10 www3 www4"
+REPLICHE="ww9 ww10 www3 www4"
+
+STATO=`/usr/local/cmcluster/bin/cmviewcl -f line -p frododb | grep "state=" | awk  -F= '{print $2}'`
+NODOx=`/usr/local/cmcluster/bin/cmviewcl -f line -p frododb | grep "owner=" | awk  -F= '{print $2}'`
+NODO=`/bin/hostname -s`
+if [ "$NODOx" != "$NODO" -o "$STATO" != "running" ]; then
+        echo "Servizio mysql non operativo sul nodo"
+        exit 1
+fi
+
+rm /var/tmp/mysql_purge_logs.tmp
+
+for REPLICA in $REPLICHE; do
+LOGFILEN=`mysql -h${REPLICA}.dmz.meteoam.it -P 3307 -ustato -p -e 'show slave status\G'| awk '$1 == "Master_Log_File:" {print $2}'`
+echo $LOGFILEN >> /var/tmp/mysql_purge_logs.tmp;
+done
+
+LOGN_MIN=`sort /var/tmp/mysql_purge_logs.tmp | head -n 1`
+echo "Pulizia binary log fino a $LOGN_MIN escluso"
+mysql -S /mysql1/mysql/mysql.sock -upurge -p -e "PURGE BINARY LOGS TO '$LOGN_MIN';"

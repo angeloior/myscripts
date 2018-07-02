@@ -1,0 +1,7 @@
+AFD
+Show_istat –H mostra i dati ricevuti in gresso nelle ultime 24H (man show_istat)
+Show_stat –H mostra i dati inviati da AFD nelle ultime 24H.
+In particolare per AFD col parametro –T (anno) abbiamo visto un incremento di circa 250GB/gg dall’inizio dell’anno
+
+MW
+Da GUI usare menu-tools-? statistics browser

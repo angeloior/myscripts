@@ -1,0 +1,4 @@
+shift+O
+per vedere atri parametri interessanto come per esempio i page faults
+z rosso
+shift+P ordina per processo CPU

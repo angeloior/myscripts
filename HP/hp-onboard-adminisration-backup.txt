@@ -1,0 +1,10 @@
+#via http su quello attivo
+enclosure information
+enclosure settings
+configuration scripts
+show config --save to notepad
+show all --save to notepad
+
+#via cli su quello attivo
+upload config tftp://ipaddress/config.txt
+

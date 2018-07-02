@@ -1,0 +1,5 @@
+blockdev --getbsz /dev/cciss/c0d0p1
+
+tune2fs -l ti da ilnumero di blocchi
+
+dimensione del disco numero di blocchi per dimensione 1 blocco

@@ -1,0 +1,19 @@
+telnet al san switch
+admin/xxxx
+
+#modo1 non interattivo. le due configurazioni salvate sono diverse. la all contiene le zone
+configUpload -vf -ftp ftpserverip,user,config-vf.txt,password
+configUpload -all -ftp ftpserverip,user,config-all.txt,password
+configUpload -all -ftp 192.4.21.10,pozzo,efesofabric1-config-all.txt,x
+configUpload -all -ftp 192.4.21.10,pozzo,efesofabric2-config-all.txt,x
+
+#modo2 interattivo
+configUpload
+seguire le indicazione e sceglire i tipi
+
+#esempio su nsedfabric old version
+configUpload -p ftp 192.4.21.10,pozzo,nsedfabric2-config-vf.txt,x
+
+#efeso
+configUpload -p ftp 192.4.21.10,pozzo,efesofabric1-config-vf.txt,x
+configUpload -p ftp 192.4.21.10,pozzo,efesofabric2-config-vf.txt,x

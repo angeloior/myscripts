@@ -1,0 +1,129 @@
+#!/bin/sh
+#
+# check stato del servizio mysql e delle repliche
+#
+
+#verifica con mail
+FILEDILOG=/usr/local/log/check-replica.log
+mailto=
+mailonerror=
+subject=" $HOSTNAME Mysql Replica"
+aux0=1
+aux1=0
+aux2=0
+aux3=0
+aux4=0
+dt=$(date)
+echo "inizio $dt" >${FILEDILOG}
+
+#mysql status
+/sbin/service mysql status
+aux0=$?
+if [ $aux0 -eq 0 ];
+    then
+        echo "Servizio mysql OK" >>${FILEDILOG}
+        #cat ${FILEDILOG} | mail -s "$subject Servizio mysql OK" $mailto
+     else
+        echo "Servizio mysql KO"  >>${FILEDILOG}
+        cat ${FILEDILOG} | mail -s "$subject Servizio mysql KO" $mailonerror
+        exit 1
+fi
+
+#determino il numero di istanze running
+numeroistanze=`ps aux | grep mysql.sock | grep -v grep | awk {'print $18'} | wc -l`
+echo "numeroistanze:"$numeroistanze
+
+#determino la porta sulla quale ascolta mysqld
+#numeroporta=`ps aux | grep mysql.sock | grep -v grep | awk {'print $18'} | awk -F"=" {'print $2'}`
+#numeroporta=`ps aux | grep mysql.sock | grep -v grep | awk {'print $19'} | awk -F"=" {'print $2'}`
+numeroporta=`ps aux | grep port | grep -v grep | grep -v portmap | awk -F"sock" {'print $3'} | awk -F"=" {'print $2'}`
+echo "numeroporta:"$numeroporta
+
+if [ $numeroistanze -eq 1 ];
+        then
+        #verifica stato replica istanza
+        STATOREPLICA=`echo -e 'show slave status\G;' | mysql -P$numeroporta -ustato -p | awk '$1 == "Slave_IO_Running:" {print $2}'`
+        echo $STATOREPLICA
+                if [ "$STATOREPLICA" != "Yes" ] && [[ $STATOREPLICA ]]; then
+                        #valorizzo aux
+                        aux1=1
+                        echo "aux1:" $aux1
+                fi
+
+        STATOREPLICA=`echo -e 'show slave status\G;' | mysql -P$numeroporta -ustato -p | awk '$1 == "Slave_SQL_Running:" {print $2}'`
+        echo $STATOREPLICA
+                if [ "$STATOREPLICA" != "Yes" ] && [[ $STATOREPLICA ]]; then
+                        #valorizzo aux
+                        aux2=1
+                        echo "aux2:" $aux2
+                fi
+
+        else
+        #piu' istanze
+
+        #verifica stato replica istanza 3306
+                STATOREPLICA=`echo -e 'show slave status\G;' | mysql -P3306 -ustato -p | awk '$1 == "Slave_IO_Running:" {print $2}'`
+                echo $STATOREPLICA
+                if [ "$STATOREPLICA" != "Yes" ]  && [[ $STATOREPLICA ]]; then
+                        #valorizzo aux
+                        aux1=1
+                        echo "aux1:" $aux1
+                fi
+
+        STATOREPLICA=`echo -e 'show slave status\G;' | mysql -P3306 -ustato -p | awk '$1 == "Slave_SQL_Running:" {print $2}'`
+        echo $STATOREPLICA
+                if [ "$STATOREPLICA" != "Yes" ]  && [[ $STATOREPLICA ]]; then
+                        #valorizzo aux
+                        aux2=1
+                        echo "aux2:" $aux2
+                fi
+        #verifica istanza 3307
+        STATOREPLICA=`echo -e 'show slave status\G;' | mysql -P3307 -ustato -p | awk '$1 == "Slave_IO_Running:" {print $2}'`
+        echo $STATOREPLICA
+                if [ "$STATOREPLICA" != "Yes" ]  && [[ $STATOREPLICA ]]; then
+                        #valorizzo aux
+                        aux3=1
+                        echo "aux3:" $aux3
+                fi
+
+        STATOREPLICA=`echo -e 'show slave status\G;' | mysql -P3307 -ustato -p | awk '$1 == "Slave_SQL_Running:" {print $2}'`
+        echo $STATOREPLICA
+                if [ "$STATOREPLICA" != "Yes" ] && [[ $STATOREPLICA ]]; then
+                        #valorizzo aux
+                        aux4=1
+                        echo "aux4:" $aux4
+                fi
+fi
+
+#mail condizionale
+if [ $numeroistanze -eq 1 ];
+        then
+                if [ $aux1 -eq 0 ] && [ $aux2 -eq 0 ]
+
+                        #Replica OK
+                        then
+                        echo "$subject OK($aux1/$aux2)" >>${FILEDILOG}
+                        cat ${FILEDILOG} | mail -s "$subject OK($aux1/$aux2)" $mailto
+
+                        #Replica KO
+                        else
+                        echo "$subject KO($aux1/$aux2)" >>${FILEDILOG}
+                        cat ${FILEDILOG} | mail -s "$subject KO($aux1/$aux2)" $mailonerror
+                fi
+
+        else
+                if [ $aux1 -eq 0 ] && [ $aux2 -eq 0 ] &&  [ $aux3 -eq 0 ] && [ $aux4 -eq 0 ]
+
+                        #Replica OK
+                        then
+                        echo "$subject OK($aux1/$aux2/$aux3/$aux4)" >>${FILEDILOG}
+                        cat ${FILEDILOG} | mail -s "$subject OK($aux1/$aux2/$aux3/$aux4)" $mailto
+
+                        #Replica KO
+                        else
+                        echo "$subject KO($aux1/$aux2/$aux3/$aux4)" >>${FILEDILOG}
+                        cat ${FILEDILOG} | mail -s "$subject KO($aux1/$aux2/$aux3/$aux4)" $mailonerror
+                fi
+fi
+
+#fine

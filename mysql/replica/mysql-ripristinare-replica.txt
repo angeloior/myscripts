@@ -1,0 +1,30 @@
+rsync --exclude="*lost*" --exclude="mysql-bin.*" --exclude="relay-bin.*" --exclude="acm2-2*" --dry-run --stats --delete-before -aivh root@acm2-2-ic:/var/lib/mysql/ .
+
+# ripristinare da zero la replica
+reset master;
+stop slave;
+reset slave all;
+show master status;
+show slave status\G;
+
+
+#su acm2-1
+per ottenere i para da inserire fare su acm2-2: show master status;
+CHANGE MASTER TO MASTER_HOST='acm2-2-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=107;
+start slave;
+show slave status\G;
+
+#stessa cosa a parti invertite su acm2-2
+CHANGE MASTER TO MASTER_HOST='acm2-1-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=107;
+
+
+
+
+crea il vuoto
+mysql-bin.083335
+1042746226
+
+
+CHANGE MASTER TO MASTER_HOST='wego2-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.083335', MASTER_LOG_POS=1042746226;
+
+

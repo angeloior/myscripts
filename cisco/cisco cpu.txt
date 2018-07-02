@@ -1,0 +1,5 @@
+#lista
+show process cpu sorted | exclude 0.00
+
+#grafico
+show proc cpu history

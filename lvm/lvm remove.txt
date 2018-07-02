@@ -1,0 +1,10 @@
+11.8. Removing a logical volume
+
+
+ A logical volume must be closed before it can be removed:
+
+# umount /dev/myvg/homevol
+# lvremove /dev/myvg/homevol
+lvremove -- do you really want to remove "/dev/myvg/homevol"? [y/n]: y
+lvremove -- doing automatic backup of volume group "myvg"
+lvremove -- logical volume "/dev/myvg/homevol" successfully removed

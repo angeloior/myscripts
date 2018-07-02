@@ -1,0 +1,20 @@
+6)Managing Packages and Services:
+
+Starting a Package:
+
+Use the cmrunpkg command to run the package on a particular node, then use the cmmodpkg command to enable switching for the package. For example, to start a failover package:
+cmrunpkg -n nodename package_name
+cmrunpkg -n umhpux9 pkg1
+cmmodpkg -e pkg1
+This starts up the package on umhpux9, then enables package switching.
+
+This sequence is necessary when a package has previously been halted on some node, since halting the package disables switching.
+Halting a Package:
+
+Use the cmhaltpkg command to halt a package, as follows:
+cmhaltpkg package_name
+cmhaltpkg pkg1
+This halts pkg1, and, if pkg1 is a failover package, also disables it from switching to another node.
+
+You cannot halt a package unless all packages that depend on it are down.
+

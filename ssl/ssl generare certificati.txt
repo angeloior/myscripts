@@ -1,0 +1,10 @@
+come creare il CSR per certificati SSL
+https://search.thawte.com/support/ssl-digital-certificates/index?page=content&actp=CROSSLINK&id=SO2614
+
+#generate the 2048 key
+openssl genrsa -des3 -out ite.key 2048
+
+no pwd per via del cluster
+
+#generate il csr
+openssl req -new -key ite.key -out ite.csr

@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Script per il backup di sistema in single user
+#
+PERCORSO_OUT1="/"
+PERCORSO_OUT2="/var"
+FILE_LOG="/usr/local/log/backup1.log"
+
+LIVELLO=`runlevel`
+
+if [ "$LIVELLO" != "unknown" ]; then
+	echo "Attenzione, sistema non in single-user mode, backup non consistente!"
+	echo "Vouoi procedere ugualmente?"
+	select sn in "Si" "No"; do
+		case $sn in
+			Si ) break;;
+			No ) exit;;
+		esac
+done
+fi
+
+#mount /dev/sda2 /mnt
+
+mkdir /usr/local/log
+rm -f $FILE_LOG
+touch $FILE_LOG 
+tailf $FILE_LOG &
+
+dump -0uf - /var 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT1/var.dmp.bz2
+mv $PERCORSO_OUT1/var.dmp.bz2 $PERCORSO_OUT2
+dump -0uf - /boot 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT2/boot.dmp.bz2
+dump -0uf - / 2>>$FILE_LOG | bzip2 -q > $PERCORSO_OUT2/root.dmp.bz2
+
+kill %1
+#umount /mnt
+

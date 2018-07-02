@@ -1,0 +1,1 @@
+[root@sibilla ~]# nsrinfo -s serverbck1 -N /store1/clima-tar-satradimg/2009/SAT_RAD_IMG-2009-12-31.tar sibilla

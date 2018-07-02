@@ -1,0 +1,1 @@
+/opt/mysql/meb-3.12/bin/mysqlbackup --socket=/mysql/mysql/mysql.sock --password= --with-timestamp --backup-dir=/mnt/backup/mysqlabckup backup

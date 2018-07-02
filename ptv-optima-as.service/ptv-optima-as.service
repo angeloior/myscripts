@@ -1,0 +1,11 @@
+[Unit]
+Description=ptv-optima-as
+
+[Service]
+Type=forking
+ExecStart=/bin/sh /usr/local/bin/ptv-optima-as.sh start
+ExecStop=/bin/sh /usr/local/bin/ptv-optima-as.sh stop
+PIDFile=/var/run/wildfly/wildfly.pid
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,1 @@
+/proc/tty/driver/serial per vedere se scambia dati

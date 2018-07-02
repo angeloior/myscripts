@@ -1,0 +1,7 @@
+andare nella cartella bin e lanciare
+
+#windows
+jboss-cli.bat --gui
+
+#linux
+jsboss-cli.sh --gui

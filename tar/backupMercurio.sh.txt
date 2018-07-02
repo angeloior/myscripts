@@ -1,0 +1,87 @@
+#!/bin/bash
+#
+#Script per il backup dei file
+
+#variabili
+backupdir="/var/Backup"
+backupfiledamantenere=7
+DATA=`date +%Y%m%d_%H%M%S`
+FILE_LOG="/usr/local/log/backupMercurio.txt"
+dt=$(date)
+echo "Inizio $dt" > $FILE_LOG
+FILE_LISTA="/usr/local/log/lista.txt"
+mailonerror=
+mailto=
+#mailonerror=$mailto
+aux=1
+subject=" $HOSTNAME Tar"
+
+#######################################################
+#creazione della lista di file da dare in pasto a TAR
+
+#solo struttura delle cartelle senza file
+find /home -type d | grep -v /users/lost+found > $FILE_LISTA       # struttura dir vuote
+
+#indicazione di cartelle e file
+echo "/usr/local/bin/" >> $FILE_LISTA
+echo "/var/spool/cron/" >> $FILE_LISTA
+echo "/var/lib/heartbeat/crm/" >> $FILE_LISTA
+echo "/etc/" | grep -v /etc/gconf | grep -v /etc/selinux/targeted >> $FILE_LISTA
+
+#backup dei file di una cartella di cui altrimenti si prenderebbe solo la struttura (tar --no-recursion)
+find /usr/local/bin/ -type f >> $FILE_LISTA
+find /var/spool/cron/ -type f >> $FILE_LISTA
+find /var/lib/heartbeat/crm/ -type f >> $FILE_LISTA
+find /etc -type f | grep -v /etc/gconf | grep -v /etc/selinux/targeted >> $FILE_LISTA
+
+# USERS    condizione sulla cartella vuota
+if [ "$(ls -A /users)" ]; then
+       echo "users non vuoto"
+       find /users -type d | grep -v /users/lost+found | grep -v /users/afd >> $FILE_LISTA
+       find /users/afd -maxdepth 2 -type d >>$FILE_LISTA
+       echo "/users/afd/monafd.sh" >> $FILE_LISTA
+       echo "/users/afd/afd_work/etc/" >> $FILE_LISTA
+       find /users/afd/afd_work/etc/ -type f >> $FILE_LISTA
+       find /users/interno/procedure/*.sh* -type f >> $FILE_LISTA
+else
+    echo "Vuota"
+fi
+
+#tar: (c)reate (j)bzip2 (v)erbose (f)ile (p)preserve (-T)legge file come standard input
+tar -v -c -j -p -T $FILE_LISTA --no-recursion -f $backupdir/mercurio2-$DATA.tar.bz2 2>&1 | tee -a $FILE_LOG
+aux=$?
+echo $aux
+echo $aux >>$FILE_LOG
+
+#rimozione file di appoggio
+rm -vf $FILE_LISTA >>$FILE_LOG
+
+#verifica log
+egrep -w 'Cannot|error|such|Error' $FILE_LOG
+
+echo "#verifica file prima pulizia" >> $FILE_LOG
+/bin/ls $backupdir >> $FILE_LOG
+
+#eliminazione condizionale rispetto oggi
+if [ $aux -eq 0 ]; then
+   find $backupdir -type f -mtime +$backupfiledamantenere -name "*.tar.bz2" -exec rm -f {} \;
+fi
+
+echo "##############################################" >>$FILE_LOG
+
+echo "#verifica file dopo pulizia" >> $FILE_LOG
+/bin/ls -lh $backupdir >> $FILE_LOG
+
+#mail condizionale
+if [ $aux -eq 0 ]; then
+
+    echo "$subject OK($aux)" >> $FILE_LOG
+    echo "$subject OK($aux)" | mutt -s "$subject OK($aux)" -a $FILE_LOG -- $mailto
+
+else
+    echo "$subject KO($aux)" >> $FILE_LOG
+    echo "$subject KO($aux)" | mutt -s "$subject KO($aux)" -a $FILE_LOG -- $mailonerror
+
+fi
+
+#fine

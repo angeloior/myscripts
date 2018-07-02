@@ -1,0 +1,25 @@
+#!/usr/bin/expect -f
+
+set timeout 60
+
+spawn ssh cisco@10.17.44.254
+
+expect "*?assword*?"
+send "a\r"
+
+expect "*?>"
+send "enable\r"
+expect "*?assword*?"
+send "a\r"
+
+expect "*?#"
+
+send "terminal length 0\r"
+expect "*?#"
+
+send "show running\r"
+
+expect "*?#"
+send "exit\r"
+
+expect ...

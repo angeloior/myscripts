@@ -1,0 +1,12 @@
+#ftp file
+posizionarsi nella cartella di destinazione
+ftp
+open IP
+user/password
+pwd
+cd cartella sorgente
+prompt off
+preserve on
+verbose on
+mget *.dmp
+bye

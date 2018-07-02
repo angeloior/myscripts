@@ -1,0 +1,6 @@
+rsc_defaults $id="rsc-options" \
+        resource-stickiness="1" \
+        migration-threshold="3"
+op_defaults $id="op-options" \
+        timeout="600" \
+        record-pending="true"

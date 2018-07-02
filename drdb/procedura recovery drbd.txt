@@ -1,0 +1,31 @@
+procedura recovery drbd
+
+ grep drbd /var/log/messages | grep -i split
+  588  service drbd status
+  589  drbdadm disconnect home
+  590  service drbd status
+  591  drbdadm secondary home
+  592  drbdadm connect --discard-my-data home
+  593  man drbdadm
+  594  drbdadm invalidate
+  595  drbdadm invalidate  home
+  596  service drbd status
+  597  drbdadm connect home
+  598  service drbd status
+  599  ssh acm2-2
+  600  service drbd status
+  601  cat /proc/drbd
+
+
+#funziona al 7 gen 16
+Split-Brain detected, dropping connection!
+After split brain has been detected, one node will always have the resource in a StandAlone connection state. The other might either also be in the StandAlone state (if both nodes detected the split brain simultaneously), or in WFConnection (if the peer tore down the connection before the other node had a chance to detect split brain).
+
+At this point, unless you configured DRBD to automatically recover from split brain, you must manually intervene by selecting one node whose modifications will 
+be discarded (this node is referred to as the split brain victim). This intervention is made with the following commands:
+
+drbdadm secondary home
+drbdadm -- --discard-my-data connect home
+On the other node (the split brain survivor), if its connection state is also StandAlone, you would enter:
+
+drbdadm connect home

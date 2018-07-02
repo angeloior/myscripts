@@ -1,0 +1,17 @@
+aomdba_NEW@aomserv> history
+134     ls -la
+135     onstat -d
+136     exit
+137     onmode -sy
+138     onspaces -a sblob_dbs -p /usr/users/ids_aom/Dbs/sblob_dbs.003 -o 0 -s 500000
+139     chmod 660 /usr/users/ids_aom/Dbs/sblob_dbs.003
+140     ls -la /usr/users/ids_aom/Dbs/sblob_dbs.0*
+141     onspaces -a sblob_dbs -p /usr/users/ids_aom/Dbs/sblob_dbs.003 -o 0 -s 500000
+142     onstat -d
+143     exit
+144     onstat -d
+145     exit
+146     onstat -d
+147     exit
+148     whoami
+149     history

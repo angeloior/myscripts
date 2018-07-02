@@ -1,0 +1,14 @@
+
+umount ...
+lvextend -L+608G /dev/mapper/archive_vol_p9500_7200RPM_group-2017
+e2fsck -f /dev/mapper/archive_vol_p9500_7200RPM_group-2017
+resize2fs /dev/mapper/archive_vol_p9500_7200RPM_group-2017
+tune2fs -c -1 -i 0 /dev/mapper/archive_vol_p9500_7200RPM_group-2017 #non necessario dopo extend, se già c'e'...
+mount 
+
+#lvreduce
+lvreduce -L 850G /dev/mapper/archive_vol_p9500_7200RPM_group-2009
+è distruttivo del filesystem sottostante!!!
+
+#crea volume max size
+lvcreate -n 2014 -l 100%FREE vg0

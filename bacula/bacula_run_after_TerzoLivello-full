@@ -1,0 +1,21 @@
+#! /bin/sh
+
+#### rilascia e smonta il volume #####
+echo "   ---release della device a nastro---"
+echo "release LTO-3" | /sbin/bconsole
+
+echo "   ---smonto la device a nastro---"
+echo "umount LTO-3" | /sbin/bconsole
+
+##### riavvolgi ed espelli il volume #####
+echo "   ---riavvolgo il nastro---"
+/bin/mt -f /dev/nst0 rewind
+
+echo "   ---espello in nastro---"
+/bin/mt -f /dev/nst0 eject
+
+
+
+
+
+attenzione verificare il percorso di bconsole che in LINUX cambia a seconda delle implementazioni

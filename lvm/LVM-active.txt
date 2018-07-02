@@ -1,0 +1,71 @@
+mount
+  910  lvscan
+  911  lvchange --help
+  912  lvchange -a /dev/archive_vol_p9500_1_group/temp_clima
+  913  lvchange -aly /dev/archive_vol_p9500_1_group/temp_clima
+  914  vim /etc/lvm/lvm.conf
+  915  lvchange --addtag pacemaker /dev/archive_vol_p9500_1_group/temp_clima --config 'activation { volume_list = [ "@pacemaker" ] }'
+  916  lvscan
+  917  lvchange -aly /dev/archive_vol_p9500_1_group/temp_clima
+  918  lvdisplay /dev/archive_vol_p9500_1_group/temp_clima
+  919  lvchange -aly /dev/archive_vol_p9500_1_group/temp_clima
+  920  lvdisplay -v /dev/archive_vol_p9500_1_group/temp_clima
+  921  lvdisplay -v /dev/archive_vol_p9500_7200RPM_group/1997
+  922  lvs -o lv_tags /dev/archive_vol_p9500_1_group/temp_clima
+  923  man lvs
+  924  man lvchange
+  925  man lvcreate
+  926  man lvchange
+  927  pcs resource create archive_temp_p9500_fs Filesystem device="/dev/archive_vol_p9500_1_group/temp_clima" directory="/archive/temp_p9500" fstype="ext4" op
+tions="nodelalloc"
+  928  pcs constraint colocation add archive_temp_p9500_fs p9500_7200RPM INFINITY
+  929  pcs constraint order start p9500_7200RPM then start archive_temp_p9500_fs
+  930  pcs status
+  931  mount
+  932  pcs status
+  933  lvchange -aly /dev/archive_vol_p9500_1_group/temp_clima
+  934  vim /etc/lvm/lvm.conf
+  935  mount
+  936  vim /etc/lvm/lvm.conf
+  937  fg
+  938  pcs status
+  939  grep p9500 /etc/fstab
+  940  grep archive_vol_group /etc/fstab
+  941  ll /etc/lvm/lvm.conf
+  942  vim /etc/lvm/lvm.conf
+  943  ll /etc/lvm/lvm.conf*
+  944  vim /etc/lvm/lvm.conf
+  945  lvscan
+  946  lvchange -aly /dev/archive_vol_p9500_1_group/temp_clima
+947  lvscan
+  948  pcs status
+  949  pcs resource enable archive_temp_p9500_fs
+  950  pcs status
+  951  mount
+  952  pcs resource
+  953  mount
+  954  mount /dev/archive_vol_p9500_1_group/temp_clima /archive/temp_p9500/
+  955  mount
+  956  ls /archive/temp_p9500/
+  957  umount /archive/temp_p9500/
+  958  pcs status
+  959  man pcs
+  960  pcs resource disable archive_temp_p9500_fs
+  961  pcs resource delete archive_temp_p9500_fs
+  962  pcs status
+  963  mount
+  964  vim /etc/fstab
+  965  mount temp_p9500/
+  966  mount
+  967  cd temp_p9500/
+  968  ls
+  969  cd ..
+  970  umount temp_p9500/
+  971  lvs -o lv_tags /dev/archive_vol_p9500_1_group/temp_clima
+  972  man lvchange
+  973  lvchange --deltag pacemaker /dev/archive_vol_p9500_1_group/temp_clima
+  974  umount temp_p9500/
+  975  mount temp_p9500/
+  976  ll temp_p9500/
+  977  ll
+  978  cd temp_p9500/

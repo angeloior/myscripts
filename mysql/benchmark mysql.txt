@@ -1,0 +1,75 @@
+#verificare la cache
+#make sure the query results are not cached. Go back to your test MySQL session. Run the following command
+RESET QUERY CACHE;
+SELECT SQL_NO_CACHE * FROM TABLE;
+SHOW VARIABLES LIKE 'query_cache_type';
+SET SESSION query_cache_type=0;
+SHOW VARIABLES LIKE 'query_cache_type';
+
+#non interattivo
+mysql -S /mnt/mysqltest/mysql55/mysql55/mysql55.sock
+SHOW VARIABLES LIKE 'query_cache_type';
+SET SESSION query_cache_type = 0;
+SHOW VARIABLES LIKE 'tmpdir';
+
+mysql -S /mnt/mysqltest/mysql57/mysql57/mysql57.sock -pclima
+
+#######################################################################################################
+#mysql55 8GB!!!!
+[root@acm2-1 mysql55]# mysqlslap -S /mnt/mysqltest/mysql55/mysql55/mysql55.sock  --concurrency=1 --iterations=1 --create-schema=climatology --query="SELECT SQL_NO_CACHE * FROM sat_rad_img_old ORDER BY geo_id;" --delimiter=";" --verbose --debug-info
+Benchmark
+        Average number of seconds to run all queries: 538.596 seconds
+        Minimum number of seconds to run all queries: 538.596 seconds
+        Maximum number of seconds to run all queries: 538.596 seconds
+        Number of clients running queries: 1
+        Average number of queries per client: 1
+
+
+User time 28.34, System time 44.92
+Maximum resident set size 8764712, Integral resident set size 0
+Non-physical pagefaults 1642972, Physical pagefaults 15, Swaps 0
+Blocks in 3464 out 48, Messages in 0 out 0, Signals 0
+Voluntary context switches 321997, Involuntary context switches 6200
+
+
+#mysql57 con 8GB!!!
+[root@acm2-1 mysql57]# mysqlslap -S /mnt/mysqltest/mysql57/mysql57/mysql57.sock  --pxxxxx --concurrency=1 --iterations=1 --create-schema=climatology --query="SELECT SQL_NO_CACHE * FROM sat_rad_img_old ORDER BY geo_id;" --delimiter=";" --verbose --debug-info
+mysqlslap: Error when storing result: 9 Unexpected EOF found when reading file '/mnt/mysqltest/mysql57/tmp/MYbIGGz4' (Errcode: 175 - File to short; Expected more data in file)
+Benchmark
+        Average number of seconds to run all queries: 236.892 seconds
+        Minimum number of seconds to run all queries: 236.892 seconds
+        Maximum number of seconds to run all queries: 236.892 seconds
+        Number of clients running queries: 1
+        Average number of queries per client: 1
+
+
+User time 0.00, System time 0.00
+Maximum resident set size 1556, Integral resident set size 0
+Non-physical pagefaults 493, Physical pagefaults 7, Swaps 0
+Blocks in 1224 out 0, Messages in 0 out 0, Signals 0
+Voluntary context switches 97, Involuntary context switches 10
+
+
+
+
+
+#######################################################################################################
+
+#
+mysqlslap -S /mnt/mysqltest/mysql55/mysql55/mysql55.sock  --concurrency=1 --iterations=1 --create-schema=climatology --query="SELECT SQL_NO_CACHE * FROM sat_rad_img_old;" --delimiter=";" --verbose --debug-info
+mysqlslap -S /mnt/mysqltest/mysql57/mysql57/mysql57.sock  -pclima --concurrency=1 --iterations=1 --create-schema=climatology --query="SELECT SQL_NO_CACHE * FROM sat_rad_img_old;" --delimiter=";" --verbose --debug-info
+
+#
+mysqlslap -S /mnt/mysqltest/mysql55/mysql55/mysql55.sock  --concurrency=1 --iterations=1 --create-schema=climatology_disponibilita_generale --query="SELECT SQL_NO_CACHE * FROM taf;" --delimiter=";" --verbose --debug-info
+mysqlslap -S /mnt/mysqltest/mysql57/mysql57/mysql57.sock  -pclima --concurrency=1 --iterations=1 --create-schema=climatology_disponibilita_generale --query="SELECT SQL_NO_CACHE * FROM taf;" --delimiter=";" --verbose --debug-info
+		
+#
+mysqlslap -S /mnt/mysqltest/mysql55/mysql55/mysql55.sock --concurrency=3 --iterations=1 --create-schema=employees --query="SELECT * FROM salaries;" --verbose --debug-info
+mysqlslap -S /mnt/mysqltest/mysql57/mysql57/mysql57.sock -pclima --concurrency=3 --iterations=1 --create-schema=employees --query="SELECT * FROM salaries;" --verbose --debug-info
+#
+mysqlslap -S /mnt/mysqltest/mysql55/mysql55/mysql55.sock  --concurrency=20 --iterations=1 --create-schema=employees --query="SELECT * FROM employees;SELECT * FROM titles;SELECT * FROM dept_emp;SELECT * FROM dept_manager;SELECT * FROM departments;" --delimiter=";" --verbose --debug-info
+mysqlslap -S /mnt/mysqltest/mysql57/mysql57/mysql57.sock  -pclima --concurrency=20 --iterations=1 --create-schema=employees --query="SELECT * FROM employees;SELECT * FROM titles;SELECT * FROM dept_emp;SELECT * FROM dept_manager;SELECT * FROM departments;" --delimiter=";" --verbose --debug-info
+
+#echo "SELECT * FROM employees;SELECT * FROM titles;SELECT * FROM dept_emp;SELECT * FROM dept_manager;SELECT * FROM departments;" > select_query.sql
+mysqlslap -S /mnt/mysqltest/mysql55/mysql55/mysql55.sock --concurrency=20 --number-of-queries=1 --create-schema=employees --query="/root/select_query.sql" --delimiter=";" --verbose --iterations=2 --debug-info
+mysqlslap -S /mnt/mysqltest/mysql57/mysql57/mysql57.sock -pclima --concurrency=20 --number-of-queries=1 --create-schema=employees --query="/root/select_query.sql" --delimiter=";" --verbose --iterations=2 --debug-info

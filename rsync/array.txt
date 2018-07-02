@@ -1,0 +1,75 @@
+#!/bin/bash
+
+#variabili
+FILEREPORT=/usr/local/log/check-archive-report.txt
+FILELOG=/usr/local/log/check-archive-log
+mailto=
+#mailonerror=
+mailonerror=$mailto
+subject=" $HOSTNAME Check LV Archive ACM2"
+aux=1
+spia=1
+dt=$(date)
+echo "inizio $dt" > $FILEREPORT
+
+#cerco gli lv archive su acm2-2
+array2=( $(ssh acm2-2-ic lvs | grep -v temp | grep -v Convert | awk {'print $1'} ) )
+#echo ${array2[@]}
+#temp
+#array2=(1997 1998 1999 2000 2001)
+
+#cerco gli lv archive su acm2-1
+array=( $(lvs | grep -v temp | grep -v Convert | awk {'print $1'} ) )
+#echo ${array[@]}
+
+#per ogni anno di acm2-2 cerco in acm2-1
+for i in "${array2[@]}"
+do
+  #echo $i
+
+  #assegnazione temp
+  trovato="$i NON trovato in acm2-1 !"
+
+  #scorro array2 alla ricerca anno in array acm21
+ for x in "${array[@]}"
+  do
+    #echo $x
+    if [ $i = $x ]
+       then
+          #trovato="$i trovato!"
+
+          #resetto il log
+          FILELOG=/usr/local/log/check-archive-log$i
+          /bin/echo "inizio $dt" > $FILELOG
+
+          #rsync dry-run per verifica differenze tra gli lv archive
+          #(v)erbose (i)temize per i simboli nel log (a)rchive modalitia copia (h)uman readable le dimensioni
+          #contenuto della cartella remota /archive/XXXX/* nella cartella /archive/XXXX/
+          /usr/bin/rsync  --exclude "lost+found" --dry-run --progress -viah root@acm2-2-ic:/archive/$i/ /archive/$i/ --log-file=$FILELOG
+          aux=$?
+
+          #ho copiato roba
+          roba=`cat $FILELOG | wc -l`
+          if [ $roba -eq 4 ] && [ $aux -eq 0 ]
+            then
+                spia=0
+                trovato="$i Sincronizzato ($aux), fine: $dt"
+            else
+                trovato="$i NON sincronizzato ($aux), fine $dt"
+          fi
+    fi
+
+  done
+
+  #esito ricerca nell array
+  /bin/echo $trovato >> $FILEREPORT
+
+done
+
+#mail report finale
+if [ $spia -eq 0 ]
+then
+    cat ${FILEREPORT} | mail -s "$subject" $mailto
+else
+    cat ${FILEREPORT} | mail -s "$subject" $mailonerror
+fi

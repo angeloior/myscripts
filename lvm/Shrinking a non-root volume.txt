@@ -1,0 +1,11 @@
+Shrinking a non-root volume
+umount /dev/centos/var
+e2fsck -fy /dev/centos/var
+resize2fs /dev/centos/var 4G dove 4G sarà la dimensione finale totale
+lvreduce -L 5G /dev/vg/disk-name //// lvreduce -L -5G /dev/vg/disk-name
+resize2fs /dev/centos/var
+(e2fsck -fy /dev/centos/var)
+mount /dev/centos/var /mnt
+
+
+resize2fs -p -S stride=64

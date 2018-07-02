@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#specifiche
+#check directory /home
+#database server dinamico 
+#backup databases dinamici
+#chiamata routine-backup
+#logging
+
+#variabili
+DIR=/home
+FILEDILOG=/usr/local/bin/backup/log-backupDB.txt
+DATA=`date +%Y%m%d_%H%M%S`
+DBSERVER=172.17.1.24
+USER=root
+PASSWORD=
+
+#check if /home is empty
+if [ "$(ls -A $DIR)" ]; then
+   echo Backup START ${DATA} >${FILEDILOG}
+
+   databases=`mysql -h ${DBSERVER} --user=${USER} --password=${PASSWORD} -e "SHOW DATABASES;" | tr -d "| " | grep -v Database`
+
+   for db in $databases; do
+    if [[ "$db" != "information_schema" ]] && [[ "$db" != _* ]] ; then
+        
+		#echo a schermo per trb
+		echo "Dumping database: $db"
+        /bin/sh /usr/local/bin/backup/routine-backupDB.sh $db
+    fi
+   done
+   echo Backup END ${DATA} >>${FILEDILOG}
+
+else
+  echo "$DIR is Empty" >${FILEDILOG}
+fi

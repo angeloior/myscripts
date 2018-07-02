@@ -1,0 +1,47 @@
+#! /bin/sh
+
+##### smonta il volume #####
+echo "   ---Smonto la device a nastro---"
+/bin/echo "umount LTO-3" | /sbin/bconsole
+
+##### carica avvolgi e inizializza il nastro #####
+echo "   ---Carico il la cassetta---"
+/bin/mt -f /dev/nst0 load
+
+echo "   ---Riavvolgo il nastro---"
+/bin/mt -f /dev/nst0 rewind
+
+echo "   ---Inizializzo il nastro---"
+/bin/mt -f /dev/nst0 weof
+
+##### monta il volume #####
+echo "   ---monto la device a nastro---"
+/bin/echo "mount LTO-3" | /sbin/bconsole
+
+
+attenzione verificare il percorso di bconsole che in LINUX cambia a seconda delle implementazioni
+
+#! /bin/sh
+
+#monta la NAS
+mount 192.168.62.5:/Backup /NAS-FEDERUTILITY
+
+##### smonta il volume #####
+echo "   ---Smonto la device a nastro---"
+/bin/echo "umount DAT-160-Federutility" | /usr/bin/bconsole
+
+##### carica avvolgi e inizializza il nastro #####
+echo "   ---Carico il la cassetta---"
+/bin/mt -f /dev/st0 load
+
+echo "   ---Riavvolgo il nastro---"
+/bin/mt -f /dev/st0 rewind
+
+echo "   ---Inizializzo il nastro---"
+/bin/mt -f /dev/st0 weof
+
+##### monta il volume #####
+echo "   ---monto la device a nastro---"
+/bin/echo "mount DAT-160-Federutility" | /usr/bin/bconsole
+
+

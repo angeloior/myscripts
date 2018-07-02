@@ -1,0 +1,3 @@
+#notare il P di progress
+#notare il bwlimit per settare la banda a meno di 50M 
+rsync -aivhP --delete --exclude="*.log" --exclude="*.bz2" --exclude="*.err" --exclude="*.pid" --exclude="*.sock" --bwlimit=40000 --rsh=rsh acm2-2-ic:/var/lib/mysql/ /var/lib/mysql/

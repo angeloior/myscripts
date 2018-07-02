@@ -1,0 +1,28 @@
+#!/bin/ksh
+#
+# Purge dei log file mysql gia' utilizzati dal server slave incrociato
+#
+
+/sbin/service mysql status
+if [ $? -ne 0 ]; then
+        echo "Servizio mysql non operativo"
+        exit 1
+fi
+
+NODO=`/bin/hostname -s`
+if [ "$NODO" = "jack1" ]; then
+        ALTRONODO="jack2-ic"
+elif [ "$NODO" = "jack2" ]; then
+        ALTRONODO="jack1-ic"
+else
+        exit 1
+fi
+
+LOGx=`mysql -h$ALTRONODO -ustato -pStato -e 'show slave status\G'| awk '$1 == "Master_Log_File:" {print $2}'`
+
+LOGNx=`echo $LOGx | awk  -F. '{print $2}'`
+
+if [ "X$LOGx" != "X" ]; then
+        echo "Pulizia binary log $NODO fino a $LOGx escluso"
+        mysql -upurga -pPurga -e "PURGE BINARY LOGS TO '$LOGx';"
+fi

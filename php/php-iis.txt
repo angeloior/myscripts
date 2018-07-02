@@ -1,0 +1,13 @@
+0 - iis con cgi
+1 - php
+2 - vcredist per php relativo
+3 - add php to variable path di windows
+4 - iis handler mapping -   Add Module Mapping a livello di hostname
+Type the following information into the appropriate text boxes, and then click OK.
+Request path: *.php
+Module : FastCGImodule
+Executable: C:\php\php-cgi.exe
+Name: FastCGI
+5 - default document a livello di hostname
+index.php
+default.php

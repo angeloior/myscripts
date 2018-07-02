@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# backup DB WEGO
+
+PERCORSO="/var/BackupWEGO"
+DATA=`date +%Y%m%d`
+
+#-d stand for NO DATA
+mysqldump -u root --password= mysql | bzip2 > ${PERCORSO}/mysql/mysql_${DATA}.sql.bz2
+mysqldump -u root --password= drupal_prometeo2 | bzip2 > ${PERCORSO}/drupal_prometeo2/drupal_prometeo2_${DATA}.sql.bz2
+mysqldump -u root --password= -d drupal_prometeo2_cache | bzip2 > ${PERCORSO}/drupal_prometeo2_cache/drupal_prometeo2_cache_${DATA}.sql.bz2
+
+find ${PERCORSO}/mysql -type f -mtime +30 -name "*.sql.bz2" -exec rm -f {} \;
+find ${PERCORSO}/drupal_prometeo2 -type f -mtime +30 -name "*.sql.bz2" -exec rm -f {} \;
+find ${PERCORSO}/drupal_prometeo2_cache -type f -mtime +30 -name "*.sql.bz2" -exec rm -f {} \;

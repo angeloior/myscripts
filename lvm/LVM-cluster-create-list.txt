@@ -1,0 +1,90 @@
+#creazione del volume - procedura
+lvcreate --addtag pacemaker -l 100%FREE -n 2018 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2018
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2018
+
+
+lvcreate --addtag pacemaker -L +1200G -n 2015 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2015
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2015
+
+lvcreate --addtag pacemaker -L +100G -n PROCEDURE archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/PROCEDURE
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/PROCEDURE
+
+lvcreate --addtag pacemaker -L +2T -n temp_clima archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/temp_clima
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/temp_clima
+
+lvcreate --addtag pacemaker -L +1G -n 1998 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/1998
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/1998
+
+lvcreate --addtag pacemaker -L +1G -n 1999 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/1999
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/1999
+
+lvcreate --addtag pacemaker -L +1G -n 2000 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2000
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2000
+
+lvcreate --addtag pacemaker -L +1G -n 2001 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2001
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2001
+
+lvcreate --addtag pacemaker -L +4G -n 2002 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2002
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2002
+
+lvcreate --addtag pacemaker -L +90G -n 2003 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2003
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2003
+
+lvcreate --addtag pacemaker -L +500G -n 2004 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2004
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2004
+
+lvcreate --addtag pacemaker -L +500G -n 2005 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2005
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2005
+
+lvcreate --addtag pacemaker -L +500G -n 2006 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2006
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2006
+
+lvcreate --addtag pacemaker -L +250G -n 2007 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2007
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2007
+
+lvcreate --addtag pacemaker -L +250G -n 2008 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2008
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2008
+
+lvcreate --addtag pacemaker -L +1000G -n 2009 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2009
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2009
+
+lvcreate --addtag pacemaker -L +2000G -n 2010 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2010
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2010
+
+lvcreate --addtag pacemaker -L +2000G -n 2011 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2011
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2011
+
+lvcreate --addtag pacemaker -L +2000G -n 2012 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2012
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2012
+
+lvcreate --addtag pacemaker -L +2000G -n 2013 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2013
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2013
+
+lvcreate --addtag pacemaker -L +2000G -n 2014 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2014
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2014
+
+lvcreate --addtag pacemaker -l 100%FREE -n 2014 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2014
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2014
+

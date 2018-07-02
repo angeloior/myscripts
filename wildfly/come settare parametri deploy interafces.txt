@@ -1,0 +1,16 @@
+https://docs.jboss.org/author/display/WFLY/Command+Line+Interface?_sscc=t
+
+Come mi hai chiesto, la configurazione indicata da   si può fare su Wildfly: /o da command line /o da webservice (http://localhost:9990/console/App.html#profile;backButton=)
+Attualmente i valori sono:
+
+-blocking: 600 (invece che 900 come settato da )
+- scanner: 600 (invece che 900 come settato da )
+- transaction: 300 (invece che 500 come settato da )
+
+Da command line per leggere i valori:
+0-	Connettersi alla command line (*bat / *.sh )
+1-	Connettersi alla istanza di wildfly (connect)
+2-	Comandi:
+/system-property=jboss.as.management.blocking.timeout:query
+/subsystem=deployment-scanner/scanner=default: read-attribute(name=deployment-timeout)
+/subsystem=transactions:read-attribute(name=default-timeout)

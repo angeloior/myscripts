@@ -1,0 +1,13 @@
+lvcreate --addtag pacemaker -L +7T -n 2016 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2016
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2016
+
+
+#creazione del volume
+lvcreate --addtag pacemaker -L +2000G -n 2017 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2017
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2017
+
+pcs resource create archive_2017_fs Filesystem device="/dev/archive_vol_p9500_7200RPM_group/2017" directory="/archive/2017" fstype="ext4" options="nodelalloc"
+pcs constraint colocation add archive_2017_fs p9500_7200RPM INFINITY
+pcs constraint order start p9500_7200RPM then start archive_2017_fs

@@ -1,0 +1,42 @@
+/root/test/A/ IN_ALL_EVENTS cp -p /$@/$# /root/test/B/$#
+/home/mms/input/TEST/ IN_ALL_EVENTS scp -p /$@/$# root@acm2-1-ic:/home/mms/input/TEST/$#
+
+che succede se:
+- non si accede al file system locale ?
+- non si raggiunge via rete ?
+- è pieno il filesystem di là ?
+- non ricevo file oggi verifica servizio incron di la?
+- i cancella di qua ? con find non con rsync i file più vecchi di x giorni
+- bidirezionale ?
+
+- il log viene sempre sovrascitto se la copia è per singolo file
+scp -p ciccio1 root@acm2-1-ic:/home/mms/input/TESTA/ &> /dev/null; echo "${PIPESTATUS[0]}"
+scp -p ciccio root@acm2-1-ic:/home/mms/input/TEST/ &> /dev/null; echo "${PIPESTATUS[0]}" > log.txt
+
+#/home/mms/input/TEST/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/ASSOCODIPUGLIA/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/CADMET/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/CLASSE_0/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/CORPO_FORESTALE/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/ISPRA/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/LAMPINET/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/METEOMONT-BIN/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/NATO/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/RDS/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GENERIC/SAT_RAD_IMG/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/GRIB/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+/home/mms/input/WMO/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-1-ic:/$@/$#
+
+/home/mms/input/TEST/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/ASSOCODIPUGLIA/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/CADMET/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/CLASSE_0/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/CORPO_FORESTALE/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/ISPRA/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/LAMPINET/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/METEOMONT-BIN/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/NATO/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/RDS/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GENERIC/SAT_RAD_IMG/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/GRIB/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#
+/home/mms/input/WMO/ IN_MOVE,IN_NO_LOOP rcp -p /$@/$# root@acm2-2-ic:/$@/$#

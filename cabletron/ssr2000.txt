@@ -1,0 +1,13 @@
+ssh
+
+#necessario password di enable, la stessa di accesso
+enable
+copy running to tftp://192.4.21.10/switch-172-16-11-253
+copy running to tftp://172.16.101.76/switch-172-16-101-253
+copy running to tftp://172.16.100.110/switch-172-16-11-252
+
+anche per vecchie versioni 
+copy active to tftp://192.4.21.10/switch-172-16-11-253
+copy active to tftp://192.4.21.10/switch-172-16-11-254
+copy active to tftp://172.16.100.110/switch-172-16-11-252
+copy active to tftp://172.16.100.110/switch-172-16-11-251

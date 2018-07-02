@@ -1,0 +1,14 @@
+nslookup
+set q=mx
+inserire il dominio della mail di cui si vuole verificare l'eistenza
+exit da nslookup
+
+telnet al mx.dominio.x 25 oppure smtp.dominio.x
+helo pippo
+MAIL FROM:test@dominio.x oppure test@dominio.y
+(ok)
+RCPT TO:mail completa di dominio che si vuole verificare
+(ok)
+se è ok allora esiste!
+
+https://stackoverflow.com/questions/565504/how-to-check-if-an-email-address-exists-without-sending-an-email

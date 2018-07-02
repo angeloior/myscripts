@@ -1,0 +1,2 @@
+show config all outfile slot1/confg
+copy slot1/confg tftp://172.16.100.202/confg

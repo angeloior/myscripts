@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#(v)erbose (a)rchive (u)pdate (p)reserve (r)icorsive (t)ime preserve (h)uman --progress show
+rsync -n -vauprth --progress root@172.17.44.136:/srv/ftp/ /srv/ftp
+rsync -n -vauprth --progress root@172.17.44.136:/srv/www/ /srv/www
+aux=$?
+
+#mail condizionale
+#verifica con mail
+FILEDILOG=/usr/local/log/test.log
+mailto=
+mailonerror=
+subject=" Rsync $HOSTNAME "
+
+#if [ "$?" -eq 0 ]
+if [ $aux -eq 0 ]
+
+        then
+                echo "$subject OK($?)" >${FILEDILOG}
+                #mando mail con esito
+                cat ${FILEDILOG}| mail -s "$subject OK($?)" $mailto
+        else
+                echo "$subject KO($?)" >${FILEDILOG}
+                #mando mail con exitcodes
+                cat ${FILEDILOG} | mail -s "$subject KO($?)" $mailonerror
+fi

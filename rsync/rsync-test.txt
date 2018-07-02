@@ -1,0 +1,9 @@
+#verbose update archive recursive preserve permisions human readable n dry run
+echo 1
+rsync -vauprthn --progress --delete-before /tmp/source1/ /tmp/destination1
+
+echo 2
+rsync -vauprthn --progress --delete-during /tmp/source1/ /tmp/destination1
+
+echo 3
+rsync -vauprth --progress --delete-after /tmp/source1/ /tmp/destination1

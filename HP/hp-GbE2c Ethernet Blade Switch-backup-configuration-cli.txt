@@ -1,0 +1,4 @@
+ssh to switch
+cfg
+ptcfg
+selezionare opportunamente

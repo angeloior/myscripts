@@ -1,0 +1,34 @@
+Re: Web Tools Download Location? [ Edited ] 
+Options
+?08-10-2016 02:49 PM - edited ?08-15-2016 11:18 AM
+
+I finally got it working using the latest version of Java 8 u 101.
+ 
+I performed 3 steps to get the WT up and running from my windows 10 PC.
+ 
+1. Edit the java.security file
+      - Go to Java/jre1.8.0_101(in my case)/lib/security
+      - Open java.security file using notepad to edit it
+      - Search for: jdk.certpath.disabledAlgorithms=MD2, MD5, RSA keySize < 1024
+      - Replace the 1024 for 256. It should look like this: jdk.certpath.disabledAlgorithms=MD2, MD5, RSA
+        keySize < 256
+      - Save it
+ 
+2. Configure Java Security
+      - Go to Configure Java
+      - Under the Security Tab go to Edit List and add the name or IP that the switch is configured with.
+      - Click OK
+ 
+3. Point Java to use a different Java Runtime Environment (I recommend javaw.exe version 1.6)
+      - Copy the jre6 folder under the c:\Program Files (x86)\Java (I can provide a zip file of this folder upon
+        request)
+      - Go to Configure Java and under the Java Tab click View
+      - Click Add and add a new Path: C:\Program Files (x86)\Java\jre6\\bin\javaw.exe (This force java to
+        use the old RE without installing an old version.
+      - Uncheck 1.8 (newer version)
+      - Click OK
+ 
+Now, give it a try and you will be thrilled with the results. Just a heads up, once you try opening the WT
+again you will be prompted if you would like to use the old RE, make sure you use the old one. 
+ 
+This is what i did in order to keep the latest installaion of Java.

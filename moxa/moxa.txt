@@ -1,0 +1,28 @@
+per fare il backup della configurazione del moxa ci sono 2 modi come indicato nel manuale: via rcp (linux) o via xmodem (windows).
+sono riuscito a fare backup del moxa01 via rcp su mmsdev.
+mmsdev era già parzialmente configurato per accettare connsessioni rsh e quindi rlogin e rcp.
+in generale il server deve essere configurato per accettare connessioni rsh meno sicure di ssh, il protocollo che ha sostituito rcp.
+inoltre il moxa NON permette di scrivere la password nel metodo di backup di configurazione, quindi rsh deve essere ulteriormente configurato per consentire l'accesso rsh e l'accesso rsh senza password.
+
+#configurazione di un server per accettare connessioni rsh
+1) modificare il file /etc/securetty aggiungendo le seguenti righe:
+rsh
+rexec
+rlogin
+
+2) modificare il file /etc/hosts.equiv ed inserire l'indirizzo IP del dispositivo
+
+3) riavviare il servizio xinetd
+
+a questo punto è possibile accedere via rsh ma il server chiede ancora la password.
+
+#configurazione per accettare connessioni senza password
+creare o modificare il file /$home dell'utente interessato/.rhosts con l'indirizzo IP permesso
+
+#backup della configurazione del moxa
+#moxa chiama la procedura SAVE PARAMETERS
+telnet IP address
+1 (default) invio
+selezionare seTting
+selezionare export
+selezionare rcp / 192.4.21.10/ nome file configurazione / utente che accede all'ip via rcp senza password (root) /

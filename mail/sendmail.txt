@@ -1,0 +1,17 @@
+#mail parameters
+mailto=
+#mailonerror=
+mailonerror=$mailto
+sendmailsubject=/share/CACHEDEV1_DATA/homes/admin/log/sendmail-check-archive.txt
+
+#mail condizionale
+if [ "$aux" -eq 0 ];
+        then
+                echo "Subject:  $HOSTNAME Check sincronizzazione archive NAS-ACM2-2 OK($aux)" > $sendmailsubject
+                cat $FILEREPORT >> $sendmailsubject
+                sendmail $mailto < $sendmailsubject
+        else
+                echo "Subject:  $HOSTNAME Check sincronizzazione archive NAS-ACM2-2 KO($aux)" > $sendmailsubject
+                cat $FILEREPORT >> $sendmailsubject
+                sendmail $mailonerror < $sendmailsubject
+fi

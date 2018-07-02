@@ -1,0 +1,23 @@
+https://unix.stackexchange.com/questions/164005/non-graphical-boot-with-systemd/164028
+
+how to change default boot target ?
+
+
+Open a terminal and (as root) run:
+
+systemctl set-default multi-user.target
+
+or with --force
+
+systemctl set-default -f multi-user.target
+
+to overwrite any existing conflicting symlinks1.
+
+Double-check with:
+
+systemctl get-default
+
+Another way is to add the following parameter to your kernel boot line:
+
+systemd.unit=multi-user.target
+

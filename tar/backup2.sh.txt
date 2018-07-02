@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Script per il backup di sistema in single user
+#
+PERCORSO_OUT="/var"
+FILE_LOG="/usr/local/log/backup2.log"
+
+#mount /dev/sda2 /mnt
+
+mkdir /usr/local/log
+rm -f $FILE_LOG
+
+tar -cjvpf $PERCORSO_OUT/home.tar.bz2 --exclude '/home/prometeo/BackupDB/*' --exclude '/home/prometeo/Input/*/*' --exclude '/home/prometeo/Loader/Log/*' --exclude '/home/prometeo/Storage/*/*' /home 2>&1 | tee -a $FILE_LOG
+
+#umount /mnt

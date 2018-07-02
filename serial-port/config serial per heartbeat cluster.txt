@@ -1,0 +1,12 @@
+[root@web-clima-1 ~]# stty -F /dev/ttyS1
+speed 9600 baud; line = 0;
+min = 1; time = 1;
+igncr -icrnl -imaxbel
+-opost
+-isig -icanon -echo
+[root@web-clima-1 ~]# stty -F /dev/ttyS0
+speed 115200 baud; line = 0;
+min = 1; time = 1;
+igncr -icrnl -imaxbel
+-opost
+-isig -icanon -echo

@@ -1,0 +1,14 @@
+vim-cmd hostsvc/firmware/backup_config
+
+example
+Bundle can be downloaded at : http://*/downloads/configBundle-localhost.dhcp.cnmca.meteoam.it.tgz
+
+find / -name "*.tgz"
+in clima-esx lo devi cercare qui
+/vmfs/volumes/50116d8f-c78898d8-9c09-001e0b5ad0a5/downloads
+
+in esxi1
+/vmfs/volumes/4ddfca43-4fe8bf50-ad06-984be17cbc19/downloads/
+
+in esxi2
+/vmfs/volumes/4ddfca43-4fe8bf50-ad06-984be17cbc19/downloads/

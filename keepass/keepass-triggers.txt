@@ -1,0 +1,14 @@
+come fare i trigger in keepass
+
+per esempio per collegarsi ad un serverf linux da windows è necessario per eseguire un comando usare il software plink.exe
+plink si collega ed esegue un comando
+per fare eseguire  keepass più comandi preparare un file bat
+preparare un bottone
+asociare una actionas al bottone
+nel campo eseguibile scrivere direttamente il path del file bath che è eseguibile di per se su windows
+
+action --> add or edit
+file url : "E:\PTV2BOX\admin\optima-as-query-implementation-version.bat"
+Arguments: {USERNAME} {PASSWORD} {TITLE}
+
+nel bat passare i tre argomenti opportunamente alla riga di comando plink

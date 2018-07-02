@@ -1,0 +1,64 @@
+
+mt status bits
+
+The low-level tape control command mt has one inquiry form:
+
+ mt -f /dev/nst0 status
+The return from this command at CERN looks like this example:
+SCSI 2 tape drive:
+File number=0, block number=0, partition=0.
+Tape block size 0 bytes. Density code 0x44 (no translation).
+Soft error count since last status=0
+General status bits on (41010000):
+ BOT ONLINE IM_REP_EN
+The 4 byte return of status bits, here 41010000 (leading zeros suppressed) contains the following 32 flags (not all bits have a known meaning to me). In this case the bytes have values 41, 01, 00 and 00. corresponding to the BOT, ONLINE and IM_REP_EN flags as listed below are set.
+
+Note that these flags do not always seem to be cleared at tape unload time: they may it seems correspond to the status last time a cartridge was actually mounted!
+
+Also, there are two status flags SM (which should be false after an 'mt seek n' go to block n command) and EOT (volume positioned at EOT, end of tape) which I have not been able to find evidence for. See for example here.
+
+MSB (leftmost in this string) to LSB (rightmost in this string)
+
+  Bit
+     Value
+        Flag
+                  Meaning
+  1  8  EOF       Tape is mounted and is positioned at EOF, end of file
+  2  4  BOT       Tape is mounted and is positioned at BOT, beginning of tape (load point, before any VOL1/HDR or data)
+  3  2  ?
+  4  1  ?
+
+  5  8  EOD       Tape is mounted and positioned at EOD, end of data (ie has been read to 'then end')
+  6  4  WR_PROT   Tape is mounted and WRITE PROTECTED, normally a mechanical lock on the cartridge
+  7  2  ?
+  8  1  ONLINE    Tape is mounted and ONLINE (effectively a mounted cartridge is 'READY')
+
+  9  8  ?
+ 10  4  ?
+ 11  2  ?
+ 12  1  ?
+
+ 13  8  ?
+ 14  4  DR_OPEN   Drive door is OPEN (a tape may still be 'in the drive', but is not loaded)
+ 15  2  ?
+ 16  1  IM_REP_EN Drive immediate reply enabled
+
+ 17  8  CLN       Drive requires CLEANING
+ 18  4  ?
+ 19  2  ?
+ 20  1  ?
+
+ 21  8  ?
+ 22  4  ?
+ 23  2  ?
+ 24  1  ?
+
+ 25  8  ?
+ 26  4  ?
+ 27  2  ?
+ 28  1  ?
+
+ 29  8  ?
+ 30  4  ?
+ 31  2  ?
+ 32  1  ?

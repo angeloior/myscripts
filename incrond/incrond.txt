@@ -1,0 +1,18 @@
+incrontab!
+funziona per ogni singolo file si può fare copia.
+per cancellare si può passare un rsync --delete una tantum
+
+unison
+per redhat non c'e'
+https://access.redhat.com/solutions/42604
+http://download.fedora.redhat.com/pub/epel/5/x86_64/repoview/letter_u.group.html
+http://xmodulo.com/synchronize-files-between-two-servers.html
+
+
+apache helix
+troppo grande il progetto per il caso nostro
+http://helix.apache.org/0.6.2-incubating-docs/recipes/rsync_replicated_file_store.html
+
+csync
+per file portatili
+https://www.csync.org/

@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Script per il backup dei file
+#
+backupdir="/var/BackupWEGO/WEGO"
+backupfiledamantenere=1
+DATA=`date +%Y%m%d_%H%M%S`
+FILE_LOG="/usr/local/log/backup2.log"
+rm -f $FILE_LOG
+
+tar --exclude '/srv/www/htdocs/WEGO_MAPSERVER/NOWCASTING' --exclude '/srv/www/htdocs/WEGO_MAPSERVER/FORECASTING' -cjvpf $backupdir/srv_$DATA.tar.bz2 /srv 2>&1 | tee -a $FILE_LOG
+
+#eliminazione vecchi backup file
+find $backupdir -type f -mtime $backupfiledamantenere -name "*.tar.bz2" -exec rm -f {} \;

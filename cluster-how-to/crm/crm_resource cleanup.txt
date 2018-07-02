@@ -1,0 +1,1 @@
+crm_resource -C -H c001n02 -r my_first_ip

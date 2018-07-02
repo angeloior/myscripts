@@ -1,0 +1,259 @@
+#ksar grapher
+
+#CPU
+
+       -u     Report CPU utilization. The following values are displayed:
+
+              %user
+                     Percentage of CPU utilization that occurred while execut-
+                     ing at the user level (application).
+
+              %nice
+                     Percentage of CPU utilization that occurred while execut-
+                     ing at the user level with nice priority.
+
+              %system
+                     Percentage of CPU utilization that occurred while execut-
+                     ing at the system level (kernel).
+
+              %iowait
+                     Percentage of time that the CPU or CPUs were idle  during
+                     which the system had an outstanding disk I/O request.
+
+              %idle
+                     Percentage of time that the CPU or CPUs were idle and the
+                     system did not have an outstanding disk I/O request.
+
+#processes
+-c     Report process creation activity.
+proc/s
+
+#contexts
+-w     Report system switching activity.
+cswch/s Total number of context switches per second.
+
+#interrupts
+?
+
+#swapping
+-W     Report swapping statistics. The following values are displayed:
+pswpin/s Total number of swap pages the system brought in per second
+pswpout/s Total  number  of  swap  pages the system brought out per second.
+
+#paging activity
+-B     Report paging statistics. The following values are displayed:
+              pgpgin/s
+                     Total number of kilobytes the system paged in  from  disk
+                     per second.
+
+              pgpgout/s
+                     Total  number  of  kilobytes the system paged out to disk
+                     per second.
+
+              fault/s
+                     Number of page faults (major + minor) made by the  system
+                     per  second (post 2.5 kernels only).  This is not a count
+                     of page faults  that  generate  I/O,  because  some  page
+                     faults can be resolved without I/O.
+
+              majflt/s
+                     Number  of  major  faults the system has made per second,
+                     those which have required loading a memory page from disk
+                     (post 2.5 kernels only).
+
+#I/O
+ -b     Report I/O and transfer rate statistics. This option works  only with  kernels  older  than  2.5.   The following values are displayed:
+bread/s
+bwrtn/s
+
+#Page
+-R     Report memory statistics. The following values are displayed:
+frmpg/s
+Number of memory pages freed by the system per second.  A
+negative  value represents a number of pages allocated by
+the system.  Note that a page has a size of 4 kB or 8  kB
+according to the machine architecture.
+bufpg/s
+Number  of additional memory pages used as buffers by the
+system per second.  A negative value  means  fewer  pages
+used as buffers by the system.
+campg/s
+Number  of  additional  memory pages cached by the system
+per second.  A negative value means fewer  pages  in  the cache.
+
+#Memory Usage
+      -r     Report memory and swap space utilization statistics.   The  fol-
+              lowing values are displayed:
+
+              kbmemfree
+                     Amount of free memory available in kilobytes.
+
+              kbmemused
+                     Amount  of  used  memory in kilobytes. This does not take
+                     into account memory used by the kernel itself.
+
+              %memused
+                     Percentage of used memory.
+
+#Memory Misc
+            kbbuffers
+                     Amount of memory used as buffers by the kernel  in  kilo-
+                     bytes.
+
+              kbcached
+                     Amount  of  memory  used  to  cache data by the kernel in
+                     kilobytes.
+
+
+#Swap Usage
+kbswpfree
+                     Amount of free swap space in kilobytes.
+
+              kbswpused
+                     Amount of used swap space in kilobytes.
+
+              %swpused
+                     Percentage of used swap space.
+
+              kbswpcad
+                     Amount of cached swap memory in kilobytes.  This is  mem-
+                     ory  that  once  was  swapped out, is swapped back in but
+                     still also is in the swap area (if memory  is  needed  it
+                     doesn’t  need  to  be  swapped  out  again  because it is
+                     already in the swap area. This saves I/O).
+
+
+#Load
+-q     Report queue length and load averages. The following values  are
+              displayed:
+
+              runq-sz
+                     Run  queue  length  (number  of processes waiting for run
+                     time).
+
+              plist-sz
+                     Number of processes in the process list.
+
+              ldavg-1
+                     System load average for the last minute.
+
+              ldavg-5
+                     System load average for the past 5 minutes.
+
+              ldavg-15
+                     System load average for the past 15 minutes.
+
+
+
+#Disk
+       -d     Report  activity  for  each  block device (kernels 2.4 and newer
+              only).  When data is displayed, the device specification dev m-n
+              is  generally  used ( DEV column).  m is the major number of the
+              device.  With recent kernels (post 2.5), n is the  minor  number
+              of  the  device, but is only a sequence number with pre 2.5 ker-
+              nels.
+
+              tps
+
+              rd_sec/s
+
+              wr_sec/s
+
+
+
+#Interfaces
+       -n DEV | EDEV | SOCK | FULL
+              Report network statistics.
+
+              With the DEV keyword, statistics from the  network  devices  are
+              reported.  The following values are displayed:
+
+              IFACE
+
+
+              rxpck/s
+
+              txpck/s
+
+
+              rxbyt/s
+
+
+              txbyt/s
+
+
+              rxcmp/s
+
+              txcmp/s
+
+
+              rxmcst/s
+
+
+              With  the EDEV keyword, statistics on failures (errors) from the
+              network devices are reported.  The  following  values  are  dis-
+              played:
+
+              IFACE
+                     Name  of  the  network interface for which statistics are
+                     reported.
+
+              rxerr/s
+                     Total number of bad packets received per second.
+
+              txerr/s
+                     Total number of errors that  happened  per  second  while
+                     transmitting packets.
+
+              coll/s
+                     Number  of  collisions  that  happened  per  second while
+                     transmitting packets.
+
+              rxdrop/s
+                     Number of received packets dropped per second because  of
+                     a lack of space in linux buffers.
+
+              txdrop/s
+                     Number  of transmitted packets dropped per second because
+                     of a lack of space in linux buffers.
+
+              txcarr/s
+                     Number of carrier-errors that happened per  second  while
+                     transmitting packets.
+
+              rxfram/s
+                     Number of frame alignment errors that happened per second
+                     on received packets.
+
+              rxfifo/s
+                     Number of FIFO overrun errors that happened per second on
+                     received packets.
+
+              txfifo/s
+                     Number of FIFO overrun errors that happened per second on
+                     transmitted packets.
+
+              With  the  SOCK  keyword,  statistics  on  sockets  in  use  are
+              reported.  The following values are displayed:
+
+              totsck
+                     Total number of used sockets.
+
+              tcpsck
+                     Number of TCP sockets currently in use.
+
+              udpsck
+                     Number of UDP sockets currently in use.
+
+              rawsck
+                     Number of RAW sockets currently in use.
+
+              ip-frag
+                     Number of IP fragments currently in use.
+
+              The  FULL  keyword  is equivalent to specifying all the keywords
+              above and therefore all the network activities are reported.
+
+
+
+

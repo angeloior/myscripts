@@ -1,0 +1,15 @@
+#
+show config catturando l'output da terminale
+
+#
+To save config to switch
+show config outfile configs/switch1-172-16.1.cfg
+
+->To copy config to TFTP server>
+>>copy configs/Dec16_09.cfg  tftp://192.168.0.90/Dec16_09.cfg
+
+->To pull config from tftp server to switch
+>> copy tftp://192.168.0.90/Dec16_09.cfg configs/Dec16_09.cfg
+
+->Make running:
+>>configure configs/Dec16_09.cfg <<

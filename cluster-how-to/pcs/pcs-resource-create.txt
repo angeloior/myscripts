@@ -1,0 +1,4 @@
+pcs resource create acm2crontab lsb:acm2-crontab --group home_group
+
+pcs resource create dataingest lsb:dataingest --group home_group --before acm2_vip
+pcs resource create dataingest lsb:dataingest --group ingest-group

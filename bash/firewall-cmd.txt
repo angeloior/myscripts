@@ -1,0 +1,36 @@
+systemctl status firewalld.service
+
+#la tui
+yum install system-config-firewall-tui
+
+system-config-firewall-tui
+
+add port
+https://www.rootusers.com/how-to-open-a-port-in-centos-7-with-firewalld/
+[root@centos7 ~]# firewall-cmd --permanent --add-port=100/tcp
+success
+[root@centos7 ~]# firewall-cmd --reload
+success
+
+#zone
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
+
+
+#altro
+Use this command to find your active zone(s):
+
+firewall-cmd --get-active-zones
+It will say either public, dmz, or something else. You should only apply to the zones required.
+
+In the case of dmz try:
+
+firewall-cmd --zone=dmz --add-port=2888/tcp --permanent
+Otherwise, substitute dmz for your zone, for example, if your zone is public:
+
+firewall-cmd --zone=public --add-port=2888/tcp --permanent
+Then remember to reload the firewall for changes to take effect.
+
+firewall-cmd --reload
+
+#remove port
+https://serverfault.com/questions/818996/how-to-remove-access-to-a-port-using-firewall-on-centos7

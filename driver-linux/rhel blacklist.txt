@@ -1,0 +1,34 @@
+   966  cat /proc/net/bonding/bond0
+   967  cat /proc/net/bonding/bond1
+   968  ssh acm2-2
+   969  history | grep mod
+   970  ls -la /input/
+   971  df -h
+   972  ls -la
+   973  cd /etc/udev
+   974  ls -la
+   975  cd rules.d/
+   976  ls -la
+   977  cat 70-persistent-net.rules
+   978  cd
+   979  cd /etc/modprobe.d/
+   980  ls -la
+   981  rpm -qa | grep nx
+   982  rpm -ql hp-nx_nic-tools-4.0.596.1-4.noarch
+   983  grep netx *
+   984  rpm -ql kernel | grep netxen_nic
+   985  modinfo netxen_nic
+   986  rpm -q --whatprovides /etc/modprobe.d/blacklist.conf
+   987  rpm -qi hwdata-0.233-16.1.el6.noarch
+   988  cd
+   989  mount -o loop rhel-server-6.8-x86_64-dvd.iso /mnt
+   990  ls -la /mnt/Packages/hwdata-0.233-16.1.el6.noarch.rpm
+   991  mkdir hwdata
+   992  cd hwdata
+   993  rpm2cpio /mnt/Packages/hwdata-0.233-16.1.el6.noarch.rpm | cpio -idmv
+   994  diff ./etc/modprobe.d/blacklist.conf /etc/modprobe.d/blacklist.conf
+   995  cp -p ./etc/modprobe.d/blacklist.conf /etc/modprobe.d/blacklist.conf
+   996  scp -p ./etc/modprobe.d/blacklist.conf acm2-2:/etc/modprobe.d/blacklist.conf
+   997  ls -la /etc/modprobe.d/*
+   998  cd ..
+   999  rm -rf hwdata

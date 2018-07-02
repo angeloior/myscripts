@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+
+#variabili
+FILELOG="/usr/local/log/backup-home.txt"
+mailto=
+mailonerror=
+mailonerror=$mailto
+subject=" $HOSTNAME Tar Home"
+aux=1
+dt=$(date)
+echo "Inizio" $dt > $FILELOG
+
+#tar
+tar -cjvpf $PERCORSO_OUT/home.tar.bz2 /home 2>&1 | tee -a $FILELOG
+aux=$?
+
+echo "Fine" $dt >> $FILELOG
+
+#mail condizionale
+if [ $aux -eq 0 ];
+
+        then
+                echo "$subject OK($aux)" >>${FILELOG}
+                cat ${FILELOG} | mail -s "$subject OK($aux)" $mailto
+
+        else
+                echo "$subject KO($aux)" >>${FILELOG}
+                cat ${FILELOG} | mail -s "$subject KO($aux)" $mailonerror
+fi

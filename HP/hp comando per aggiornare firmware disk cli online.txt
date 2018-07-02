@@ -1,0 +1,11 @@
+ 974  export http_proxy=192.4.21.168:8080
+  975  wget http://ftp.hp.com/pub/softlib2/software1/sc-linux-fw/p1411021440/v72912/CP016174.scexe
+  976  ls -lrt
+  977  wget http://ftp.hp.com/pub/softlib2/software1/sc-linux-fw/p1411021440/v86948/CP020217.scexe
+  978  sh ./CP020217.scexe
+  979  strings CP020217.scexe
+  980  ls -la CP*
+  981  ./CP020217.scexe
+  982  chmod u+x
+  983  chmod u+x CP020217.scexe
+  984  ./CP020217.scexe

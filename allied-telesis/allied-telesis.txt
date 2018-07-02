@@ -1,0 +1,6 @@
+#allied telesis sequence command to backup configuration via cli
+
+dir
+copy running-config test.cfg
+copy test.cfg 172.16.100.90 test.cfg
+--- in realtà non funziona sui nostri

@@ -1,0 +1,18 @@
+simulazione fallimento di una risorsa, da help crm_simulate --help
+
+#simualazione p9500_7200RPM
+prima. nota i valori del monitor devono essere attendibili
+crm_simulate --live-check --verbose --simulate --op-inject p9500_7200RPM_monitor_20000@acm2-2=7 --op-fail p9500_7200RPM_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+
+poi
+crm_simulate --simulate --xml-file /tmp/testa.xml
+
+
+#simualazione fallimento dataingest
+crm_simulate --live-check --verbose --simulate --op-inject dataingest_monitor_20000@acm2-2=7 --op-fail dataingest_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+
+#simualazione fallimento input
+crm_simulate --live-check --verbose --simulate --op-inject input_monitor_20000@acm2-2=7 --op-fail input_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+
+#simualazione fallimento archive_2017_fs
+crm_simulate --live-check --verbose --simulate --op-inject archive_2017_fs_monitor_20000@acm2-2=7 --op-fail archive_2017_fs_stop_0@acm2-2=1 --save-output /tmp/testa.xml

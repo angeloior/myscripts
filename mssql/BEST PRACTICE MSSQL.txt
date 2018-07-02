@@ -1,0 +1,34 @@
+microsoft sql best practices
+https://technet.microsoft.com/en-us/library/cc966412.aspx
+https://technet.microsoft.com/en-us/library/cc966534.aspx
+
+!!!For the TEMPDB database, create 1 data file per CPU, as described in #8 below.
+
+#licensing
+http://serverfault.com/questions/6988/how-to-view-sql-server-licenses
+
+https://www.mssqltips.com/sqlservertip/1432/tempdb-configuration-best-practices-in-sql-server/
+tempdb
+
+https://www.mssqltips.com/sqlservertip/1707/sql-server-worst-practices/
+no update
+versioni sql https://sqlserverbuilds.blogspot.it/
+
+https://www.mssqltips.com/sqlservertip/3235/sql-server-hardware-configuration-best-practices/
+Disk IO - separazione su più dischi dei componenti (Windows, Backup, Text Logs, SysDB, TransactioLogs, UserDB. tipo di disco MBR Basic NTFS 64 KB 
+Data File IO, multiple data file
+RAM
+Network I/O - dedicate network to specific traffic
+https://www.mssqltips.com/sqlservertip/1328/hard-drive-configurations-for-sql-server/
+
+https://www.mssqltips.com/sqlservertip/1278/sql-server-dba-database-management-checklist/
+https://www.mssqltips.com/sqlservertip/1240/sql-server-dba-checklist/
+
+https://www.emc.com/collateral/white-papers/h12341-sqlserver-bp-wp.pdf
+no autogrow ma pre-allocate
+no autoshrink
+
+
+
+
+

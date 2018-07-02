@@ -1,0 +1,7 @@
+esempio che il cluster non deve fare nulla
+
+Apr 21 09:15:08 acm2-1 crmd[9491]:   notice: State transition S_IDLE -> S_POLICY_ENGINE [ input=I_PE_CALC cause=C_TIMER_POPPED origin=crm_timer_popped ]
+Apr 21 09:15:08 acm2-1 crmd[9491]:   notice: Transition 1118 (Complete=0, Pending=0, Fired=0, Skipped=0, Incomplete=0, Source=/var/lib/pacemaker/pengine/pe-input-456.bz2): Complete
+Apr 21 09:15:08 acm2-1 crmd[9491]:   notice: State transition S_TRANSITION_ENGINE -> S_IDLE [ input=I_TE_SUCCESS cause=C_FSA_INTERNAL origin=notify_crmd ]
+
+http://blog.clusterlabs.org/blog/2013/debugging-pacemaker

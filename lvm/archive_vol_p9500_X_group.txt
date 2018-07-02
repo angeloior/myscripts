@@ -1,0 +1,10 @@
+#creazione del volume - procedura
+
+lvcreate -L +3T -n mysql archive_vol_p9500_2_group
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_2_group/mysql
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_2_group/mysql
+
+
+lvcreate -L +3T -n mysql archive_vol_p9500_1_group
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_1_group/mysql
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_1_group/mysql

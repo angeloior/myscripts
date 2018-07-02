@@ -1,0 +1,28 @@
+sono su wwwdb2 e devo risettare il master che è wwwdb1
+
+mysql> CHANGE MASTER TO
+    ->     MASTER_HOST='wwwdb1-ic',
+    ->     MASTER_USER='c',
+    ->     MASTER_PASSWORD='c',
+    ->     MASTER_LOG_FILE='recorded_log_file_name',
+    ->     MASTER_LOG_POS=recorded_log_position;
+
+
+CHANGE MASTER TO MASTER_HOST='wwwdb1-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=4;
+CHANGE MASTER TO MASTER_HOST='wwwdb2-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=4;
+
+
+show master status su wwwdb1
+ mysql-bin.000126 | 14405684 |              | meteoam7_cache 
+CHANGE MASTER TO MASTER_HOST='wego1-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=4;
+
+
+CHANGE MASTER TO MASTER_HOST='frododb', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.005698', MASTER_LOG_POS=520074207;
+
+ mysql-bin.005698 | 520074207
+
+ 
+# per resettare slave: reset slave; oppure reset slave all;
+
+	
+	

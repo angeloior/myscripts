@@ -1,0 +1,45 @@
+etichetta="catalog,$1,$2"
+echo etichetta:$etichetta
+
+###############################################################################################
+checkcomp=`tapeinfo -f /dev/tape | grep DataCompEnabled | awk -F": " {'print$2'}`
+echo compenabled:$checkcomp
+#mt -f /dev/tape compression 0
+
+tapeblocksize=`mt -f /dev/st0 status | grep "Tape block size" | awk {'print$4'}`
+echo tapeblocksize:$tapeblocksize
+#blocksize = 0 significa variabile block size e significa portabilità.
+#quando fai verifica su altro drive devi tenerne conto nel tipo di drive (/dev/nst0).
+#mt -f /dev/tape defblksize 0
+###############################################################################################
+
+
+
+if [ "$checkcomp" == "no" ] && [ $tapeblocksize -eq 0 ]; then
+
+   array=($catalog $oggetto1 $oggetto2)
+   echo  "${array[@]}"
+
+   #ciclo di backup
+   for i in "${array[@]}"
+   do
+   echo "filedibackup:$i" | tee -a $logfile
+     #etichetta=`basename $i`
+     #echo etichetta:$etichetta
+
+     tar --create --multi-volume --verbose --label=$etichetta --file /dev/tape $i
+     aux=$?
+     if [ "$aux" -ne 0 ]; then
+       echo "$subject KO" | tee -a $logfile
+       cat $logfile | mail -s "$subject KO" $mailonerror -- -F $mailfrom
+       exit 1
+     fi
+   done
+
+   echo "fare verifica manuale! tar Mtvf /dev/tape o tar Mtvf /dev/nst0 " | tee -a $logfile
+
+else
+   echo "compressione abilitata / block size diverso da 0" | tee -a $logfile
+   echo "$subject KO" | tee -a $logfile
+   cat $logfile | mail -s "$subject KO" $mailonerror -- -F $mailfrom
+fi

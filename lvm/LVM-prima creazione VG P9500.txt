@@ -1,0 +1,97 @@
+#add tag
+lvchange --addtag pacemaker /dev/archive_vol_p9500_7200RPM_group/2014
+
+
+acm2-1
+pcs resource disable dataingest
+  928  pcs resource disable gestprocedure
+  929  pcs status
+ 937  parted /dev/mapper/mpathi
+  938  parted /dev/mapper/mpathj mklabel gpt
+  939  parted /dev/mapper/mpathk mklabel gpt
+  940  parted /dev/mapper/mpathl mklabel gpt
+  941  parted /dev/mapper/mpathm mklabel gpt
+  942  parted /dev/mapper/mpathn mklabel gpt
+  943  parted /dev/mapper/mpatho mklabel gpt
+  944  parted /dev/mapper/mpathi mkpart primary 0% 100%
+  945  parted /dev/mapper/mpathj mkpart primary 0% 100%
+  946  parted /dev/mapper/mpathk mkpart primary 0% 100%
+  947  parted /dev/mapper/mpathl mkpart primary 0% 100%
+  948  parted /dev/mapper/mpathm mkpart primary 0% 100%
+  949  parted /dev/mapper/mpathn mkpart primary 0% 100%
+  951  parted /dev/mapper/mpathi
+  952  parted /dev/mapper/mpathj set 1 lvm on
+  953  parted /dev/mapper/mpathk set 1 lvm on
+  954  parted /dev/mapper/mpathl set 1 lvm on
+  955  parted /dev/mapper/mpathm set 1 lvm on
+  956  parted /dev/mapper/mpathn set 1 lvm on
+  957  parted /dev/mapper/mpatho set 1 lvm on
+  parted -l | grep lvm  ######################################### fondamentale
+  960  parted -l | grep 2147
+  vgcreate archive_vol_p9500_7200RPM_group /dev/mapper/mpathip1 --addtag pacemaker --config 'activation { volume_list = [ "@pacemaker" ] }'
+  968  vgdisplay
+  969  vgextend archive_vol_p9500_7200RPM_group /dev/mapper/mpathjp1
+  970  vgextend archive_vol_p9500_7200RPM_group /dev/mapper/mpathkp1
+  971  vgextend archive_vol_p9500_7200RPM_group /dev/mapper/mpathlp1
+  972  vgextend archive_vol_p9500_7200RPM_group /dev/mapper/mpathmp1
+  973  vgextend archive_vol_p9500_7200RPM_group /dev/mapper/mpathnp1
+  974  vgextend archive_vol_p9500_7200RPM_group /dev/mapper/mpathop1
+  975  vgdisplay
+  976  vgdisplay archive_vol_p9500_7200RPM_group
+  977  vgdisplay -v archive_vol_p9500_7200RPM_group
+  978  pvdisplay
+  979  vgdisplay
+  980  lvcreate --addtag pacemaker -L +6144G -n 2015 archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+  
+  
+  981  lvdisplay
+  982  lvdisplay | more
+  983  vgdisplay
+  984  vgchange -a n archive_vol_p9500_1_group
+  985  vgchange -a n archive_vol_p9500_7200RPM_group
+tune2fs -l /var
+
+
+acm2-2
+vgchange -a y archive_vol_p9500_1_group
+  505  man vgchange
+  506  vgdisplay -v archive_vol_p9500_1_group
+  507  history | grep vgs
+  508  vgs -o vg_all
+  509  man vgchange
+  510  vgchange --deltag acm2-1.cnmca.meteoam.it archive_vol_p9500_1_group
+  pcs status
+  520  pcs resource enable gestprocedure
+  521  pcs resource enable dataingest
+  522  pcs status
+  523  pcs resource cleanup dataingest
+  524  pcs status
+ls -la /dev/mapper/
+  536  parted /dev/mapper/mpathi
+  537  ls -la /dev/mapper/
+  538  parted /dev/mapper/mpathi set 1 lvm on
+  539  ls -la /dev/mapper/
+   parted /dev/mapper/mpathj set 1 lvm on
+  541  parted /dev/mapper/mpathk set 1 lvm on
+  542  parted /dev/mapper/mpathl set 1 lvm on
+  543  parted /dev/mapper/mpathm set 1 lvm on
+  544  parted /dev/mapper/mpathn set 1 lvm on
+  545  parted /dev/mapper/mpatho set 1 lvm on
+  546  ls -la /dev/mapper/
+  547  ls -lrt /dev/mapper/
+   pcs status
+  564  pcs resource create p9500_7200RPM LVM volgrpname=archive_vol_p9500_7200RPM_group exclusive=true
+  565  pcs status
+  566  grep "acm2-2" /var/lib/pacemaker/cib/cib.xml
+  567  pcs status
+  568  pcs constraint
+  569  pcs constraint colocation add p9500_7200RPM home_group INFINITY
+
+ tune2fs -l /dev/mapper/archive_vol_p9500_1_group-temp_clima
+  575  lvdisplay | more
+  576  mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/2015
+  577  tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/2015
+
+
+  
+  

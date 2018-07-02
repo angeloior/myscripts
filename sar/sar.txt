@@ -1,0 +1,9 @@
+install sar suse
+https://www.suse.com/documentation/sles11/singlehtml/book_sle_tuning/book_sle_tuning.html
+
+/etc/init.d/boot.sysstat start
+
+install sar rhel
+https://access.redhat.com/solutions/276533
+
+rpm -ivhf sysstat....

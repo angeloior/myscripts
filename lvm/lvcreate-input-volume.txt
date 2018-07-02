@@ -1,0 +1,12 @@
+lvcreate --addtag pacemaker -L 150G -n input archive_vol_p9500_7200RPM_group --config 'activation { volume_list = [ "@pacemaker" ] }'
+mkfs.ext4 -E stride=64 /dev/archive_vol_p9500_7200RPM_group/input
+tune2fs -c -1 -i 0 /dev/archive_vol_p9500_7200RPM_group/input
+
+pcs resource create input Filesystem device="/dev/archive_vol_p9500_7200RPM_group/input" directory="/input" fstype="ext4" options="nodelalloc" --group filesystem-group --after p9500_7200RPM
+
+pcs constraint colocation add input p9500_7200RPM INFINITY -- sostituito dall'inserimnto nel gruppo
+--group filesystem-group --after  p9500_7200RPM
+
+
+
+pcs constraint order start p9500_7200RPM then start input -- ncessario solo per questo volume speciale

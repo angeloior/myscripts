@@ -1,0 +1,9 @@
+First test bzip2 compression, It should output OK.
+
+bzip2 -tv FILE.tar.bz2
+Next uncompress the tarball, to get just the tar.
+
+bunzip2 FILE.tar.bz2
+Finally verify the tar file,
+
+tar -tvfW FILE.tar

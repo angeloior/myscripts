@@ -1,0 +1,32 @@
+http://community.hpe.com/t5/System-Administration/Syslogd-on-Tru64/td-p/5070924
+After I stop and start syslog
+
+:/sbin/init.d>#./syslog stop
+:/sbin/init.d>#./syslog start
+System error logger started
+
+:/var/adm/syslog.dated/current>#ps -eaf |grep syslog
+root 1351502 1048577 0.0 06:41:04 ?? 0:00.01 /usr/sbin/syslogd -e
+root 1354185 1351227 0.0 06:54:52 pts/1 0:00.01 grep syslog
+
+
+Hi, I try logger and show only this in user.log file.
+
+:>#logger -p kern.debug teste 2
+:>#more user.log 
+Sep 26 07:40:25 ctame1 acsg31: teste 2
+
+terminal display with syslog -d command.
+
+ctame1:/sbin/init.d>#syslogd -d
+Unix socket receive buffer set to 128 KB
+Inet socket receive buffer set to 128 KB
+off & running....
+init
+cfline(kern.debug /var/adm/syslog.dated/kern.log)
+cfline(kern.* /var/adm/syslog.dated/kern.log)
+
+da manuale
+
+kill -HUP 'cat /var/run/syslog.pid'
+to reread syslog its configuration file.

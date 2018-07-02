@@ -1,0 +1,7 @@
+come modificare cluster heartbeat. attento alla versione di pcs
+
+#new version
+cibadmin --query --scope resources > test.xml
+vim test.xml
+cibadmin --replace --scope resources --xml-file test.xml
+cibadmin --replace --scope resources --xml-file con2017.xml

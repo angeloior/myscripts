@@ -1,0 +1,91 @@
+#!/bin/bash
+
+#specifiche
+#database server dinamico 
+#backup databases dinamici
+#database cache solo struttura - non dati
+#svecchiamento condizionale su esito backup
+#logging
+#mailto e mailon error
+
+#variabili
+DATA=`date +%Y%m%d_%H%M%S`
+FILEDILOG="/usr/local/bin/backup/log-backupDB.txt"
+dbuser=root
+dbpass=Manager
+dbname=$1
+backupdir="/home/BackupMeteoam/$dbname"
+backupfiledamantenere=+30
+mailto=
+DBSERVER=172.17.1.24
+
+#check se dbname ha cache
+if [[ "$dbname" != *cache* ]] ; then
+    
+	#database CON dati
+	echo Backupping... $dbname >>${FILEDILOG}
+	mysqldump -h ${DBSERVER} -u $dbuser --password=$dbpass $dbname | bzip2 > $backupdir/$1_${DATA}.sql.bz2
+	
+	# valuto l'esito del comando mysqldump >>${FILEDILOG}
+	if [ "$?" -eq 0 ]
+
+	then
+
+		echo "Backup $dbname OK" >>${FILEDILOG}
+		echo "lista dei file PRIMA dello svecchiamento" >>${FILEDILOG}
+		ls -lh $backupdir >>${FILEDILOG}
+
+		#svecchio il contenuto della cartella contenente i backup file
+		#find $backupdir -type f -mtime $backupfiledamantenere -name "*.sql" -exec rm -f {} \;
+		find $backupdir -type f -mtime $backupfiledamantenere -name "*.sql.bz2" -exec rm -f {} \;
+		
+		echo "lista dei file DOPO lo svecchiamento" >>${FILEDILOG}
+		ls -lh $backupdir >>${FILEDILOG}
+
+		#mando mail con esito
+		#cat ${FILEDILOG}| mail -s "MYSQL Backup $dbname OK" $mailto
+
+	else
+
+		echo "Backup $dbname KO $?" >>${FILEDILOG}
+		#mando mail con exitcodes
+		#cat l{FILEDILOG} | mail -s "MYSQL Backup $dbname KO" $mailto
+	
+	#fine ciclo esito mysqldump
+	fi
+
+else
+    #database SENZA dati solo struttura ha la cache
+	echo Backupping... $dbname >>${FILEDILOG}
+	mysqldump -h ${DBSERVER} -u $dbuser --password=$dbpass -d $dbname | bzip2 > $backupdir/$1_${DATA}.sql.bz2
+	
+	# valuto l'esito del comando mysqldump >>${FILEDILOG}
+	if [ "$?" -eq 0 ]
+
+	then
+
+		echo "Backup $dbname OK" >>${FILEDILOG}
+		echo "lista dei file PRIMA dello svecchiamento" >>${FILEDILOG}
+		ls -lh $backupdir >>${FILEDILOG}
+
+		#svecchio il contenuto della cartella contenente i backup file
+		#find $backupdir -type f -mtime $backupfiledamantenere -name "*.sql" -exec rm -f {} \;
+		find $backupdir -type f -mtime $backupfiledamantenere -name "*.sql.bz2" -exec rm -f {} \;
+		
+		echo "lista dei file DOPO lo svecchiamento" >>${FILEDILOG}
+		ls -lh $backupdir >>${FILEDILOG}
+
+		#mando mail con esito
+		#cat ${FILEDILOG}| mail -s "MYSQL Backup $dbname OK" $mailto
+
+	else
+
+		echo "Backup $dbname KO $?" >>${FILEDILOG}
+		#mando mail con exitcodes
+		#cat ${FILEDILOG} | mail -s "MYSQL Backup $dbname KO" $mailto
+	
+	#fine ciclo esito mysqldump
+	fi
+
+#fine ciclo check cache
+fi

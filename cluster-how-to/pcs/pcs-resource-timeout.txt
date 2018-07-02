@@ -1,0 +1,7 @@
+pcs resource op defaults
+e
+pcs resource defaults
+
+questi comandi mostrano lo stato attuale della configurazione.
+
+se si vuole modificare allora mettere il valore come parametro successivo

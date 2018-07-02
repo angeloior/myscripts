@@ -1,0 +1,19 @@
+#mysql 5.7
+
+https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization-mysqld.html
+
+e' diverso da 5.5 non si fa con mysql_install_db
+
+
+mysql5713/bin/mysqld --defaults-file=/var/lib/mysql57test/my4.cnf --initialize --user=mysql
+
+2016-08-11T11:47:06.461043Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+ 100 200
+ 100 200
+ 100 200
+2016-08-11T11:47:10.188685Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2016-08-11T11:47:10.710280Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2016-08-11T11:47:10.793998Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 569a98e5-5fb9-11e6-8307-984be17c6ecd.
+2016-08-11T11:47:10.796106Z 0 [Warning] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+2016-08-11T11:47:12.163506Z 0 [Warning] CA certificate ca.pem is self signed.
+2016-08-11T11:47:13.132566Z 1 [Note] A temporary password is generated for root@localhost: =PLP_gh:i9rW

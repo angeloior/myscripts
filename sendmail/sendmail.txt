@@ -1,0 +1,19 @@
+[root@serverbck1 mail]# grep smtp.dmz.meteoam.it *
+sendmail.cf:DS[smtp.dmz]
+sendmail.mc:dnl #define(`SMART_HOST', `smtp.dmz')dnl
+sendmail.mc:define(`SMART_HOST', `[smtp.dmz]')dnl
+sendmail.mc:dnl #DAEMON_OPTIONS(`Port=smtp,Addr=smtp.dmz Name=MTA')dnl
+
+edit:
+quindi commentare con # la riga
+dnl #define(`SMART_HOST', `smtp.yourprovider.com')dnl
+
+aggiungere sotto
+define(`SMART_HOST', `[smtp.dmz]')dnl
+
+service sendmail status
+0) backup dei file mc e cf
+1) edit sendmail.mc
+2-pre) installare sendmail-cf se assente per usare il comando m4
+2) m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+3) service sendmail restart

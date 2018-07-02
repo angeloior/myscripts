@@ -1,0 +1,42 @@
+﻿inventario licenze
+ how to https://access.redhat.com/discussions/480953
+
+comando per conoscere i socket
+
+$ lscpu | grep 'socket'
+
+
+
+altro comando più generico per conoscere i socket
+
+cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l
+
+
+
+altro comando che mostra i socket ed i core per socket
+
+egrep -e "core id" -e ^physical /proc/cpuinfo | xargs -l2 echo | sort -u
+
+
+Check if HyperThreading is enabled
+regola: numero# of siblings = numero# of cores 
+
+    
+cat /proc/cpuinfo |egrep 'sibling|cores' 
+   
+ grep -i "processor" /proc/cpuinfo | sort -u | wc -l 
+
+
+
+Hyperthreading can be found with lscpu too:
+
+
+# lscpu | grep -i thread
+
+Thread(s) per core:    2
+
+
+#cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l
+0
+
+

@@ -1,0 +1,15 @@
+acm_1_dmn#ids_acm_1_fs          400G         75G        198G    28%    /informix/ids_acm_1
+bdm_dmn#ids_bdm_fs              200G         63G        133G    33%    /informix/ids_bdm
+aom_dmn#ids_aom_fs              200G         81G        116G    42%    /informix/ids_aom
+data2_dmn#data2_fs              200G         86G        113G    44%    /data2
+acm_1_dmn#acm_fs                400G         47G        198G    20%    /acm
+
+mount -t advfs acm_1_dmn#acm1_clone /mnt/acm1_clone
+mount -t advfs bdm_dmn#bdm_clone /mnt/bdm_clone
+mount -t advfs aom_dmn#aom_clone /mnt/aom_clone
+mount -t advfs data2_dmn#data2_clone /mnt/data2_clone
+mount -t advfs acm_1_dmn#acm_clone /mnt/acm_clone
+
+find . -inum 57324 -exec mv '{}' test \;
+
+/etc/vdumpdates

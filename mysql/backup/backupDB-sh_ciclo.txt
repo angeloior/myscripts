@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Backup DB MySQL
+# se il database e' cache allora senza dati - solo struttura
+
+# Sysman Progetti & Servizi SRL
+# Febbraio 2015
+
+DATA=`date +%Y%m%d_%H%M%S`
+FILEDILOG="/usr/local/bin/backup/log-backupdb.txt"
+USER="root"
+PASSWORD=
+
+echo Backup START ${DATA} >${FILEDILOG}
+
+databases=`mysql --user=$USER --password=$PASSWORD -e "SHOW DATABASES;" | tr -d "| " | grep -v Database`
+
+for db in $databases; do
+    if [[ "$db" != "information_schema" ]] && [[ "$db" != _* ]] ; then
+        
+		#echo a schermo per trb
+		echo "Dumping database: $db"
+        /bin/sh /usr/local/bin/backup/routine-backup.sh $db
+    fi
+done
+echo Backup END ${DATA} >>${FILEDILOG}

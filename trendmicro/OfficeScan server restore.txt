@@ -1,0 +1,30 @@
+Restoring the OfficeScan Server backup and configuration files
+
+SUMMARY
+Restore the database and configuration file backup of your OfficeScan server.
+Note: The following solution assumes that the OfficeScan server is being restored to the same host machine with the same FQDN and IP address, and will use the existing OfficeScan SQL database.
+DETAILS
+To restore the database:
+Stop the following services:
+OfficeScan Master Service
+WWW Publishing Service
+Verify the current database engine type.
+Go to ..\PCCSRV\Private\Ofcserver.ini.
+Look for the value of DBE_ENGINE:
+[INI_DBE_ENGINE_SECTION]
+CodeBase: DBE_ENGINE=1001 
+SQL Server: DBE_ENGINE=1002
+Note: The OfficeScan server uses CodeBase by default.
+Back up and restore the database by doing one of the following:
+For CodeBase, restore the backup database files under . .\PCCSRV\HTTPDB.
+For SQL Server, no additional steps required.
+Restore the OfficeScan server and Firewall policy configurations:
+\Program Files\Trend Micro\OfficeScan\PCCSRV\ Ofcscan.ini
+\Program Files\Trend Micro\OfficeScan\PCCSRV\Private \ Ofcserver.ini
+\Program Files\Trend Micro\OfficeScan\PCCSRV\ Ous.ini
+\Program Files\Trend Micro\OfficeScan\PCCSRV\Private\PFW directory
+From the command prompt, go to \Program Files\Trend Micro\ OfficeScan folder and run the following command:
+svrsvcsetup.exe -setprivilege
+Start the following services:
+OfficeScan Master Service
+WWW Publishing Service

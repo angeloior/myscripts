@@ -1,0 +1,10 @@
+#!/bin/bash
+#Use: send mail in shell script with attachment
+#Prepared By: Online cyber Study Group
+TO_ADDRESS=”testusr@domain.com”
+FROM_ADDRESS=”sender@yourdomain.com”
+SUBJECT=”linux mail send attachment”
+BODY_FILE=”server.dat”
+ATTACHMENT_FILE=”serverlogfile.txt”
+CC_LIST=”testuser2@gmail.com;testuser3@redhat.com;testuser3@onlinecyberstudy.com”
+uuencode ${ATTACHMENT_FILE} | mail -s ${SUBJECT} -c ${CC_LIST} ${TO_ADDRESS} — -r ${FROM_ADDRESS} < ${BODY_FILE}

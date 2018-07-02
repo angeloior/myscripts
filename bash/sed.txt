@@ -1,0 +1,14 @@
+#!/bin/sh
+cd /usr/local/bin
+filedacambiare=`grep ciccio *.sh | awk -F":" {'print$1'}`
+#echo ${filedacambiare[@]}
+#exit 0
+echo "###prima###"
+grep ciccio *.sh | awk -F":" {'print$1'}
+
+for i in ${filedacambiare[@]}
+  do
+   sed -i 's/ciccio/cogesist/g' $i
+done
+echo "###dopo###"
+grep cogesist *.sh | awk -F":" {'print$1'}

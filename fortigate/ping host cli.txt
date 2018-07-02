@@ -1,0 +1,6 @@
+execute ping command
+The execute ping command allows you to send an ICMP echo request (ping) to
+test the network connection between the FortiDB system and another network
+device.
+Syntax:
+execute ping {<ip> | <hostname>}

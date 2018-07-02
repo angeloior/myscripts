@@ -1,0 +1,31 @@
+https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction
+
+
+Types of storage accounts
+This table shows the various kinds of storage accounts and which objects can be used with each.
+
+Type of storage account
+General-purpose Standard
+General-purpose Premium
+Blob storage, hot and cool access tiers
+Services supported
+Blob, File, Queue Services
+Blob Service
+Blob Service
+Types of blobs supported
+Block blobs, page blobs, and append blobs
+Page blobs
+Block blobs and append blobs
+General-purpose storage accounts
+There are two kinds of general-purpose storage accounts.
+
+Standard storage
+The most widely used storage accounts are standard storage accounts, which can be used for all types of data. Standard storage accounts use magnetic media to store data.
+1 
+Premium storage
+Premium storage provides high-performance storage for page blobs, which are primarily used for VHD files. Premium storage accounts use SSD to store data. Microsoft recommends using Premium Storage for all of your VMs.
+1 
+Blob Storage accounts
+The Blob Storage account is a specialized storage account used to store block blobs and append blobs. You can't store page blobs in these accounts, therefore you can't store VHD files. These accounts allow you to set an access tier to Hot or Cool; the tier can be changed at any time.
+1 
+The hot access tier is used for files that are accessed frequently -- you pay a higher cost for storage, but the cost of accessing the blobs is much lower. For blobs stored in the cool access tier, you pay a higher cost for accessing the blobs, but the cost of storage is much lower.

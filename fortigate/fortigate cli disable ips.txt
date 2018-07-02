@@ -1,0 +1,19 @@
+High CPU usage Problem Fortigate
+CLI commands you can issue to try and correct the problem in the short term.
+
+# diag test application ipsmonitor 
+ 
+IPS Engine Test Usage: (Values for >
+1: Display IPS engine information
+2: Toggle IPS engine enable/disable status
+3: Display restart log
+4: Clear restart log
+5: Toggle bypass status
+6: Submit attack characteristics now
+97: Start all IPS engines
+98: Stop all IPS engines
+99: Restart all IPS engines and monitor
+
+The most common command that we issue to deal with the IPS Engine running high is the following which restarts the IPS process:
+
+# diag test application ipsmonitor 99

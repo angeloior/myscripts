@@ -1,0 +1,11 @@
+procedura wmware ufficiale
+questa procedura usa il comando vmkfstools di vmware
+vmkfstools permette tra l'altro anche di clonare o trasformare il disco in un altro formato
+vmkfstools è utile quando si vuole fare un backup del host virtuale, nello specifico fare una copia fisica
+il comando permette di clonare il disco ma trasformandolo in THIN allocation tale che le dimensioni del file e quindi del backup risultano più piccole.
+è un backup fisico ma più piccolo!
+
+http://serverfault.com/questions/311459/how-to-backup-virtual-machines-on-a-standalone-esxi-host
+/sbin/vmkfstools -i X.vmdk d thin Y.vmdk
+
+

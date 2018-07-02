@@ -1,0 +1,47 @@
+#validate configuration
+http://clusterlabs.org/doc/it-IT/Pacemaker/1.1-plugin/html/Clusters_from_Scratch/ch08s02s04.html
+[root@pcmk-1 ~]# ccs_config_validate
+Configuration validates
+
+
+
+crm_simulate --live-check --verbose --simulate --op-inject p9500_7200RPM_monitor_60001@acm2-2=7 --op-fail p9500_7200RPM_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+
+crm_simulate --live-check --verbose --simulate --op-inject input_monitor_60001@acm2-2=7 --op-fail input_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+
+crm_simulate --live-check --verbose --simulate --op-inject archive_2017_fs_monitor_60001@acm2-2=7 --op-fail archive_2017_fs_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+
+crm_simulate --live-check --verbose --simulate --op-inject dataingest_monitor_60001@acm2-2=7 --op-fail dataingest_stop_0@acm2-2=1 --save-output /tmp/testa.xml
+
+crm_simulate --simulate --verbose --xml-file /tmp/testa.xml | more
+
+
+
+il file xml contiene tutte le azioni previste, in particolare si vede se il clustre fa failover (operazione move)
+
+crm_simulate -sL ci dice i color cioè i pesi per muover e le risorse contro la stikiness (default)
+
+vedere la stickiness
+pcs config show
+
+per settare parametri meta
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Configuring_the_Red_Hat_High_Availability_Add-On_with_Pacemaker/s1-resourceopts-HAAR.html
+
+è meglio fare clustre opt-out perchè configurazione più semplice
+tutte le risorse possono girare ovunque
+
+lo score 0 indica che può fare failover e puo stare insieme ad un altro valore
+http://clusterlabs.org/doc/en-US/Pacemaker/1.1/html/Pacemaker_Explained/_symmetrical_opt_out_clusters.html
+
+#simula il nodo giù del tutto
+crm_simulate -sLV -d acm2-2
+
+
+#http://blog.clusterlabs.org/blog/2013/debugging-pengine
+grep pengine message e trovi il file bz2 
+/var/lib/pacemaker/pengine/pe-input-573.bz2
+
+lo passi a crm_simualte --xml-file file
+così vedi lo stato del cluster a quel momento
+
+

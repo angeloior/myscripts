@@ -1,0 +1,22 @@
+ svn database is locked, cannot release
+September 30, 2014
+Problem
+
+When I run: svn cleanup
+
+I get the error message:
+
+svn: E200033: database is locked, executing statement 'RELEASE s0'
+
+
+Solution
+
+
+$ cd /path-to-repository/.svn
+$ mv wc.db wc.db.old
+$ sqlite3 wc.db.old
+sqlite> .backup main wc.db
+sqlite> .exit
+
+
+After making sure it works, you can remove wc.db.old

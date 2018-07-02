@@ -1,0 +1,57 @@
+sul server master
+configurazione di /etc/my.cnf
+	[mysqld]
+	log-bin=mysql-bin
+	server-id=1
+
+restart Mysql
+GRANT REPLICATION SLAVE ON *.* TO 'ciccio'@'%' IDENTIFIED BY 'ciccio';
+flush privileges;
+show master status;
+use <nome del databases>
+flush tables with read lock;
+---non toccare nulla ed aprire un'altra shell
+fare mysql dump... (eventuale)
+unlock tables;
+quit;
+
+sul server slave
+create database <stesso nome del database>
+exit;
+import del database
+configurazione del /etc/my.cnf
+	[mysqld]
+	log-bin=mysql-bin
+	server-id=2
+restart Mysql
+CHANGE MASTER TO MASTER_HOST='wego2-ic', MASTER_USER='ciccio', MASTER_PASSWORD='ciccio', MASTER_LOG_FILE='mysql-bin.000003', MASTER_LOG_POS=107;
+start slave;
+show slave status\G;
+
+
+create user 'ciccio'@'%' identified by 'ciccio';
+
+
+ripristino sullo slave
+CHANGE MASTER TO MASTER_HOST='wego1-ic', MASTER_USER='ciccio', MASTER_PASSWORD='ciccio', MASTER_LOG_FILE='mysql-bin.000010', MASTER_LOG_POS=354425751;
+CHANGE MASTER TO MASTER_HOST='wego2-ic', MASTER_USER='ciccio', MASTER_PASSWORD='ciccio', MASTER_LOG_FILE='mysql-bin.000041', MASTER_LOG_POS=98;
+
+CHANGE MASTER TO MASTER_HOST='c', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=107;
+CHANGE MASTER TO MASTER_HOST='wego2-ic', MASTER_USER='ciccio', MASTER_PASSWORD='ciccio', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=194;
+
+#
+CHANGE MASTER TO MASTER_HOST='acm2-2-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.019148', MASTER_LOG_POS=107;
+
+#
+CHANGE MASTER TO MASTER_HOST='acm2-1-ic', MASTER_USER='c', MASTER_PASSWORD='c', MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=107;
+
+
+
+
+
+#testing
+create database c;
+create table c.dummy (`id` varchar(10)); 
+show tables in c;
+INSERT c.dummy SET id='ciao';
+select * from c.dummy;

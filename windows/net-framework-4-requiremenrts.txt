@@ -1,0 +1,6 @@
+https://docs.microsoft.com/en-us/dotnet/framework/get-started/system-requirements
+
+net framework requirements
+cpu 1ghz
+ram 512mb
+disk space 4.5

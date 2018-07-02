@@ -1,0 +1,25 @@
+come modificare cluster heartbeat. attento alla versione di heartbeat
+
+#delete a node
+cibadmin --cib_delete --obj_type nodes --crm_xml '<node id="748e5a55-83fb-409e-be62-0821194dbc1f" uname="web-clima-2" type="normal"/>'
+
+#modify a resource
+http://clusterlabs.org/doc/en-US/Pacemaker/1.0/html/Pacemaker_Explained/s-config-updates.html
+cibadmin --query --obj_type resources > tmp.xml
+vi tmp.xml
+cibadmin --replace --obj_type resources --xml-file tmp.xml
+
+#esempio per location constraints heartbeat v1
+cibadmin --cib_query --obj_type constraints > tmp.xml
+modifica della risorsa opportunamente ...
+cibadmin --cib_replace --obj_type constraints --xml-file tmp.xml
+
+#new version
+cibadmin --query --scope resources > test.xml
+vim test.xml
+cibadmin --replace --scope resources --xml-file test.xml
+
+
+
+
+

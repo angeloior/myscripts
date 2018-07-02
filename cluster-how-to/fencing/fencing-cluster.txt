@@ -1,0 +1,52 @@
+Stonith Devices:
+ Resource: kdump (class=stonith type=fence_kdump)
+  Attributes: pcmk_status_action=metadata pcmk_monitor_action=metadata pcmk_reboot_action=off pcmk_host_list=venere1-ic;venere2-ic
+  Operations: monitor interval=60s (kdump-monitor-interval-60s)
+
+  scsi   (stonith:fence_scsi):   Started bilbo2
+
+Stonith Devices:
+ Resource: scsi (class=stonith type=fence_scsi)
+  Attributes: pcmk_host_list="bilbo1 bilbo2" pcmk_reboot_action=off devices=/dev/mapper/mpatha,/dev/mapper/mpathb
+  Meta Attrs: provides=unfencing
+  Operations: monitor interval=60s (scsi-monitor-interval-60s)
+Fencing Levels:
+
+
+Stonith Devices:
+ Resource: kdump (class=stonith type=fence_kdump)
+  Attributes: pcmk_status_action=metadata pcmk_monitor_action=metadata pcmk_reboot_action=off pcmk_host_list=jack1-ic;jack2-ic
+  Operations: monitor interval=60s (kdump-monitor-interval-60s)
+Fencing Levels:
+
+https://access.redhat.com/articles/67570#cman
+modificare cluster.conf
+restart servizio kdump che ricarica immagine del kernel in memoria....!!!!!!
+start del servizio cman !!!! = restart del cluster
+
+https://access.redhat.com/solutions/2876971
+pacemaker meglio
+
+service kdump deve partire con chkconfig
+se non parte https://access.redhat.com/solutions/74233
+############## potenzialmente distruttivo ##############
+come settare il parametro al boot
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s2-kdump-configuration-cli.html
+necessario riavvio del server
+drbd salta
+gueest addictions saltano
+############## potenzialmente distruttivo ##############
+gli attuali cluster anche sono cman seguono pacemaker style, la conf è "sbagliata..."
+pcs stonith create kdump fence_kdump pcmk_reboot_action="off" pcmk_host_list="anio ioan"
+https://access.redhat.com/solutions/875883 mettere altri parametri
+pcs stonith create kdump fence_kdump pcmk_status_action="metadata" pcmk_monitor_action="metadata" pcmk_reboot_action="off" pcmk_host_list="anio;ioan"
+
+#
+verifica kdump (service started, chkconfig on)
+enable stonith: pcs property set stonith-enable=true
+pcs stonith create kdump fence_kdump pcmk_status_action="metadata" pcmk_monitor_action="metadata" pcmk_reboot_action="off" pcmk_host_list="acm2-1-ic;acm2-2-ic"
+non strettamente necessari i seguenti passaggi
+pcs stonith level add 1 anio kdump
+pcs stonith level add 1 ioan kdump
+pcs stonith level add 2 anio fence-anio
+pcs stonith level add 2 ioan fence-ioan

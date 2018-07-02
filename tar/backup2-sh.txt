@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# Script per il backup di sistema in single user
+#
+PERCORSO_OUT="/mnt"
+FILE_LOG="/usr/local/log/backup2.log"
+
+mount /dev/sda2 /mnt
+
+mkdir /usr/local/log
+rm -f $FILE_LOG
+
+#eventuali esclusioni
+#--exclude '*.BUFR' --exclude '*.bufr' --exclude 'lfff00000000*' --exclude 'iif.11.10.UC1DE.Linux-RHEL4.tar' --exclude 'backup_smsrad_14Ago2008.tar.gz'
+
+tar -cjvpf $PERCORSO_OUT/home.tar.bz2 /home 2>&1 | tee -a $FILE_LOG
+tar -cjvpf $PERCORSO_OUT/hsaf.tar.bz2 /hsaf 2>&1 | tee -a $FILE_LOG
+tar -cjvpf $PERCORSO_OUT/srv.tar.bz2 /srv 2>&1 | tee -a $FILE_LOG
+
+umount /mnt

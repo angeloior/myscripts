@@ -1,0 +1,1 @@
+mysql -u root -p -e "SHOW TABLES FROM wego_data;" | tr -d "| " | tail -n 11 | grep -vx binary_data | tr '\n' ' '

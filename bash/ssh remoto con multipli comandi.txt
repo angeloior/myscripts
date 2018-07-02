@@ -1,0 +1,32 @@
+ssh -v $remoteServer << 'EOF' >> $LOG 2>&1
+
+    cd $someID
+
+    folders=`ls`
+
+    for file in $folders; do
+        case $file in
+        *.1)
+            scp -v $file/outputFolder/$file.someExt $lServ:$DIR/p.someExt
+            rc=`expr $rc + $?`
+        ;;
+        *)
+            export subID=`echo $file | awk -F"." '{print $2}'
+            scp -v $file/outputFolder/$file.ext $lServ:$DIR/k$subID.someExt 
+            rc=`expr $rc + $?`
+        ;;
+        esac
+    done
+
+    case $rc in
+    0)
+        cd ..
+        rm -rfv $someID
+        export rc=$?
+    ;;
+    *)
+        echo "some Errormessage"
+        rc=`expr $rc + 1`
+    ;;
+    esac
+EOF

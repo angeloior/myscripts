@@ -1,0 +1,2 @@
+le notifiche via mail solo attraverso il vcenter server!!! che non c'e'
+i dischi si vedono col vspehere client dentro hardware

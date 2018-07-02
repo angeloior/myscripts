@@ -1,0 +1,27 @@
+
+  721  cmviewcl
+cmviewcl
+  778  cmmodpkg -e mysql1
+  779  cmviewcl
+  780  cmviewcl
+  781  cmviewcl
+  782  cmrunpkg mysql1 -n frodo2
+  783  cmmodpkg -e -n frodo2 mysql1
+  784  cmviewcl
+  785  cmviewcl
+  786  cd /usr/local/cmcluster/run/log
+  787  ls -la
+  788  ls -lrt
+  
+  
+  cmmodpkg -e prometeo
+  cmmodpkg -e -n frodo1 frodostorage
+  
+  controlla il file di log del pacchetto relativo per capire cosa impedisce di farlo salire
+  /usr/local/cmcluster/run/log
+  
+  less /usr/local/cmcluster/run/log/prometeo.log
+  
+  e' capitato che doveva fare checkdisk del filesystem prima di partire
+  
+  

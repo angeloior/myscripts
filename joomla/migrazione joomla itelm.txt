@@ -1,0 +1,89 @@
+#migrazione joomla
+
+come vedere la versione: https://docs.joomla.org/How_to_check_the_Joomla_version%3F
+accedere al sito http://sitoweb/administrator
+fare login con admin/.....
+sito-informazioni di sistema - versione
+Versione di Joomla!	Joomla! 1.7.2 Stable [ Ember ] 17-Oct-2011 14:00 GMT
+
+#l'ultima release della 1.7 è la 1.7.5
+#l'ultima release della 2.5 è la 2.5.28
+nota che si parla di update ed upgrade, noi faremo sia mini-upgrade che upgrade...
+
+#ipotesi step aggiornamento
+- 1.7.2 to 1.7.5
+- 1.7.5 to 2.5.28
+su itelm-dev via pacchetto ?
+su web-clima-1 via rete o via pacchetto perchè esce su internet
+
+#su itelm-dev
+- prerequisiti al backup con akeeba rpm php53-mbstring
+- backup joomla con akeeba https://forum.joomla.org/viewtopic.php?f=625&t=762347
+- backup database mysql
+- aggiornare joomla da 1.7.2 a 1.7.5 come?
+- test funzionalità del sito / database
+- backup joomla, database
+- aggiornamento joomla a 2.5.28
+- test/risoluzione
+- backup x3
+- aggiornare php a al 5.3.10 minimo per joomla 3.x
+- aggiornare joomla a 3.x
+
+#aggiornamento su web-clima-1 con stesso iter  - test su uno, test sull'altro
+- aggiornare php a al 5.3.10 minimo per joomla 3.x
+- test su uno, test sull'altro
+
+#prerequisiti
+https://downloads.joomla.org/technical-requirements
+
+[root@web-clima-1 ~]# php -v
+#PHP 5.3.3 (cli) (built: Dec  5 2013 06:39:35)
+Copyright (c) 1997-2010 The PHP Group
+Zend Engine v2.3.0, Copyright (c) 1998-2010 Zend Technologies
+
+#mysql 5.1 -  sta su acm2
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3776
+Server version: 5.5.28-enterprise-commercial-advanced-log MySQL Enterprise Server - Advanced Edition (Commercial)
+
+#apache 2.0
+[root@web-clima-1 ~]# httpd -v
+Server version: Apache/2.2.3
+Server built:   Sep 27 2013 07:40:05
+
+Requirements for Supported Software
+Requirements for Joomla! 3.x
+Software	Recommended	Minimum	More information
+PHP[1]
+(Magic Quotes GPC, MB String Overload = off)
+(Zlib Compression Support, XML Support, INI Parser Support, JSON Support, Mcrypt Support, MB Language = Default)	5.6 or 7.0 +	5.3.10	https://secure.php.net
+Supported Databases:
+MySQL[2]
+(InnoDB support required)	5.5.3 +	5.1	https://www.mysql.com
+Supported Web Servers:
+Apache[3]
+(with mod_mysql, mod_xml, and mod_zlib)	2.4 +	2.0	https://www.apache.org
+
+Requirements for Unsupported Software
+Requirements for Joomla! 1.6, 1.7, & 2.5 - Support ended on 31 December 2014
+Software	Recommended	Minimum	More information
+PHP	5.6	5.2.4	https://secure.php.net
+Supported Databases:
+MySQL	5.0.4 +	5.0.4	https://www.mysql.com
+SQL Server[5]	10.50.1600.1 +	10.50.1600.1	https://www.microsoft.com/sql
+Supported Web Servers:
+Apache[3]
+(with mod_mysql, mod_xml, and mod_zlib)	2.2 +	2.0	https://www.apache.org
+Nginx	1.1 +	1.0	https://www.nginx.com/resources/wiki/
+Microsoft IIS[6]	7	7	https://www.iis.net
+
+#da 172 a 175 su itelm-dev
+i pacchetti di aggiornamento/migrazione di joomla devono essere quelli di upgrade e non quelli di full installazione
+(dal log di akeeba backup si vede che fa il dump del mysql)
+backup 172 pre 175
+una volta configurato il proxy nel codice automaticamente è passato alla versione 175
+backup post 175 pre 2528
+dopo l'aggiornamento a 2528 la pagina rimanda ad https://172.16.6.37/index.php/en/ invece che ad it e non si vede
+
+
+

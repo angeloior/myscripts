@@ -1,0 +1,104 @@
+HP Cluster commands
+Status and startup
+
+ 
+Viewing cluster and package status:
+# cmviewcl –v
+This will tell you the detailed status of the cluster, nodes, packages and services. For simple cluster status you can use cmviewcl also.
+Starting the cluster:
+# cmruncl
+This command will help/force nodes to form a cluster and start all enabled packages in that cluster.
+Halting a cluster:
+# cmhaltcl
+This command will halt ServiceGuard operations on all nodes which are currently running in the cluster. If any packages are running, the cluster will not be halted.
+# cmhaltcl –f
+This will force the packages to halt and after that it halts ServiceGuard operations on all nodes which are currently running in the cluster
+Starting a node:
+# cmrunnode <node name>
+This command will start the specified node to join an already running cluster.
+Halting a node:
+# cmhaltnode <node name>
+This command will halt ServiceGuard operations on the specified node. If any packages are running on that node, the node will not be halted.
+# cmhaltnode –f <node name>
+Force the node to halt even if there are packages or group members running on it
+
+ 
+Running a package
+# cmrunpkg [ -n <node name> ] <packag name>
+This will run the package on the current node or on the node specified. Logs will be written in /etc/cmcluster/<SID>/<control_script>.log.
+Halting a package:
+# cmhaltpkg <packag name>
+This will halt the package, Logs will be written in /etc/cmcluster/<packag name>/<control_script>.log.
+enable or disable switching attributes for a cluster
+# cmmodpkg –e/-d <packag name>
+Enabling a package to run on a particular node
+
+ 
+After a package has failed on one node, that node is disabled. This means the package will not be able to run on that node. The following command will enable the package to run on the specified node.
+# cmmodpkg –e -n <node name> <package name>
+
+ 
+Disabling a package from running on a particular node
+# cmmodpkg-d-n <node name> <packag name>
+This will command will disable the package to run on the specified node.
+
+
+
+What are the daemons that control MC/Serviceguard
+
+
+There are the OS MC ServiceGurard Components, and the Application Packages. Eight Daemons are associated with MC/ServiceGuard.
+
+/usr/lbin/cmclconfd---ServiceGuard Configuration Daemon
+/usr/lbin/cmcld---ServiceGuard Cluster Daemon
+/usr/lbin/cmlogd---ServiceGuard Syslog Log Daemon
+/usr/lbin/cmlvmd---Cluster Logical Volume Manager Daemon
+/usr/lbin/cmomd---Cluster Object Manager Daemon - logs to /var/opt/cmom/cmomd.log
+/usr/lbin/cmsnmpd---Cluster SNMP subagent (optionally running)
+/usr/lbin/cmsrvassistd---ServiceGuard Service Assistant Daemon
+/usr/lbin/cmtaped---ServiceGuard Shared Tape Daemon
+Each of these daemons logs to the /var/adm/syslog/syslog.log file
+
+Daemon details:-
+
+cmclconfd -- gathers cluster info ie network and vol grp info started in /etc/inetd.conf
+cmcld -- determines cluster membership. Package Mgr, Cluster Mgr, and Network Mgr run as parts of cmcld.
+cmlogd -- used by cmcld to write syslog messages.
+cmlvmd -- keeps track of Volume group info.
+cmomd -- provides info to client about the cluster. /etc/inetd.conf.
+cmsnmpd -- produces MIB for snmp
+cmsrvassitd -- fork and exec scripts for the cluster.
+cmtaped -- keeps track of shard tape devices.
+
+Information about the starting and halting of each package is found in the package’s control script log. This log provides the history of the
+operation of the package control script. It is found at /etc/cmcluster/<pkgname>/pkgname.cntl.log or /etc/cmcluster/package_name/control_script.log.
+You can also find in /var/adm/syslog/syslog.log which indicate what has occurred and whether or not the package has halted or started.
+
+Some scenarios in cluster:
+
+Fail over without halting clustering on either node:
+
+1. cmviewcl –v (This will display status packages and nodes defined to cluster. Verify
+status of nodes and pkgs before taking any action.)
+2. cmhaltpkg –n <nodename> –v <pkgname> (command can be issued from either node;
+if node name not specified, command will be executed on whichever node it is issued
+from)
+3. Wait to see results of command; tail –f /etc/cmcluster/<pkgname>.cntl.log to determine
+success or failure of halt command. If successful, move on to step 3.
+4. cmmodpkg –e –n <nodename> -v <pkgname> (enables pkg to run, and enables pkg
+switching. This can be issued on either node. It will automatically start pkg on it’s
+adoptive node if nodename is not specified)
+5. cmrunpkg –n <nodename> -v <pkgname> (starts specified pkg on specified node. Can
+be run from either node.
+
+Fail over of one node to another, halting clustering on one node:
+
+1. cmhaltnode –f –v <nodename> (halts clustering on node specified, and fails over any
+running pkgs to other node).
+2. Check /etc/cmcluster/<pkgname>.cntl.log on each machine to verify that the pkg did
+shutdown on one node and then started on the other node.
+
+Run both the packages to single node (other server is shutdown completely)
+
+cmruncl -n < node_name>
+

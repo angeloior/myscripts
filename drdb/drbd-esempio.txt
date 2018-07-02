@@ -1,0 +1,99 @@
+split brain normal behavior
+May  4 11:49:50 acm2-1 kernel: block drbd0: conn( StandAlone -> Unconnected )
+May  4 11:49:50 acm2-1 kernel: block drbd0: Starting receiver thread (from drbd0_worker [25851])
+#source
+May  4 11:49:50 acm2-1 kernel: block drbd0: receiver (re)started
+May  4 11:49:50 acm2-1 kernel: block drbd0: conn( Unconnected -> WFConnection )
+May  4 11:49:50 acm2-1 kernel: block drbd0: Handshake successful: Agreed network protocol version 97
+May  4 11:49:50 acm2-1 kernel: block drbd0: conn( WFConnection -> WFReportParams )
+May  4 11:49:50 acm2-1 kernel: block drbd0: Starting asender thread (from drbd0_receiver [15932])
+May  4 11:49:50 acm2-1 kernel: block drbd0: data-integrity-alg: <not-used>
+May  4 11:49:50 acm2-1 kernel: block drbd0: drbd_sync_handshake:
+May  4 11:49:50 acm2-1 kernel: block drbd0: self A5F3CF46D339E08F:680EE952E6823882:24BEF6E369BF09F6:24BDF6E369BF09F7 bits:1422763 flags:0
+May  4 11:49:50 acm2-1 kernel: block drbd0: peer D51691F427272FA4:680EE952E6823883:24BEF6E369BF09F7:24BDF6E369BF09F7 bits:667 flags:1
+May  4 11:49:50 acm2-1 kernel: block drbd0: uuid_compare()=100 by rule 90
+May  4 11:49:50 acm2-1 kernel: block drbd0: helper command: /sbin/drbdadm initial-split-brain minor-0
+May  4 11:49:50 acm2-1 kernel: block drbd0: helper command: /sbin/drbdadm initial-split-brain minor-0 exit code 0 (0x0)
+May  4 11:49:50 acm2-1 kernel: block drbd0: Split-Brain detected, manually solved. Sync from this node
+May  4 11:49:50 acm2-1 kernel: block drbd0: peer( Unknown -> Secondary ) conn( WFReportParams -> WFBitMapS ) pdsk( DUnknown -> Consistent )
+May  4 11:49:51 acm2-1 kernel: block drbd0: helper command: /sbin/drbdadm before-resync-source minor-0
+May  4 11:49:51 acm2-1 kernel: block drbd0: helper command: /sbin/drbdadm before-resync-source minor-0 exit code 0 (0x0)
+May  4 11:49:51 acm2-1 kernel: block drbd0: conn( WFBitMapS -> SyncSource ) pdsk( Consistent -> Inconsistent )
+May  4 11:49:51 acm2-1 kernel: block drbd0: Began resync as SyncSource (will sync 5691084 KB [1422771 bits set]).
+May  4 11:49:51 acm2-1 kernel: block drbd0: updated sync UUID A5F3CF46D339E08F:680FE952E6823882:680EE952E6823882:24BEF6E369BF09F6
+May  4 11:52:10 acm2-1 kernel: block drbd0: Resync done (total 138 sec; paused 0 sec; 41236 K/sec)
+May  4 11:52:10 acm2-1 kernel: block drbd0: updated UUIDs A5F3CF46D339E08F:0000000000000000:680FE952E6823882:680EE952E6823882
+May  4 11:52:10 acm2-1 kernel: block drbd0: conn( SyncSource -> Connected ) pdsk( Inconsistent -> UpToDate )
+May  4 11:52:10 acm2-1 kernel: block drbd0: bitmap WRITE of 1975 pages took 16 jiffies
+May  4 11:52:10 acm2-1 kernel: block drbd0: 0 KB (0 bits) marked out-of-sync by on disk bit-map.
+May  4 11:55:43 acm2-1 kernel: block drbd0: role( Primary -> Secondary )
+May  4 11:55:43 acm2-1 kernel: block drbd0: bitmap WRITE of 0 pages took 1 jiffies
+May  4 11:55:43 acm2-1 kernel: block drbd0: 0 KB (0 bits) marked out-of-sync by on disk bit-map.
+May  4 11:55:43 acm2-1 kernel: block drbd0: peer( Secondary -> Primary )
+
+il "sync cource" si trova in condizioni normali sulla fonte che aggiorna i dati
+
+
+#vittima
+May  4 11:47:13 acm2-2 kernel: block drbd0: State change failed: Device is held open by someone
+May  4 11:47:13 acm2-2 kernel: block drbd0:   state = { cs:StandAlone ro:Primary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:47:13 acm2-2 kernel: block drbd0:  wanted = { cs:StandAlone ro:Secondary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:47:49 acm2-2 kernel: block drbd0: State change failed: Device is held open by someone
+May  4 11:47:49 acm2-2 kernel: block drbd0:   state = { cs:StandAlone ro:Primary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:47:49 acm2-2 kernel: block drbd0:  wanted = { cs:StandAlone ro:Secondary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:48:04 acm2-2 kernel: block drbd0: State change failed: Device is held open by someone
+May  4 11:48:04 acm2-2 kernel: block drbd0:   state = { cs:StandAlone ro:Primary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:48:04 acm2-2 kernel: block drbd0:  wanted = { cs:StandAlone ro:Secondary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:48:09 acm2-2 kernel: block drbd0: State change failed: Device is held open by someone
+May  4 11:48:09 acm2-2 kernel: block drbd0:   state = { cs:StandAlone ro:Primary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:48:09 acm2-2 kernel: block drbd0:  wanted = { cs:StandAlone ro:Secondary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:48:53 acm2-2 kernel: block drbd0: State change failed: Device is held open by someone
+May  4 11:48:53 acm2-2 kernel: block drbd0:   state = { cs:StandAlone ro:Primary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:48:53 acm2-2 kernel: block drbd0:  wanted = { cs:StandAlone ro:Secondary/Unknown ds:UpToDate/DUnknown r----- }
+May  4 11:49:15 acm2-2 kernel: block drbd0: role( Primary -> Secondary )
+May  4 11:49:15 acm2-2 kernel: block drbd0: bitmap WRITE of 8 pages took 1 jiffies
+May  4 11:49:15 acm2-2 kernel: block drbd0: 2668 KB (667 bits) marked out-of-sync by on disk bit-map.
+May  4 11:49:27 acm2-2 kernel: block drbd0: conn( StandAlone -> Unconnected )
+May  4 11:49:27 acm2-2 kernel: block drbd0: Starting receiver thread (from drbd0_worker [6194])
+May  4 11:49:27 acm2-2 kernel: block drbd0: receiver (re)started
+May  4 11:49:27 acm2-2 kernel: block drbd0: conn( Unconnected -> WFConnection )
+May  4 11:49:50 acm2-2 kernel: block drbd0: Handshake successful: Agreed network protocol version 97
+May  4 11:49:50 acm2-2 kernel: block drbd0: conn( WFConnection -> WFReportParams )
+May  4 11:49:50 acm2-2 kernel: block drbd0: Starting asender thread (from drbd0_receiver [27075])
+May  4 11:49:50 acm2-2 kernel: block drbd0: data-integrity-alg: <not-used>
+May  4 11:49:50 acm2-2 kernel: block drbd0: drbd_sync_handshake:
+May  4 11:49:50 acm2-2 kernel: block drbd0: self D51691F427272FA4:680EE952E6823883:24BEF6E369BF09F7:24BDF6E369BF09F7 bits:667 flags:0
+May  4 11:49:50 acm2-2 kernel: block drbd0: peer A5F3CF46D339E08F:680EE952E6823882:24BEF6E369BF09F6:24BDF6E369BF09F7 bits:1422763 flags:0
+May  4 11:49:50 acm2-2 kernel: block drbd0: uuid_compare()=100 by rule 90
+May  4 11:49:50 acm2-2 kernel: block drbd0: helper command: /sbin/drbdadm initial-split-brain minor-0
+May  4 11:49:50 acm2-2 kernel: block drbd0: helper command: /sbin/drbdadm initial-split-brain minor-0 exit code 0 (0x0)
+May  4 11:49:50 acm2-2 kernel: block drbd0: Split-Brain detected, manually solved. Sync from peer node
+May  4 11:49:50 acm2-2 kernel: block drbd0: peer( Unknown -> Primary ) conn( WFReportParams -> WFBitMapT ) disk( UpToDate -> Outdated ) pdsk( DUnknown -> UpToDate )
+May  4 11:49:51 acm2-2 kernel: block drbd0: conn( WFBitMapT -> WFSyncUUID )
+May  4 11:49:51 acm2-2 kernel: block drbd0: updated sync uuid 680FE952E6823882:0000000000000000:24BEF6E369BF09F7:24BDF6E369BF09F7
+May  4 11:49:51 acm2-2 kernel: block drbd0: helper command: /sbin/drbdadm before-resync-target minor-0
+May  4 11:49:51 acm2-2 kernel: block drbd0: helper command: /sbin/drbdadm before-resync-target minor-0 exit code 0 (0x0)
+May  4 11:49:51 acm2-2 kernel: block drbd0: conn( WFSyncUUID -> SyncTarget ) disk( Outdated -> Inconsistent )
+May  4 11:49:51 acm2-2 kernel: block drbd0: Began resync as SyncTarget (will sync 5691084 KB [1422771 bits set]).
+May  4 11:52:10 acm2-2 kernel: block drbd0: Resync done (total 138 sec; paused 0 sec; 41236 K/sec)
+May  4 11:52:10 acm2-2 kernel: block drbd0: updated UUIDs A5F3CF46D339E08E:0000000000000000:680FE952E6823882:680EE952E6823882
+May  4 11:52:10 acm2-2 kernel: block drbd0: conn( SyncTarget -> Connected ) disk( Inconsistent -> UpToDate )
+May  4 11:52:10 acm2-2 kernel: block drbd0: helper command: /sbin/drbdadm after-resync-target minor-0
+May  4 11:52:10 acm2-2 kernel: block drbd0: helper command: /sbin/drbdadm after-resync-target minor-0 exit code 0 (0x0)
+May  4 11:52:10 acm2-2 kernel: block drbd0: bitmap WRITE of 1975 pages took 34 jiffies
+May  4 11:52:10 acm2-2 kernel: block drbd0: 0 KB (0 bits) marked out-of-sync by on disk bit-map.
+May  4 11:55:43 acm2-2 kernel: block drbd0: peer( Primary -> Secondary )
+May  4 11:55:43 acm2-2 kernel: block drbd0: role( Secondary -> Primary )
+
+il sync target si trova in casi eccezionali: cioè quando dopo uno split brain si recupera la situazione normale.
+
+#comandi per analizzare
+grep -i "kernel: block drbd0:" messages | more
+grep -i "kernel: block drbd0: disk" messages | more
+grep -i "kernel: block drbd0: peer" messages | more
+grep -i "split" messages | more
+cat messages | grep -v avc | grep -v "callbacks suppressed" | grep -v drbd | grep -v "avahi-daemon" | more
+grep -i cmaeventd messages |more
+
+
+May  4 00:01:33 acm2-2 corosync[5294]: cman killed by node 1 because we were killed by cman_tool or other application

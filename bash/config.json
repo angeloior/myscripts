@@ -1,0 +1,26 @@
+{
+	"general":{
+		"compression":true,
+		"monthly_retention_days":90,
+		"weekly_retention_days":30,
+		"daily_retention_days":3,
+		"backup_destination":"/home/k/backupper/backups/"
+	},
+	"machines":{
+		"clima-dev":{
+			"sshhost":"172.16.6.55",
+			"sshuser":"root",
+			"backups":[
+				{ "type":"tar", "dir":"/etc", "prefix":"etc" },
+				{ "type":"mysqldump", "mysqluser":"root", "mysqlpwd":"k%", "mysqldb":"sicam_estremi", "prefix":"sicam_estremi" }
+			]
+		},
+		"num0-clima":{
+			"sshhost":"172.16.6.50",
+			"sshuser":"root",
+			"backups":[
+				{ "type":"tar", "dir":"/etc", "prefix":"etc" }
+			]
+		}
+	}
+}

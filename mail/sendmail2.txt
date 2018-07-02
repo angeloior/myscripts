@@ -1,0 +1,10 @@
+#!/bin/bash
+
+FROM="test@meteoam.it" # deve esistere
+TO=
+SUBJECT="Prova 2"
+MESSAGE="Backup non riuscito."
+
+a="From: $FROM\nTo: $TO\nSubject: $SUBJECT\n\n$MESSAGE\n"
+
+echo -ne $a | sendmail -i -t -f $FROM 

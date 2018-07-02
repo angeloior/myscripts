@@ -1,0 +1,9 @@
+mysql replica
+comando per saltare bin log rotto
+https://www.percona.com/blog/2014/10/08/mysql-replication-got-fatal-error-1236-causes-and-cures/
+
+
+
+CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.077658', MASTER_LOG_POS=582567464;
+
+CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000033', MASTER_LOG_POS=107;

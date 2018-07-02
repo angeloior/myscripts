@@ -1,0 +1,3 @@
+ssh
+enable
+copy running to tftp://192.4.21.10/ssr2000-confg

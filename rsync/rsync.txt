@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# sincronizza_dati.sh
+# -n dry run
+aux=1
+FILELOG=/usr/local/log/rsync.log
+/bin/echo "inizio" > $FILELOG
+
+rsync -vauprth --progress --delete-after root@172.17.44.192:/srv/ftp/ /srv/ftp --log-file=$FILELOG
+rsync -vauprth --progress --delete-after root@172.17.44.192:/srv/www/ /srv/www --log-file=$FILELOG
+aux=$?
+
+#mail condizionale
+#verifica con mail
+mailto=
+mailonerror=
+subject=" Wego1 Rsync"
+
+if [ $aux -eq 0 ]
+
+        then
+                echo "$subject OK($aux)" >> ${FILELOG}
+                #mando mail con esito
+                echo "$subject OK($aux)" | mutt -a $FILELOG -s "$subject OK($aux)" -- $mailto
+        else
+                echo "$subject KO($aux)" >> ${FILELOG}
+                #mando mail con exitcodes
+                echo "$subject KO($aux)" | mutt -a $FILELOG -s "$subject KO($aux)" -- $mailonerror
+fi

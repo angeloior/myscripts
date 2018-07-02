@@ -1,0 +1,17 @@
+ifcfg-bond0   
+          STARTMODE='auto' # or 'onboot'  
+          BOOTPROTO='static'   
+          IPADDR='192.168.0.1/24'   
+          BONDING_MASTER='yes'   
+          BONDING_SLAVE_0='eth0'   
+          BONDING_SLAVE_1='eth1'   
+          BONDING_MODULE_OPTS='mode=active-backup miimon=100'
+but the slaves are specified with STARTMODE=hotplug and BOOTPROTO=none:
+
+ifcfg-eth0   
+          STARTMODE='hotplug'   
+          BOOTPROTO='none'   
+
+ifcfg-eth1   
+          STARTMODE='hotplug'   
+          BOOTPROTO='none'

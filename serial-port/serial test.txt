@@ -1,0 +1,7 @@
+Set up the serial connection
+Use a null modem cable to connect the two nodes through their serial ports. Now test the serial connection, as follows:
+On ha1 (receiver), type:
+cat < /dev/ttyS0
+On ha2 (sender) type:
+echo "Serial Connection test" > /dev/ttyS0
+You should see the text on the receiver node (ha1). If it works, change their roles and try again.

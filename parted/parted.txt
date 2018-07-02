@@ -1,0 +1,3 @@
+parted /dev/mapper/mpathp mklabel gpt
+parted /dev/mapper/mpathp mkpart primary 0% 100%
+parted /dev/mapper/mpathp set 1 lvm on

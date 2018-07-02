@@ -1,0 +1,92 @@
+HP Service Guard Cluster
+How to setup a Two-Node cluster:
+
+1. Modify /etc/hosts on both the nodes to include stationary and heartbeat IP addresses.
+
+2. Create volume groups, logical volumes, filesystems on the first node and then import on the second node
+
+3. Configure /.rhosts & /etc/cmcluster/cmclnodelist on both the nodes
+Example:
+/.rhosts
+node1 root
+node2 root
+
+/etc/cmcluster/cmclnodelist
+node1 root
+node2 root
+
+4. Configure stationary and heartbeat IP addresses on both the nodes
+
+    a. Modify /etc/rc.config.d/netconf
+    b. /sbin/init.d/net stop
+    c. /sbin/init.d/net start
+
+5. Modify /etc/lvmrc to disable auto-activation of volume groups
+
+6. Create the cluster configuration file on the first node
+# cmquerycl -v -C /etc/cmcluster/mycluster.conf -n node1 -n node2
+
+
+7. Modify the configuration file include your needs
+
+8. Verify the configuration file
+
+# cmcheckconf -v -C /etc/clcluster/mycluster.conf
+
+9. Create the cluster binary file and distribute to all the nodes across the cluster
+# cmapplyconf -v -C /etc/clcluster/mycluster.conf
+
+10. To view the cluster configuration
+# cmviewcl -v
+
+11. Start the cluster
+# cmruncl -v
+
+12. Halt the cluster
+# cmhaltcl -v
+
+13. You're done.
+
+Execution sequence for starting a package :
+
+1. Master control script
+2. External pre-scripts
+3. Volume Groups
+4. File Systems
+5. Package IPs
+6. External Scripts
+7. Services
+
+
+Frequently used commands :
+
+To start the entire cluster : # cmruncl –v
+
+To stop the entire cluster : # cmhaltcl
+
+To view the status of cluster : # cmviewcl
+
+To view the cluster, node, package status : # cmviewcl -v
+
+To start a node in the cluster : # cmrunnode -v nodename
+
+To stop a node in the cluster : # cmhaltnode -f -v nodename
+
+To see the configuration : # cmgetconf -C config_name
+
+To start a package : # cmrunpkg pkg1
+
+To start a package on a node : # cmrunpkg -n ndoename pkg1
+
+To halt a package : # cmhaltpkg pkg1
+
+
+Configuration Files :-
+
+/etc/cmcluster/cmclnodelist – Contains the list of nodes in the cluster 
+
+/etc/cmcluster/cluster_config.ascii - cluster configuration file. 
+
+/etc/cmcluster/package_name/package_config.ascii - package configuration file
+
+/etc/cmcluster/package_name/package.cntl - package control script

@@ -1,0 +1,9 @@
+##################################
+crm_simulate --live-check --verbose --simulate --op-inject WebFS_monitor_20000@anio=7 --op-fail WebFS_stop_0@anio=1 --save-output /tmp/testa.xml
+
+crm_simulate --live-check --verbose --simulate --op-inject ClusterIP_monitor_20000@anio=7 --op-fail ClusterIP_stop_0@anio=1 --save-output /tmp/testa.xml
+
+crm_simulate --live-check --verbose --simulate --op-inject WebSite_monitor_20000@anio=7 --op-fail WebSite_stop_0@anio=1 --save-output /tmp/testa.xml
+
+crm_simulate --simulate --verbose --xml-file /tmp/testa.xml
+

@@ -1,0 +1,3 @@
+pg_dump.exe --host localhost --port 5432 --username "postgres" --no-password  --format custom --inserts --column-inserts --verbose --file "D:\test\test.plain" --table "public.trafficstate_2016_07_22" "optimadb"
+
+

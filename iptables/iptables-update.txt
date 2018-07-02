@@ -1,0 +1,6 @@
+[root@acm2-1 sysconfig]# service iptables
+Usage: iptables {start|stop|reload|restart|condrestart|status|panic|save}
+
+oppure
+iptables-save > iptables-20170531.conf
+iptables-restore < iptables.conf
