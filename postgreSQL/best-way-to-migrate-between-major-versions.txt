@@ -1,0 +1,12 @@
+https://www.postgresql.org/docs/9.0/static/migration.html
+
+use pg_dump to dump and to use pg_restore....
+
+https://www.postgresql.org/docs/9.4/static/app-pgdump.html
+pg_dump
+
+-F format
+c
+custom
+Output a custom-format archive suitable for input into pg_restore. Together with the directory output format, this is the most flexible output format in that it allows manual selection and reordering of archived items during restore. This format is also compressed by default.
+

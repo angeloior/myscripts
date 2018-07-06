@@ -1,4 +1,4 @@
-az login -u angelo.iorli@ptvgroup.com -p <password>
+az login -u  -p <password>
 
 #update x 15
 #5 windows 3389
