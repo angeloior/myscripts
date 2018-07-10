@@ -1,2 +1,6 @@
 https://technet.microsoft.com/en-us/library/dd734783(v=ws.10).aspx
+
 Netsh advfirewall firewall add rule name=PTV-Optima-1800 protocol=tcp localport=1800 dir=in enable=yes action=allow profile=Private
+
+new
+netsh advfirewall firewall add rule name=CHECK_MK-agent protocol=tcp localport=6556 dir=in enable=yes action=allow profile=Private,Public,Domain
