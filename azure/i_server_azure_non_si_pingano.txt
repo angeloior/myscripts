@@ -1,1 +1,0 @@
-https://serverfault.com/questions/782140/how-can-i-enable-ping-on-an-azure-linux-vm

@@ -1,0 +1,14 @@
+http://man7.org/linux/man-pages/man7/signal.7.html
+
+The Linux N_TTY line discipline only sends three different signals: SIGINT, SIGQUIT, and SIGTSTP. By default the following control characters produce the signals:
+
+sono ignorabili
+Ctrl+C - SIGINT 2 --leggero! interrupt from keyborard
+Ctrl+\ - SIGQUIT 3 --duro quit from keyboard
+
+non ignorabile
+Ctrl+Z - SIGTSTP 19 : stop typed via the terminal
+
+
+altro
+ctrl+d significa end of file

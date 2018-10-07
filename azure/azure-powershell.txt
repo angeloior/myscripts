@@ -1,8 +1,0 @@
-si deve installare il modulo
-https://docs.microsoft.com/it-it/powershell/azure/install-azurerm-ps?view=azurermps-5.1.1
-
-si deve fare login
-https://docs.microsoft.com/en-us/azure/storage/common/storage-powershell-guide-full
-Login-AzureRmAccount in powershell e fare login con credenziali azure
-
-dare i comandi una volta fatto il login
