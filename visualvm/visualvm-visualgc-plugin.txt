@@ -1,8 +1,0 @@
-per vedere i singoili componenti del garbage collector si può usare il componente
-visualGC di visualVM
-- installare visualVM
-- installare da visualvm il plugin visualGC
-- lanciare standalone.bat come utente amminisrativo
-- lanciare sotto lo stesso utente e come utente amminisrativo visualVM
-- nei tab cercare visualGC et voilà!
- 

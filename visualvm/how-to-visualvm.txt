@@ -1,7 +1,0 @@
-1
-start visualvm nel seguente modo (adeguare i path)
-C:\admin\visualvm_14\bin>visualvm -cp:a d:\optima\ptv-optima-as\bin\client\jboss-client.jar
-
-2
-creare una nuova connessione jmx
-service:jmx:http-remoting-jmx://localhost:9990

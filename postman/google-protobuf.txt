@@ -1,5 +1,0 @@
-l'interfaccia di optima put risponde col formato text x-google-protobuf
-
-npm è capace di leggere il formato
-https://www.npmjs.com/package/protocol-buffers
-

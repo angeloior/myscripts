@@ -1,9 +1,0 @@
-https://blogs.oracle.com/nbprofiler/monitoring-java-processes-running-as-a-windows-service
-
-Va avviata mettendo nel classpath il jar del client di wildfly es:
-
-C:\admin\visualvm_14\bin>visualvm -cp:a d:\optima\ptv-optima-as\bin\client\jboss-client.jar
-
-Poi la connessione jmx deve essere fatta con questa connection string:
-
-service:jmx:http-remoting-jmx://localhost:9990
